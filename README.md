@@ -1,5 +1,8 @@
 # Quintin Vizza – Portfolio
+<<<<<<< HEAD
 # Quintin Vizza – Portfolio
+=======
+>>>>>>> 88ebfbef99f6613538de73be302ba450e599491a
 
 Welcome to my portfolio! 👋  
 
@@ -12,26 +15,44 @@ It’s built with Next.js and Tailwind CSS and deployed with Vercel, but more im
 - Some of the projects I’ve built (with links to the code)  
 - Ways to get in touch with me (GitHub, LinkedIn, email)  
 
+<<<<<<< HEAD
  
+=======
+Thanks for checking it out! 
+
+# Quintin Vizza – Portfolio
+>>>>>>> 88ebfbef99f6613538de73be302ba450e599491a
 
 This is my personal portfolio website, built with [Next.js](https://nextjs.org/) and [Tailwind CSS](https://tailwindcss.com/).  
 It showcases my Computer Engineering projects, skills, and experience.
 
+<<<<<<< HEAD
 ##  Tech Stack
+=======
+## 🚀 Tech Stack
+>>>>>>> 88ebfbef99f6613538de73be302ba450e599491a
 - **Framework:** Next.js 15 (React + App Router)
 - **Styling:** Tailwind CSS
 - **Language:** TypeScript
 - **Deployment:** Vercel
 - **Version Control:** Git + GitHub
 
+<<<<<<< HEAD
 ## Features
+=======
+## 📂 Features
+>>>>>>> 88ebfbef99f6613538de73be302ba450e599491a
 - Responsive design (mobile + desktop)
 - Home page with introduction
 - Projects page with GitHub links
 - About page with resume
 - Contact page with email + LinkedIn
 
+<<<<<<< HEAD
 ## Getting Started (For Devs)
+=======
+## 🛠️ Getting Started (For Devs)
+>>>>>>> 88ebfbef99f6613538de73be302ba450e599491a
 To run locally:
 
 ```bash
@@ -39,3 +60,11 @@ git clone https://github.com/Vizzaq23/my-portfolio.git
 cd my-portfolio
 npm install
 npm run dev
+<<<<<<< HEAD
+=======
+Then open http://localhost:3000.
+
+🌎 Live Site
+🔗 Deployed at: https://my-portfolio.vercel.app
+(will update once deployed)
+>>>>>>> 88ebfbef99f6613538de73be302ba450e599491a
