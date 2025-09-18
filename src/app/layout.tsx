@@ -24,11 +24,27 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  );
-}
+      
+<body className={`${orbitron.className} min-h-screen bg-gray-900 text-white`}>
+  <header className="sticky top-0 bg-gray-950 border-b border-gray-800 z-50">
+    <nav className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="/" className="text-2xl font-extrabold text-green-400 hover:text-blue-400 transition">
+        QV • Portfolio
+      </a>
+      <div className="flex gap-6 text-lg">
+        <a href="/" className="hover:text-blue-400 transition">Home</a>
+        <a href="/projects" className="hover:text-blue-400 transition">Projects</a>
+        <a href="/about" className="hover:text-blue-400 transition">About</a>
+        <a href="/contact" className="hover:text-blue-400 transition">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main className="max-w-6xl mx-auto px-6 py-10">
+    {children}
+  </main>
+
+  <footer className="border-t border-gray-800 text-center text-gray-500 py-6 text-sm">
+    © {new Date().getFullYear()} Quintin Vizza
+  </footer>
+</body>
