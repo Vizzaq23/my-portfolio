@@ -1,85 +1,33 @@
-import type { Metadata } from "next";
-import { Orbitron } from "next/font/google";
 import "./globals.css";
-
-// 👾 Futuristic font
-const orbitron = Orbitron({
-  subsets: ["latin"],
-  weight: ["400", "700"], // regular + bold
-});
+import type { Metadata } from "next";
+import { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "Quintin Vizza | Portfolio",
-  description: "Portfolio site for Computer Engineering student Quintin Vizza",
+  description: "My professional portfolio site",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${orbitron.className} min-h-screen bg-gray-900 text-white`}>
-        {/* 🔹 Navbar */}
-        <header className="sticky top-0 bg-gray-950 border-b border-gray-800 z-50">
-          <nav className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a
-              href="/"
-              className="text-2xl font-extrabold text-green-400 hover:text-blue-400 transition"
-            >
-              QV • Portfolio
-            </a>
-            <div className="flex gap-3 text-sm">
-              <a
-                href="/"
-                className="px-3 py-2 bg-gray-800 rounded-md text-gray-200 hover:bg-blue-500 hover:text-white transition"
-              >
-                Home
-              </a>
-              <a
-                href="/projects"
-                className="px-3 py-2 bg-gray-800 rounded-md text-gray-200 hover:bg-blue-500 hover:text-white transition"
-              >
-                Projects
-              </a>
-              <a
-                href="/about"
-                className="px-3 py-2 bg-gray-800 rounded-md text-gray-200 hover:bg-blue-500 hover:text-white transition"
-              >
-                About
-              </a>
-              <a
-                href="/contact"
-                className="px-3 py-2 bg-gray-800 rounded-md text-gray-200 hover:bg-blue-500 hover:text-white transition"
-              >
-                Contact
-              </a>
-            </div>
-          </nav>
+    <html lang="en">
+      <body className="bg-gray-50 text-gray-900">
+        {/* Header */}
+        <header className="bg-blue-600 text-white p-4 shadow-md">
+          <div className="max-w-5xl mx-auto flex justify-between items-center">
+            <h1 className="text-xl font-bold">Quintin Vizza</h1>
+            <nav className="space-x-4">
+              <a href="#about" className="hover:underline">About</a>
+              <a href="#projects" className="hover:underline">Projects</a>
+              <a href="#contact" className="hover:underline">Contact</a>
+            </nav>
+          </div>
         </header>
 
-        {/* 🔹 Main content */}
-        <main className="max-w-6xl mx-auto px-6 py-10">{children}</main>
+        {/* Main content */}
+        <main className="max-w-5xl mx-auto p-6">{children}</main>
 
-        {/* 🔹 Footer */}
-        <footer className="border-t border-gray-800 text-center text-gray-400 py-6 text-sm">
-          <div className="flex justify-center gap-4 mb-3">
-            <a
-              href="https://github.com/Vizzaq23"
-              target="_blank"
-              className="px-4 py-2 bg-gray-800 rounded-md hover:bg-blue-500 hover:text-white transition"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://linkedin.com"
-              target="_blank"
-              className="px-4 py-2 bg-gray-800 rounded-md hover:bg-blue-500 hover:text-white transition"
-            >
-              LinkedIn
-            </a>
-          </div>
+        {/* Footer */}
+        <footer className="bg-gray-200 text-center p-4 mt-10">
           © {new Date().getFullYear()} Quintin Vizza
         </footer>
       </body>

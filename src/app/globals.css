@@ -1,4 +1,8 @@
-@import "tailwindcss";
+/* Remove Tailwind directives if not using Tailwind's build process */
+/* Or ensure your build tool supports Tailwind CSS */
+
+/* If not using Tailwind, you can remove these lines */
+
 
 :root {
   --background: #ffffff;
@@ -23,4 +27,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+
+  /* You can add custom styles here later */
+
 }
