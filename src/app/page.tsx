@@ -11,7 +11,9 @@ export default function Home() {
 
   return (
     <>
+      {/* === Hero Section === */}
       <section className="relative flex flex-col items-center justify-center h-[90vh] text-center bg-gradient-to-b from-sky-400 to-sky-200 text-white overflow-hidden rounded-2xl shadow-lg">
+        
         {/* Clouds */}
         {clouds.map((cloud) => (
           <Cloud key={cloud.id} {...cloud} />
@@ -53,7 +55,7 @@ export default function Home() {
         <Ground />
       </section>
 
-      {/* Projects */}
+      {/* === Projects Section === */}
       <Projects />
     </>
   );
