@@ -1,33 +1,32 @@
-import "./globals.css";
 import type { Metadata } from "next";
-import { ReactNode } from "react";
+import "./globals.css";
+import { Press_Start_2P } from "next/font/google";
+
+// Import the retro Mario pixel font
+const pixelFont = Press_Start_2P({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  title: "Quintin Vizza | Portfolio",
-  description: "My professional portfolio site",
+  title: "Quintin Vizza Portfolio",
+  description: "Portfolio showcasing AI, games, and web apps",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="bg-gray-50 text-gray-900">
-        {/* Header */}
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${pixelFont.className} bg-gray-50 text-gray-900`}>
+        {/* === Header === */}
         <header className="bg-blue-600 text-white p-4 shadow-md">
-          <div className="max-w-5xl mx-auto flex justify-between items-center">
-            <h1 className="text-xl font-bold">Quintin Vizza</h1>
-            <nav className="space-x-4">
-              <a href="#about" className="hover:underline">About</a>
-              <a href="#projects" className="hover:underline">Projects</a>
-              <a href="#contact" className="hover:underline">Contact</a>
-            </nav>
-          </div>
+          <h1 className="text-xl">Quintin Vizza</h1>
         </header>
 
-        {/* Main content */}
-        <main className="max-w-5xl mx-auto p-6">{children}</main>
+        {/* === Page Content === */}
+        <main>{children}</main>
 
-        {/* Footer */}
-        <footer className="bg-gray-200 text-center p-4 mt-10">
+        {/* === Footer === */}
+        <footer className="bg-gray-900 text-white text-center py-4 mt-10">
           © {new Date().getFullYear()} Quintin Vizza
         </footer>
       </body>
