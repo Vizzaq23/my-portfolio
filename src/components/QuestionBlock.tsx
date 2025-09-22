@@ -1,39 +1,38 @@
 "use client";
 
+import Coin from "./coin";
+import useQuestionBlock from "@/hooks/useQuestionBlock";
 import { useState } from "react";
-import Coin from "./Coin";
 
 export default function QuestionBlock() {
-  const [used, setUsed] = useState(false);
-  const [active, setActive] = useState(false);
+  const { used, active, triggerBlock } = useQuestionBlock();
+  const [showCoin, setShowCoin] = useState(false);
 
   const handleClick = () => {
     if (!used) {
-      setActive(true);
-      setTimeout(() => {
-        setActive(false);
-        setUsed(true); // turn into empty block
-      }, 1200); // animation length
+      setShowCoin(true);   // show coin once
+      triggerBlock();
+      setTimeout(() => setShowCoin(false), 1200); // remove after animation
     }
   };
 
   return (
-    <div className="relative w-16 h-16">
-      {/* Block itself */}
+    <div className="relative w-16 h-8">
+      {/* Block */}
       <div
         onClick={handleClick}
-        className={`w-16 h-16 bg-cover pixelated cursor-pointer transition-transform ${
+        className={`w-8 h-8 bg-cover pixelated cursor-pointer transition-transform ${
           active ? "-translate-y-2" : ""
         }`}
         style={{
           backgroundImage: used
-            ? "url('/emptyBlock.png')" // transparent empty block PNG
-            : "url('/questionBlock.png')", // transparent question block PNG
+            ? "url('/emptyBlock.png')"
+            : "url('/questionBlock.png')",
         }}
       />
 
-      {/* Coin animation */}
-      {active && (
+      {/* Coin (only one at a time) */}
+      {showCoin && (
         <div className="absolute left-0 top-0 animate-coin-pop">
           <Coin />
         </div>

@@ -80,3 +80,16 @@ section {
 .animate-coin-pop {
   animation: coinPop 1.2s ease-out forwards;
 }
+
+@keyframes brickScroll {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -32px 0; /* move by one brick width */
+  }
+}
+
+.animate-brick-scroll {
+  animation: brickScroll 2s linear infinite;
+}

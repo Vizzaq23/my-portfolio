@@ -1,19 +1,24 @@
 "use client";
 
 import Cloud from "@/components/Cloud";
-import Block from "@/components/Block";
 import Ground from "@/components/Ground";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import EndScene from "@/components/EndScene";
 import useClouds from "@/hooks/useClouds";
+import QuestionBlock from "@/components/QuestionBlock";
+import NavBar from "@/components/NavBar";
 
 export default function Home() {
   const clouds = useClouds();
 
   return (
     <>
-      <section className="relative flex flex-col items-center justify-center h-[90vh] text-center bg-gradient-to-b from-sky-400 to-sky-200 text-white overflow-hidden shadow-lg">
+      {/* NavBar */}
+      <NavBar />
+
+      {/* Hero Section */}
+      <section className="relative flex flex-col items-center justify-center h-[90vh] pt-24 text-center bg-gradient-to-b from-sky-400 to-sky-200 text-white overflow-hidden shadow-lg">
         {/* Clouds */}
         {clouds.map((cloud) => (
           <Cloud key={cloud.id} {...cloud} />
@@ -58,21 +63,23 @@ export default function Home() {
           </a>
         </div>
 
-        {/* Floating Blocks */}
+        {/* Interactive Blocks */}
         <div className="absolute bottom-32 flex justify-center space-x-4">
-          <Block type="brick" />
-          <Block type="question" />
-          <Block type="brick" />
+          <QuestionBlock />
+          <QuestionBlock />
+          <QuestionBlock />
         </div>
 
-        {/* Ground */}
-        <Ground />
-
-        {/* Mario End Scene */}
-        <EndScene />
+         {/* Ground + End Scene anchored to bottom */}
+        <div className="absolute bottom-0 left-0 w-full flex items-end justify-end">
+          <Ground />
+          <EndScene />
+        </div>
       </section>
-
+  {/* === Projects Section === */}
       <Projects />
+
+      {/* === Contact Section === */}
       <Contact />
     </>
   );
