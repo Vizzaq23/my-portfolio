@@ -5,19 +5,22 @@ type CloudProps = {
   x: number;
   y: number;
   size: number;
+  opacity: number;
 };
 
-export default function Cloud({ x, y, size }: CloudProps) {
+export default function Cloud({ id, x, y, size, opacity }: CloudProps) {
   return (
     <Image
-      src="/cloud-mario.png"
-      alt="Cloud"
+      src="/cloud-mario.svg"
+      alt={`Cloud ${id}`}
       width={size}
-      height={size / 2}
-      className="absolute opacity-90"
+      height={Math.round(size * 0.62)}
+      className="absolute transition-opacity duration-700"
       style={{
-        top: `${y}px`,
-        left: `${x}px`,
+        top: y,
+        left: x,
+        opacity,
+        imageRendering: "pixelated" as const,
       }}
     />
   );

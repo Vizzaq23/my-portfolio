@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="40" viewBox="0 0 64 40" shape-rendering="crispEdges">
+  <!-- white cloud "puffs" -->
+  <rect x="6" y="22" width="52" height="12" fill="#ffffff"></rect>
+  <rect x="14" y="14" width="36" height="10" fill="#ffffff"></rect>
+  <rect x="22" y="8" width="20" height="6" fill="#ffffff"></rect>
+  <!-- optional little blue accents -->
+  <rect x="20" y="26" width="4" height="2" fill="#57a8ff"></rect>
+  <rect x="30" y="26" width="4" height="2" fill="#57a8ff"></rect>
+  <rect x="40" y="26" width="4" height="2" fill="#57a8ff"></rect>
+</svg>
