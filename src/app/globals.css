@@ -70,7 +70,7 @@ section {
   animation: coinSpin 1s steps(8) infinite;
 }
 
-/* Coin popping out of block */
+/* Coin popping out */
 @keyframes coinPop {
   0%   { transform: translateY(0); opacity: 1; }
   50%  { transform: translateY(-80px); opacity: 1; }
@@ -78,5 +78,5 @@ section {
 }
 
 .animate-coin-pop {
-  animation: coinPop 1s ease-out forwards;
+  animation: coinPop 1.2s ease-out forwards;
 }
