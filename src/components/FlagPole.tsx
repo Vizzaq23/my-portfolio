@@ -1,30 +1,36 @@
 "use client";
 
-import useInView from "../hooks/useInView";
+import { useEffect, useState } from "react";
 
 export default function FlagPole() {
-  const flagDown = useInView("contact", 100);
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    setAnimate(true);
+  }, []);
 
   return (
-    <div className="flex flex-col items-center justify-end h-64 w-12 mx-auto relative">
-      {/* Pole */}
-      <div className="w-2 bg-gray-300 h-full"></div>
+    <div className="absolute bottom-0 right-44">
+      {/* Container for pole + flag */}
+      <div className="relative h-48">
+        {/* Pole */}
+        <img
+          src="/flagPole.png"
+          alt="Flagpole"
+          className="h-48 w-auto pixelated"
+        />
 
-      {/* Flag */}
-      <div
-        className="absolute left-2 transition-all duration-1000 ease-out"
-        style={{
-          top: flagDown ? "200px" : "0px",
-          width: "0",
-          height: "0",
-          borderTop: "24px solid transparent",
-          borderBottom: "24px solid transparent",
-          borderLeft: "36px solid #22c55e", // Tailwind's green-500
-        }}
-      ></div>
-
-      {/* Base block */}
-      <div className="w-8 h-4 bg-yellow-600 mt-1 border border-yellow-800"></div>
+        {/* Flag */}
+        <img
+          src="/flag.png"
+          alt="Flag"
+          className={`absolute -right-2 h-12 w-auto pixelated ${
+            animate ? "animate-rise-then-ripple" : ""
+          }`}
+          style={{ bottom: "15" }} // 
+        />
+      </div>
     </div>
   );
 }
+

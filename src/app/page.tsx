@@ -5,6 +5,7 @@ import Block from "@/components/Block";
 import Ground from "@/components/Ground";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
+import EndScene from "@/components/EndScene";
 import useClouds from "@/hooks/useClouds";
 
 export default function Home() {
@@ -12,7 +13,6 @@ export default function Home() {
 
   return (
     <>
-      {/* === Hero Section === */}
       <section className="relative flex flex-col items-center justify-center h-[90vh] text-center bg-gradient-to-b from-sky-400 to-sky-200 text-white overflow-hidden shadow-lg">
         {/* Clouds */}
         {clouds.map((cloud) => (
@@ -35,7 +35,6 @@ export default function Home() {
 
         {/* NES-style Buttons */}
         <div className="flex space-x-6">
-          {/* START Button */}
           <a
             href="#projects"
             className="bg-gray-300 text-black px-8 py-3 rounded-sm font-bold uppercase tracking-widest 
@@ -47,7 +46,6 @@ export default function Home() {
             <span className="text-xs font-normal mt-1">View Projects</span>
           </a>
 
-          {/* SELECT Button */}
           <a
             href="#contact"
             className="bg-red-500 text-white px-8 py-3 rounded-sm font-bold uppercase tracking-widest 
@@ -69,14 +67,13 @@ export default function Home() {
 
         {/* Ground */}
         <Ground />
+
+        {/* Mario End Scene */}
+        <EndScene />
       </section>
 
-      {/* === Projects Section === */}
       <Projects />
-
-      {/* === Contact Section === */}
       <Contact />
     </>
   );
 }
-

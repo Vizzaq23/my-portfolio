@@ -26,3 +26,57 @@ a {
 section {
   @apply py-10;
 }
+
+/* === Pixel Assets & Animations === */
+
+/* Keep images sharp and blocky (no smoothing) */
+.pixelated {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges; /* fallback */
+}
+
+/* --- Flag Animations --- */
+
+/* Rise matches shorter pole height */
+@keyframes riseUp {
+  0%   { bottom: 20%; }       /* start at bottom */
+  100% { bottom: 70%; }     /* stop near top of shorter pole */
+}
+
+/* Ripple effect */
+@keyframes ripple {
+  0%   { transform: skewX(0deg) scaleX(1); }
+  25%  { transform: skewX(-2deg) scaleX(1.05); }
+  50%  { transform: skewX(0deg) scaleX(1); }
+  75%  { transform: skewX(2deg) scaleX(0.95); }
+  100% { transform: skewX(0deg) scaleX(1); }
+}
+
+.animate-rise-then-ripple {
+  position: absolute;
+  animation:
+    riseUp 2s forwards ease-in-out,
+    ripple 1.5s infinite ease-in-out 2s;
+  transform-origin: left center;
+}
+
+/* Coin spin */
+@keyframes coinSpin {
+  from { background-position: 0 0; }
+  to { background-position: -800% 0; }
+}
+
+.animate-coin {
+  animation: coinSpin 1s steps(8) infinite;
+}
+
+/* Coin popping out of block */
+@keyframes coinPop {
+  0%   { transform: translateY(0); opacity: 1; }
+  50%  { transform: translateY(-80px); opacity: 1; }
+  100% { transform: translateY(-120px); opacity: 0; }
+}
+
+.animate-coin-pop {
+  animation: coinPop 1s ease-out forwards;
+}
