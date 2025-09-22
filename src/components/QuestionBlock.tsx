@@ -17,11 +17,11 @@ export default function QuestionBlock() {
   };
 
   return (
-    <div className="relative w-16 h-8">
+    <div className="relative w-16 h-16">
       {/* Block */}
       <div
         onClick={handleClick}
-        className={`w-8 h-8 bg-cover pixelated cursor-pointer transition-transform ${
+        className={`w-16 h-16 bg-cover pixelated cursor-pointer transition-transform ${
           active ? "-translate-y-2" : ""
         }`}
         style={{

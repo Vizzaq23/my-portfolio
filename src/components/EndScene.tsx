@@ -1,39 +1,52 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function EndScene() {
-  const [animate, setAnimate] = useState(false);
-
-  useEffect(() => {
-    setAnimate(true);
-  }, []);
+  const groundHeight = 42; // same as Ground tile height
 
   return (
-    <div className="absolute right-4 bottom-16 flex items-end space-x-4">
-      {/* Flagpole container */}
-      <div className="relative h-[160px]"> {/* 5 grass tiles tall (5 × 32px) */}
-        <img
-          src="/flagPole.png"
+    <div
+      className="absolute right-8 flex items-end gap-10"
+      style={{ bottom: groundHeight }}
+    >
+      {/* Flagpole + Flag */}
+      <div className="relative w-[40px] h-[140px]">
+        {/* Pole */}
+        <Image
+          src="/flagpole.png"
           alt="Flagpole"
-          className="h-[160px] w-auto pixelated"
+          fill
+          className="object-contain"
         />
-        <img
+
+        {/* Flag */}
+        <Image
           src="/flag.png"
           alt="Flag"
-          className={`absolute -right-2 h-10 w-auto pixelated ${
-            animate ? "animate-rise-then-ripple" : ""
-          }`}
-          style={{ bottom: "0" }}
+          width={40}
+          height={40}
+          className="absolute animate-rise-then-ripple"
+          style={{
+            left: "10px", // move flag slightly right from the pole
+          }}
         />
       </div>
 
       {/* Castle */}
-      <img
-        src="/castle.png"
-        alt="Castle"
-        className="w-[92px] h-36" // 3 grass tiles wide
-      />
+      <div className="relative">
+        <Image
+          src="/castle.png"
+          alt="Castle"
+          width={180}
+          height={180}
+          className="object-contain"
+          style={{
+            bottom: "20px", // lift castle a bit above ground line
+            position: "relative",
+          }}
+        />
+      </div>
     </div>
   );
 }

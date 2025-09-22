@@ -4,17 +4,15 @@ import { useState } from "react";
 
 export default function useQuestionBlock() {
   const [used, setUsed] = useState(false);
-  const [active, setActive] = useState(false);
+  const [coinKey, setCoinKey] = useState(0); // unique key for each coin instance
 
   const triggerBlock = () => {
     if (!used) {
-      setActive(true);
-      setTimeout(() => {
-        setActive(false);
-        setUsed(true);
-      }, 1200);
+      setUsed(true); // only switch sprite the first time
     }
+    // always trigger a new coin pop
+    setCoinKey((prev) => prev + 1);
   };
 
-  return { used, active, triggerBlock };
+  return { used, coinKey, triggerBlock };
 }

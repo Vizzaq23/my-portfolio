@@ -5,7 +5,7 @@ export default function NavBar() {
     <nav
       className="fixed top-0 left-0 w-full h-12 border-b-4 border-black z-50 pixelated animate-brick-scroll flex items-center"
       style={{
-        backgroundImage: "url('/emptyBlock.png')",
+        backgroundImage: "url('/brickBlock.png')",
         backgroundRepeat: "repeat-x",
         backgroundSize: "32px 32px",
       }}
@@ -50,3 +50,4 @@ export default function NavBar() {
     </nav>
   );
 }
+

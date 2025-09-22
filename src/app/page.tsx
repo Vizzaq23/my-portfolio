@@ -6,81 +6,90 @@ import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import EndScene from "@/components/EndScene";
 import useClouds from "@/hooks/useClouds";
-import QuestionBlock from "@/components/QuestionBlock";
 import NavBar from "@/components/NavBar";
+import Block from "@/components/Block";
 
 export default function Home() {
   const clouds = useClouds();
 
   return (
     <>
-      {/* NavBar */}
+      {/* Top Navigation */}
       <NavBar />
 
       {/* Hero Section */}
-      <section className="relative flex flex-col items-center justify-center h-[90vh] pt-24 text-center bg-gradient-to-b from-sky-400 to-sky-200 text-white overflow-hidden shadow-lg">
+      <section className="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden bg-sky-400">
         {/* Clouds */}
         {clouds.map((cloud) => (
-          <Cloud key={cloud.id} {...cloud} />
+          <Cloud
+            key={cloud.id}
+            className="absolute"
+            style={{
+              top: cloud.top,
+              left: `${cloud.left}%`,
+              width: `${cloud.size}px`,
+              height: `${cloud.size * 0.6}px`,
+              opacity: cloud.opacity,
+              transition: "left 0.1s linear, opacity 0.3s ease-in-out",
+            }}
+          />
         ))}
 
-        {/* Headline */}
-        <h2 className="text-4xl md:text-6xl font-extrabold mb-6 drop-shadow-[2px_2px_0px_#000000] text-yellow-300">
-          Hey, I’m Quintin!
-        </h2>
+        {/* Main Title */}
+        <h1 className="text-6xl font-bold text-yellow-400 drop-shadow-lg mb-6">
+          Hey, I&apos;m Quintin!
+        </h1>
 
-        {/* Subtext */}
-        <p className="text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed text-white drop-shadow-[1px_1px_0px_#000000]">
+        {/* Subtitle */}
+        <p className="text-xl max-w-xl text-white leading-relaxed">
           A Computer Engineering student who loves building{" "}
-          <span className="text-green-300 font-bold">AI tools</span>,{" "}
-          <span className="text-red-400 font-bold">video games</span>, and{" "}
-          <span className="text-blue-300 font-bold">web apps</span>. Let’s power up
-          together!
+          <span className="text-green-400">AI tools</span>,{" "}
+          <span className="text-red-400">video games</span>, and{" "}
+          <span className="text-gray-200">web apps</span>. <br />
+          Let&apos;s power up together!
         </p>
 
-        {/* NES-style Buttons */}
-        <div className="flex space-x-6">
-          <a
-            href="#projects"
-            className="bg-gray-300 text-black px-8 py-3 rounded-sm font-bold uppercase tracking-widest 
-                       shadow-[3px_3px_0px_#000000] border border-black
-                       hover:translate-y-[-3px] hover:shadow-[4px_4px_0px_#000000] 
-                       transition flex flex-col items-center"
-          >
-            ⏯ START
-            <span className="text-xs font-normal mt-1">View Projects</span>
+        {/* Buttons */}
+        <div className="mt-6 flex gap-6">
+          <a href="#projects">
+            <button className="px-6 py-3 bg-gray-200 text-black border-2 border-black transition transform active:translate-y-1 hover:scale-105">
+              ▶ START <br /> VIEW PROJECTS
+            </button>
           </a>
-
-          <a
-            href="#contact"
-            className="bg-red-500 text-white px-8 py-3 rounded-sm font-bold uppercase tracking-widest 
-                       shadow-[3px_3px_0px_#000000] border border-black
-                       hover:translate-y-[-3px] hover:shadow-[4px_4px_0px_#000000] 
-                       transition flex flex-col items-center"
-          >
-            ⏺ SELECT
-            <span className="text-xs font-normal mt-1">Contact Me</span>
+          <a href="#contact">
+            <button className="px-6 py-3 bg-red-500 text-white border-2 border-black transition transform active:translate-y-1 hover:scale-105">
+              ● SELECT <br /> CONTACT ME
+            </button>
           </a>
         </div>
 
-        {/* Interactive Blocks */}
-        <div className="absolute bottom-32 flex justify-center space-x-4">
-          <QuestionBlock />
-          <QuestionBlock />
-          <QuestionBlock />
-        </div>
+     {/* Floating Block Row */}
+<div className="absolute bottom-[20vh] flex gap-[1vw]">
+  <Block type="empty" />
+  <Block type="question" />
+  <Block type="empty" />
+  <Block type="question" />
+  <Block type="empty" />
+</div>
 
-         {/* Ground + End Scene anchored to bottom */}
-        <div className="absolute bottom-0 left-0 w-full flex items-end justify-end">
+        {/* Ground at bottom */}
+        <div className="absolute bottom-0 w-full">
           <Ground />
-          <EndScene />
         </div>
       </section>
-  {/* === Projects Section === */}
-      <Projects />
 
-      {/* === Contact Section === */}
-      <Contact />
+      {/* Projects Section */}
+      <div id="projects">
+        <Projects />
+      </div>
+
+      {/* Contact Section */}
+      <div id="contact">
+        <Contact />
+      </div>
+
+      {/* End Scene */}
+      <EndScene />
     </>
   );
 }

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="80" shape-rendering="crispEdges">
+  <!-- Large hill -->
+  <ellipse cx="120" cy="80" rx="100" ry="40" fill="#00aa00"></ellipse>
+  <!-- Hill details -->
+  <rect x="90" y="55" width="6" height="8" fill="#004400"></rect>
+  <rect x="110" y="65" width="6" height="8" fill="#004400"></rect>
+  <rect x="135" y="60" width="6" height="8" fill="#004400"></rect>
+
+  <!-- Small hill -->
+  <ellipse cx="300" cy="80" rx="60" ry="25" fill="#00aa00"></ellipse>
+  <rect x="285" y="65" width="5" height="7" fill="#004400"></rect>
+  <rect x="305" y="70" width="5" height="7" fill="#004400"></rect>
+
+  <!-- Bushes -->
+  <ellipse cx="30" cy="75" rx="25" ry="12" fill="#00bb00"></ellipse>
+  <ellipse cx="55" cy="75" rx="20" ry="10" fill="#00aa00"></ellipse>
+
+  <ellipse cx="450" cy="75" rx="25" ry="12" fill="#00bb00"></ellipse>
+  <ellipse cx="475" cy="75" rx="20" ry="10" fill="#00aa00"></ellipse>
+</svg>

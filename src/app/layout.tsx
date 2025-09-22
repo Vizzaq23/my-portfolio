@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Press_Start_2P } from "next/font/google";
-import NavBar from "@/components/NavBar"; // 👈 import your Mario navbar
 
 const pixelFont = Press_Start_2P({
   weight: "400",
@@ -17,9 +16,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${pixelFont.className} bg-gray-50 text-gray-900`}>
-        {/* === Mario NavBar (site-wide) === */}
-        <NavBar />
-
         {/* === Page Content === */}
         <main>{children}</main>
 
