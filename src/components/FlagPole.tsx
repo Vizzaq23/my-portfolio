@@ -1,9 +1,9 @@
 "use client";
 
-import useInView from "@/hooks/useInView";
+import useInView from "../hooks/useInView";
 
 export default function FlagPole() {
-  const flagDown = useInView("contact", 100); // triggers when 100px inside viewport
+  const flagDown = useInView("contact", 100);
 
   return (
     <div className="flex flex-col items-center justify-end h-64 w-12 mx-auto relative">
@@ -12,9 +12,14 @@ export default function FlagPole() {
 
       {/* Flag */}
       <div
-        className={`absolute left-2 w-0 h-0 border-t-[24px] border-t-transparent border-l-[36px] border-l-green-500 border-b-[24px] border-b-transparent transition-all duration-1000 ease-out`}
+        className="absolute left-2 transition-all duration-1000 ease-out"
         style={{
-          top: flagDown ? "200px" : "0px", // animate down
+          top: flagDown ? "200px" : "0px",
+          width: "0",
+          height: "0",
+          borderTop: "24px solid transparent",
+          borderBottom: "24px solid transparent",
+          borderLeft: "36px solid #22c55e", // Tailwind's green-500
         }}
       ></div>
 

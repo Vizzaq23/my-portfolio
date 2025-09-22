@@ -4,6 +4,7 @@ import Cloud from "@/components/Cloud";
 import Block from "@/components/Block";
 import Ground from "@/components/Ground";
 import Projects from "@/components/Projects";
+import Contact from "@/components/Contact";
 import useClouds from "@/hooks/useClouds";
 
 export default function Home() {
@@ -12,40 +13,55 @@ export default function Home() {
   return (
     <>
       {/* === Hero Section === */}
-      <section className="relative flex flex-col items-center justify-center h-[90vh] text-center bg-gradient-to-b from-sky-400 to-sky-200 text-white overflow-hidden rounded-2xl shadow-lg">
-        
+      <section className="relative flex flex-col items-center justify-center h-[90vh] text-center bg-gradient-to-b from-sky-400 to-sky-200 text-white overflow-hidden shadow-lg">
         {/* Clouds */}
         {clouds.map((cloud) => (
           <Cloud key={cloud.id} {...cloud} />
         ))}
 
-        {/* Hero Content */}
-        <h2 className="text-5xl font-extrabold mb-4 drop-shadow-lg">
-          Welcome to My Portfolio
+        {/* Headline */}
+        <h2 className="text-4xl md:text-6xl font-extrabold mb-6 drop-shadow-[2px_2px_0px_#000000] text-yellow-300">
+          Hey, I’m Quintin!
         </h2>
-        <p className="text-lg mb-8 max-w-xl">
-          I’m a Computer Engineering student passionate about building AI tools,
-          games, and web apps. Let’s level up together!
+
+        {/* Subtext */}
+        <p className="text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed text-white drop-shadow-[1px_1px_0px_#000000]">
+          A Computer Engineering student who loves building{" "}
+          <span className="text-green-300 font-bold">AI tools</span>,{" "}
+          <span className="text-red-400 font-bold">video games</span>, and{" "}
+          <span className="text-blue-300 font-bold">web apps</span>. Let’s power up
+          together!
         </p>
 
-        {/* Buttons */}
-        <div className="flex space-x-4">
+        {/* NES-style Buttons */}
+        <div className="flex space-x-6">
+          {/* START Button */}
           <a
             href="#projects"
-            className="bg-yellow-400 text-black px-6 py-3 rounded-lg font-bold shadow-md hover:scale-105 transition"
+            className="bg-gray-300 text-black px-8 py-3 rounded-sm font-bold uppercase tracking-widest 
+                       shadow-[3px_3px_0px_#000000] border border-black
+                       hover:translate-y-[-3px] hover:shadow-[4px_4px_0px_#000000] 
+                       transition flex flex-col items-center"
           >
-            View Projects
+            ⏯ START
+            <span className="text-xs font-normal mt-1">View Projects</span>
           </a>
+
+          {/* SELECT Button */}
           <a
             href="#contact"
-            className="bg-green-400 text-black px-6 py-3 rounded-lg font-bold shadow-md hover:scale-105 transition"
+            className="bg-red-500 text-white px-8 py-3 rounded-sm font-bold uppercase tracking-widest 
+                       shadow-[3px_3px_0px_#000000] border border-black
+                       hover:translate-y-[-3px] hover:shadow-[4px_4px_0px_#000000] 
+                       transition flex flex-col items-center"
           >
-            Contact Me
+            ⏺ SELECT
+            <span className="text-xs font-normal mt-1">Contact Me</span>
           </a>
         </div>
 
         {/* Floating Blocks */}
-        <div className="absolute bottom-32 left-1/4 flex space-x-4">
+        <div className="absolute bottom-32 flex justify-center space-x-4">
           <Block type="brick" />
           <Block type="question" />
           <Block type="brick" />
@@ -57,6 +73,10 @@ export default function Home() {
 
       {/* === Projects Section === */}
       <Projects />
+
+      {/* === Contact Section === */}
+      <Contact />
     </>
   );
 }
+

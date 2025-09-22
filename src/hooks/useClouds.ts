@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 
 type Cloud = { id: number; x: number; y: number; size: number; speed: number; opacity: number };
@@ -9,12 +11,12 @@ export default function useClouds() {
     const cloudCount = window.innerWidth > 1024 ? 6 : window.innerWidth > 640 ? 4 : 3;
 
     const initialClouds = Array.from({ length: cloudCount }).map((_, i) => {
-      const size = 80 + Math.random() * 120; // 80–200px
-      const speed = Math.max(0.2, 2.0 - size / 120); // parallax depth
+      const size = 80 + Math.random() * 120;
+      const speed = Math.max(0.2, 2.0 - size / 120);
 
-      // Height bias: bigger = higher, smaller = lower
-      const baseY = 20 + (200 - size); // 20px min, ~140px max
-      const y = baseY + Math.random() * 40; // add a random offset
+      // bias: bigger = higher, smaller = lower
+      const baseY = 20 + (200 - size);
+      const y = baseY + Math.random() * 40;
 
       return {
         id: i + 1,
