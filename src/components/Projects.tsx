@@ -55,20 +55,24 @@ export default function Projects() {
     setCurrentIndex((prev) => (prev + 1) % projects.length);
 
   return (
-    <section
+  <section
   className="relative py-16 border-t-4 border-black overflow-hidden bg-cover bg-center"
   style={{
-    backgroundImage: "url('/background.png')",
+    backgroundImage: "url('/bckground2.png')",
+    backgroundSize: "60%", // zoom in a bit
+    backgroundPosition: "center top",
   }}
 >
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-black/40 z-0"></div>
 
       {/* Section Title */}
-      <h2 className="text-3xl text-center text-yellow-400 font-bold pixelated drop-shadow-[2px_2px_0px_#000] mb-10">
-        Projects
+      <h2 className="relative text-3xl text-center text-yellow-400 font-bold pixelated drop-shadow-[3px_3px_0px_#000] mb-10 z-10">
+        <span className="bg-black/70 px-4 py-1 rounded">Projects</span>
       </h2>
 
       {/* Carousel Wrapper */}
-      <div className="relative flex items-center justify-center">
+      <div className="relative flex items-center justify-center z-10">
         {/* Project Cards */}
         <div className="flex items-center justify-center w-full h-[420px] relative pointer-events-none">
           {projects.map((p, i) => {
@@ -148,7 +152,7 @@ export default function Projects() {
       </div>
 
       {/* Dot Indicators */}
-      <div className="flex gap-3 mt-6 justify-center">
+      <div className="relative flex gap-3 mt-6 justify-center z-10">
         {projects.map((_, i) => (
           <button
             key={i}
