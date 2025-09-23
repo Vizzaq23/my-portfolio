@@ -21,7 +21,30 @@ const projectLavender = {
   link: "https://www.stanthonyshs.org/project-lavender/",
 };
 
-const projects = [projectArcade, projectLavender];
+const projectGameBalancer = {
+  title: "AI Game Balancer",
+  year: "2024",
+  description:
+    "Built a balancing tool for multiplayer shooters that analyzes kill/death ratios and adjusts weapon strength. Built with Flask + Streamlit, focused on data-driven fairness in competitive games.",
+  image: "/projects/game-balancer.jpeg",
+  link: "https://github.com/Vizzaq23/ai-game-balancer-",
+};
+
+const projectSentari = {
+  title: "Sentari AI Internship",
+  year: "2025",
+  description:
+    "Worked as part of the Sentari AI SDE team to design a 13-step 'Transcript → Empathy' pipeline. Built features like embeddings, metadata extraction, GPT replies, and long-term profiles. Also developed admin dashboards (user counts, referral usage, retention) with Next.js, Supabase, and MongoDB.",
+  image: "/projects/sentari.jpeg",
+  link: "https://journal.withsentari.com/signin",
+};
+
+const projects = [
+  projectArcade,
+  projectLavender,
+  projectGameBalancer,
+  projectSentari,
+];
 
 export default function Projects() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -32,7 +55,13 @@ export default function Projects() {
     setCurrentIndex((prev) => (prev + 1) % projects.length);
 
   return (
-    <section className="relative bg-sky-800 py-16 border-t-4 border-black overflow-hidden">
+    <section
+  className="relative py-16 border-t-4 border-black overflow-hidden bg-cover bg-center"
+  style={{
+    backgroundImage: "url('/background.png')",
+  }}
+>
+
       {/* Section Title */}
       <h2 className="text-3xl text-center text-yellow-400 font-bold pixelated drop-shadow-[2px_2px_0px_#000] mb-10">
         Projects
@@ -40,38 +69,23 @@ export default function Projects() {
 
       {/* Carousel Wrapper */}
       <div className="relative flex items-center justify-center">
-        {/* Prev Arrow */}
-        <button
-          onClick={prevProject}
-          className="absolute left-6 z-20 bg-black text-white text-2xl px-3 py-1 border-2 border-yellow-400 hover:scale-110 transition"
-        >
-          ◀
-        </button>
-
         {/* Project Cards */}
-        <div className="flex items-center justify-center w-full h-[420px] relative">
+        <div className="flex items-center justify-center w-full h-[420px] relative pointer-events-none">
           {projects.map((p, i) => {
             const position =
               (i - currentIndex + projects.length) % projects.length;
 
-            // base styles for all cards
             let styles =
-              "absolute transition-all duration-500 ease-in-out flex flex-col justify-between";
+              "absolute transition-all duration-500 ease-in-out flex flex-col justify-between pointer-events-auto";
 
             if (position === 0) {
-              // Active card in center
               styles +=
                 " scale-100 z-30 translate-x-0 opacity-100 hover:scale-105";
             } else if (position === 1) {
-              // Next card
-              styles +=
-                " scale-75 z-20 translate-x-[260px] opacity-40";
+              styles += " scale-75 z-20 translate-x-[260px] opacity-40";
             } else if (position === projects.length - 1) {
-              // Previous card
-              styles +=
-                " scale-75 z-20 -translate-x-[260px] opacity-40";
+              styles += " scale-75 z-20 -translate-x-[260px] opacity-40";
             } else {
-              // Hidden
               styles += " opacity-0";
             }
 
@@ -100,8 +114,6 @@ export default function Projects() {
                     {p.title}
                   </h3>
                   <span className="text-[10px] text-gray-800">{p.year}</span>
-
-                  {/* Short description normally, full on hover */}
                   <p className="text-xs text-black mt-1 leading-snug overflow-hidden line-clamp-4 group-hover:line-clamp-none group-hover:overflow-visible transition-all duration-300">
                     {p.description}
                   </p>
@@ -118,13 +130,36 @@ export default function Projects() {
           })}
         </div>
 
+        {/* Prev Arrow */}
+        <button
+          onClick={prevProject}
+          className="absolute left-6 z-50 bg-black text-white text-2xl px-3 py-1 border-2 border-yellow-400 hover:scale-110 transition pointer-events-auto"
+        >
+          ◀
+        </button>
+
         {/* Next Arrow */}
         <button
           onClick={nextProject}
-          className="absolute right-6 z-20 bg-black text-white text-2xl px-3 py-1 border-2 border-yellow-400 hover:scale-110 transition"
+          className="absolute right-6 z-50 bg-black text-white text-2xl px-3 py-1 border-2 border-yellow-400 hover:scale-110 transition pointer-events-auto"
         >
           ▶
         </button>
+      </div>
+
+      {/* Dot Indicators */}
+      <div className="flex gap-3 mt-6 justify-center">
+        {projects.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrentIndex(i)}
+            className={`w-4 h-4 rounded-full border-2 border-black pixelated transition ${
+              i === currentIndex
+                ? "bg-yellow-400 scale-110"
+                : "bg-gray-300 hover:bg-gray-400"
+            }`}
+          />
+        ))}
       </div>
     </section>
   );
