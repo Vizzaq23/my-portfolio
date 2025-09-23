@@ -8,6 +8,9 @@ import EndScene from "@/components/EndScene";
 import useClouds from "@/hooks/useClouds";
 import NavBar from "@/components/NavBar";
 import Block from "@/components/Block";
+import Staircase from "@/components/Staircase";
+import Platforms from "@/components/Platforms";
+
 
 export default function Home() {
   const clouds = useClouds();
@@ -18,7 +21,7 @@ export default function Home() {
       <NavBar />
 
       {/* Hero Section */}
-      <section className="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden bg-sky-400">
+      <section className="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden bg-sky-600">
         {/* Clouds */}
         {clouds.map((cloud) => (
           <Cloud
@@ -71,7 +74,10 @@ export default function Home() {
   <Block type="question" />
   <Block type="empty" />
 </div>
+          
 
+        {/* Platforms under the blocks */}
+          <Platforms />
         {/* Ground at bottom */}
         <div className="absolute bottom-0 w-full">
           <Ground />
@@ -87,6 +93,9 @@ export default function Home() {
       <div id="contact">
         <Contact />
       </div>
+      {/* Staircase leading to the flag */}
+      <Staircase />
+
 
       {/* End Scene */}
       <EndScene />

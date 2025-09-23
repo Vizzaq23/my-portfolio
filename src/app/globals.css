@@ -118,3 +118,39 @@ html {
 .block-bounce:active {
   animation: bounce 0.2s ease-in-out;
 }
+
+/* === Mario Hills Background === */
+.bg-hills {
+  background: url("/hills.svg"); 
+  background-repeat: repeat-x;   /* repeat horizontally */
+  background-position: bottom;   /* sit at bottom of div */
+  background-size: auto 80px;    /* scale height to 80px */
+  image-rendering: pixelated;    /* keep sharp edges */
+}
+
+@keyframes groundScroll {
+  from { background-position: 0 0; }
+  to   { background-position: -64px 0; } /* shift by one tile width */
+}
+.ground {
+  background-image: url("/grassTile.png");
+  background-repeat: repeat-x;
+  background-size: 64px 64px; /* match tile size */
+  height: 64px;               /* must have height or it's invisible */
+  image-rendering: pixelated;
+  animation: groundScroll 3s linear infinite;
+}
+
+@keyframes hillsScroll {
+  from { background-position: 0 bottom; }
+  to   { background-position: -128px bottom; } /* scroll left by 128px */
+}
+
+.bg-hills {
+  background-image: url("/hills.svg"); /* your hills SVG in /public */
+  background-repeat: repeat-x;
+  background-position: bottom;
+  background-size: auto 80px; /* height of hills strip */
+  image-rendering: pixelated;
+  animation: hillsScroll 12s linear infinite; /* much slower than ground */
+}
