@@ -6,13 +6,14 @@ export default function Contact() {
   return (
     <section className="relative min-h-[500px] bg-black border-t-4 border-blue-800 overflow-hidden">
       {/* Floating Brick Row */}
-      <div className="absolute top-24 left-1/4 flex space-x-1">
-        {Array.from({ length: 8 }).map((_, i) => (
+      <div className="absolute top-0 left-0 w-full flex justify-center">
+        {Array.from({ length: 26 }).map((_, i) => (
           <Image
             key={i}
             src="/Brickunder.png"
             alt="brick"
-            width={32}
+            width={32
+            }
             height={32}
             className="w-8 h-8"
           />

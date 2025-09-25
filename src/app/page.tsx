@@ -88,7 +88,6 @@ export default function Home() {
       <div id="projects">
         <Projects />
       </div>
-
       {/* Contact Section */}
       <div id="contact">
         <Contact />
