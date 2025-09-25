@@ -5,7 +5,7 @@ import useQuestionBlock from "@/hooks/useQuestionBlock";
 import { useState } from "react";
 
 export default function QuestionBlock() {
-  const { used, active, triggerBlock } = useQuestionBlock();
+  const { used, coinKey, triggerBlock } = useQuestionBlock();
   const [showCoin, setShowCoin] = useState(false);
 
   const handleClick = () => {
@@ -22,7 +22,7 @@ export default function QuestionBlock() {
       <div
         onClick={handleClick}
         className={`w-16 h-16 bg-cover pixelated cursor-pointer transition-transform ${
-          active ? "-translate-y-2" : ""
+          coinKey ? "-translate-y-2" : ""
         }`}
         style={{
           backgroundImage: used
