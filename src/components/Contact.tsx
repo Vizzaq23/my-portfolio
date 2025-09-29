@@ -12,8 +12,7 @@ export default function Contact() {
             key={i}
             src="/Brickunder.png"
             alt="brick"
-            width={32
-            }
+            width={32}
             height={32}
             className="w-8 h-8"
           />
@@ -43,12 +42,32 @@ export default function Contact() {
         <p className="mb-6 text-sm max-w-lg">
           Let’s connect and build something amazing together!
         </p>
-        <a
-          href="mailto:youremail@example.com"
-          className="inline-block px-6 py-3 bg-red-500 text-white border-4 border-black shadow-[4px_4px_0px_#000] hover:scale-110 transition"
-        >
-          Email Me →
-        </a>
+
+        {/* Buttons */}
+        <div className="flex flex-col md:flex-row gap-4">
+          <a
+            href="mailto:youremail@example.com"
+            className="inline-block px-6 py-3 bg-red-500 text-white border-4 border-black shadow-[4px_4px_0px_#000] hover:scale-110 transition"
+          >
+            Email Me →
+          </a>
+
+          <a
+            href="https://www.linkedin.com/in/quintin-vizza/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-6 py-3 bg-blue-600 text-white border-4 border-black shadow-[4px_4px_0px_#000] hover:scale-110 transition"
+          >
+            LinkedIn →
+          </a>
+
+          <a
+            href="tel:+16317474494"
+            className="inline-block px-6 py-3 bg-green-500 text-white border-4 border-black shadow-[4px_4px_0px_#000] hover:scale-110 transition"
+          >
+            Call Me →
+          </a>
+        </div>
       </div>
 
       {/* Ground */}
