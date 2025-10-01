@@ -7,7 +7,7 @@ export default function Contact() {
     <section className="relative min-h-[500px] bg-black border-t-4 border-blue-800 overflow-hidden">
       {/* Floating Brick Row */}
       <div className="absolute top-0 left-0 w-full flex justify-center">
-        {Array.from({ length: 26 }).map((_, i) => (
+        {Array.from({ length: 33 }).map((_, i) => (
           <Image
             key={i}
             src="/Brickunder.png"
@@ -72,7 +72,7 @@ export default function Contact() {
 
       {/* Ground */}
       <div className="absolute bottom-0 left-0 flex w-full">
-        {Array.from({ length: 40 }).map((_, i) => (
+        {Array.from({ length: 50 }).map((_, i) => (
           <Image
             key={i}
             src="/undergroundtile.png"

@@ -15,9 +15,11 @@ export default function FlagPole() {
       <div className="relative h-48">
         {/* Pole */}
         <img
-          src="/flagPole.png"
+          src="/flagpole.png"       // <— lowercase path to match the file
           alt="Flagpole"
           className="h-48 w-auto pixelated"
+          decoding="async"
+          fetchPriority="high"
         />
 
         {/* Flag */}
@@ -27,10 +29,10 @@ export default function FlagPole() {
           className={`absolute -right-2 h-12 w-auto pixelated ${
             animate ? "animate-rise-then-ripple" : ""
           }`}
-          style={{ bottom: "15" }} // 
+          style={{ bottom: 15 }}    // <— number = 15px (your "15" string was invalid)
+          decoding="async"
         />
       </div>
     </div>
   );
 }
-
