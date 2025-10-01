@@ -10,7 +10,7 @@ export default function Contact() {
         {Array.from({ length: 33 }).map((_, i) => (
           <Image
             key={i}
-            src="/Brickunder.png"
+            src="/brickunder.png"
             alt="brick"
             width={32}
             height={32}
