@@ -5,8 +5,7 @@ import Image from "next/image";
 export default function EndScene() {
   const GROUND_H = 42;     // same as your ground tile height
   const HILLS_H  = 80;     // visual height of the hills strip
-  const HILLS_NUDGE = 6;   // push hills slightly DOWN so they tuck behind grass
-
+  
   return (
     <>
       {/* Hills BEHIND everything except sky/ground */}

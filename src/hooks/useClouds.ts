@@ -47,7 +47,7 @@ export default function useClouds() {
             return { ...cloud, delay: cloud.delay - 1 };
           }
 
-          let newLeft = cloud.left + cloud.speed;
+          const newLeft = cloud.left + cloud.speed; // <-- CHANGED: const
           let newOpacity = cloud.opacity;
 
           // fade out near right edge
