@@ -8,9 +8,10 @@ import EndScene from "@/components/EndScene";
 import useClouds from "@/hooks/useClouds";
 import NavBar from "@/components/NavBar";
 import Block from "@/components/Block";
+import About from "@/components/About";
 import Staircase from "@/components/Staircase";
 import Platforms from "@/components/Platforms";
-
+import Image from "next/image";
 
 export default function Home() {
   const clouds = useClouds();
@@ -20,9 +21,8 @@ export default function Home() {
       {/* Top Navigation */}
       <NavBar />
 
-      {/* Hero Section */}
+      {/* === HERO SECTION === */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden bg-sky-600">
-        {/* Clouds */}
         {clouds.map((cloud) => (
           <Cloud
             key={cloud.id}
@@ -38,12 +38,10 @@ export default function Home() {
           />
         ))}
 
-        {/* Main Title */}
         <h1 className="text-6xl font-bold text-yellow-400 drop-shadow-lg mb-6">
           Hey, I&apos;m Quintin!
         </h1>
 
-        {/* Subtitle */}
         <p className="text-xl max-w-xl text-white leading-relaxed">
           A Computer Engineering student who loves building{" "}
           <span className="text-green-400">AI tools</span>,{" "}
@@ -66,37 +64,38 @@ export default function Home() {
           </a>
         </div>
 
-     {/* Floating Block Row */}
-<div className="absolute bottom-[20vh] flex gap-[1vw]">
-  <Block type="empty" />
-  <Block type="question" />
-  <Block type="empty" />
-  <Block type="question" />
-  <Block type="empty" />
-</div>
-          
+        {/* Floating Block Row */}
+        <div className="absolute bottom-[20vh] flex gap-[1vw]">
+          <Block type="empty" />
+          <Block type="question" />
+          <Block type="empty" />
+          <Block type="question" />
+          <Block type="empty" />
+        </div>
 
-        {/* Platforms under the blocks */}
-          <Platforms />
-        {/* Ground at bottom */}
+        <Platforms />
         <div className="absolute bottom-0 w-full">
           <Ground />
         </div>
       </section>
 
-      {/* Projects Section */}
+      {/* === PROJECTS SECTION === */}
       <div id="projects">
         <Projects />
       </div>
-      {/* Contact Section */}
+
+      {/* === ABOUT SECTION (NEW) === */}
+      <About />
+
+    
+
+      {/* === CONTACT SECTION === */}
       <div id="contact">
         <Contact />
       </div>
-      {/* Staircase leading to the flag */}
+
+      {/* Staircase and End Scene */}
       <Staircase />
-
-
-      {/* End Scene */}
       <EndScene />
     </>
   );
