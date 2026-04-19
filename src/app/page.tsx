@@ -11,6 +11,7 @@ import About from "@/components/About";
 import Staircase from "@/components/Staircase";
 import Platforms from "@/components/Platforms";
 import HeroIdleSprite from "@/components/HeroIdleSprite";
+import WarpPipeLink from "@/components/WarpPipeLink";
 
 const ctaClass =
   "no-underline inline-flex flex-col items-center justify-center min-w-[10rem] px-5 py-3 border-2 border-black text-center text-sm font-display leading-snug transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white active:translate-y-0.5 sm:min-w-[11rem] sm:px-6 sm:text-base";
@@ -20,7 +21,10 @@ export default function Home() {
     <>
       <NavBar />
 
-      <section className="hero-cursor-zone relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-sky-600 px-4 pb-24 pt-28 text-center sm:pt-32">
+      <section
+        id="top"
+        className="hero-cursor-zone relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-sky-600 px-4 pb-24 pt-28 text-center sm:pt-32"
+      >
         <HeroClouds />
 
         <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-[0.2em] text-sky-100 sm:text-sm">
@@ -76,6 +80,13 @@ export default function Home() {
           <Ground />
         </div>
 
+        {/* Warp pipe on the grass (same layer as the level; sprite above has pointer-events-none) */}
+        <WarpPipeLink
+          href="#contact"
+          label="▼ Contact"
+          className="absolute bottom-[64px] left-[18%] z-[25] -translate-x-1/2"
+        />
+
         {/* Hills behind the hero; flag/castle/stairs stay in front */}
         <div className="pointer-events-none absolute inset-0 z-[35]">
           <HeroHills />
@@ -96,9 +107,7 @@ export default function Home() {
 
       <About />
 
-      <div id="contact" className="scroll-mt-24">
-        <Contact />
-      </div>
+      <Contact />
     </>
   );
 }

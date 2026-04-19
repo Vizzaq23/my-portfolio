@@ -32,7 +32,7 @@ export default function HeroIdleSprite() {
             alt=""
             width={700}
             height={700}
-            className="h-14 w-14 object-contain pixelated"
+            className="h-14 w-14 -scale-x-100 object-contain pixelated"
             priority={false}
           />
         </div>

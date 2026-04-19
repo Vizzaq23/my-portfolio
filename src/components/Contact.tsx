@@ -1,85 +1,113 @@
 "use client";
 
 import Image from "next/image";
+import WarpPipeLink from "@/components/WarpPipeLink";
+
+const contactBtnClass =
+  "no-underline inline-flex min-w-[11rem] flex-1 items-center justify-center gap-2 border-4 border-black px-5 py-3 font-display text-sm text-white shadow-[4px_4px_0px_#000] transition hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-yellow-400 sm:min-w-[10.5rem] sm:flex-initial";
 
 export default function Contact() {
   return (
-    <section className="relative min-h-[500px] bg-black border-t-4 border-blue-800 overflow-hidden">
-      {/* Floating Brick Row */}
-      <div className="absolute top-0 left-0 w-full flex justify-center">
-        {Array.from({ length: 33 }).map((_, i) => (
-          <Image
-            key={i}
-            src="/brickunder.png"
-            alt="brick"
-            width={32}
-            height={32}
-            className="w-8 h-8"
-          />
-        ))}
-      </div>
+    <section
+      id="contact"
+      aria-labelledby="contact-heading"
+      className="relative min-h-[520px] scroll-mt-24 overflow-hidden border-t-4 border-blue-800 bg-black px-4 py-24 sm:py-28"
+    >
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_30%,rgba(30,41,59,0.85),transparent_65%)]"
+        aria-hidden
+      />
 
-      {/* Pipe */}
-      <div className="absolute bottom-8 left-10">
-        <Image src="/pipe.png" alt="pipe" width={100} height={100} />
-      </div>
+      {/* Brick row — full-width repeating tile */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-8 bg-[url('/brickunder.png')] bg-repeat-x [background-size:32px_32px]"
+        aria-hidden
+      />
+
+      {/* Warp pipe → top of page (left side) */}
+      <WarpPipeLink
+        href="#top"
+        label="▲ Home"
+        className="absolute bottom-8 left-3 z-[20] hidden sm:left-10 sm:block"
+      />
 
       {/* Column */}
-      <div className="absolute bottom-8 left-56">
-        <Image src="/undergroundColumn.png" alt="column" width={24} height={80} />
+      <div className="pointer-events-none absolute bottom-8 left-40 hidden md:left-56 lg:block">
+        <Image src="/undergroundColumn.png" alt="" width={24} height={80} />
       </div>
 
       {/* Enemy */}
-      <div className="absolute bottom-8 right-20 animate-bounce motion-reduce:animate-none">
-        <Image src="/enemy.png" alt="enemy" width={40} height={40} />
+      <div className="pointer-events-none absolute bottom-8 right-4 hidden animate-bounce sm:right-10 md:block motion-reduce:animate-none">
+        <Image src="/enemy.png" alt="" width={40} height={40} />
       </div>
 
-      {/* Contact Box */}
-      <div className="relative z-10 flex flex-col items-center justify-center text-center text-white py-20">
-        <h2 className="mb-4 font-display text-2xl font-bold text-brand-accent drop-shadow-[2px_2px_0px_#000] sm:text-3xl">
-          Contact
-        </h2>
-        <p className="mb-6 max-w-lg font-sans text-sm leading-relaxed text-gray-200 sm:text-base">
-          Open to internships and collaborative projects. Prefer email or LinkedIn — include your role
-          and timeline for a faster reply.
-        </p>
-
-        <div className="flex flex-col gap-4 md:flex-row">
-          <a
-            href="mailto:qmviz23@gmail.com"
-            className="no-underline inline-block border-4 border-black bg-red-500 px-6 py-3 font-display text-sm text-white shadow-[4px_4px_0px_#000] transition hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-yellow-400"
+      <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-col items-center px-1 text-center text-white sm:px-2">
+        <div className="w-full rounded-2xl border-4 border-brand-accent bg-slate-900/95 p-6 shadow-[6px_6px_0_#000] ring-1 ring-white/10 backdrop-blur-sm sm:p-10">
+          <h2
+            id="contact-heading"
+            className="mb-2 font-display text-2xl font-bold text-brand-accent drop-shadow-[3px_3px_0px_#000] sm:text-3xl"
           >
-            Email
-          </a>
+            <span className="rounded bg-black/70 px-4 py-1">Contact</span>
+          </h2>
+          <p className="mb-6 font-sans text-sm text-slate-400 sm:text-base">
+            I usually reply within a few business days · email or LinkedIn works best
+          </p>
+          <p className="mb-8 max-w-lg font-sans text-sm leading-relaxed text-gray-200 sm:mx-auto sm:text-base">
+            Open to internships and collaborative projects. Prefer email or LinkedIn — include your role
+            and timeline for a faster reply.
+          </p>
 
-          <a
-            href="https://www.linkedin.com/in/quintin-vizza/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="no-underline inline-block border-4 border-black bg-blue-600 px-6 py-3 font-display text-sm text-white shadow-[4px_4px_0px_#000] transition hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-yellow-400"
-          >
-            LinkedIn
-          </a>
+          <div className="flex flex-col flex-wrap items-stretch justify-center gap-4 sm:flex-row sm:justify-center">
+            <a
+              href="mailto:qmviz23@gmail.com"
+              className={`${contactBtnClass} bg-red-500`}
+            >
+              <Image
+                src="/letter.png"
+                alt=""
+                width={20}
+                height={20}
+                className="pixelated h-5 w-5 shrink-0"
+              />
+              <span>Email</span>
+            </a>
 
-          <a
-            href="tel:+16317474494"
-            className="no-underline inline-block border-4 border-black bg-green-600 px-6 py-3 font-display text-sm text-white shadow-[4px_4px_0px_#000] transition hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-yellow-400"
-          >
-            Phone
-          </a>
+            <a
+              href="https://www.linkedin.com/in/quintin-vizza/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${contactBtnClass} bg-blue-600`}
+            >
+              <Image
+                src="/globe.svg"
+                alt=""
+                width={20}
+                height={20}
+                className="h-5 w-5 shrink-0 opacity-90"
+              />
+              <span>LinkedIn</span>
+            </a>
+
+            <a href="tel:+16317474494" className={`${contactBtnClass} bg-green-600`}>
+              <span aria-hidden className="font-sans text-base leading-none">
+                ☎
+              </span>
+              <span>Phone</span>
+            </a>
+          </div>
         </div>
       </div>
 
       {/* Ground */}
-      <div className="absolute bottom-0 left-0 flex w-full">
+      <div className="pointer-events-none absolute bottom-0 left-0 flex w-full">
         {Array.from({ length: 50 }).map((_, i) => (
           <Image
             key={i}
             src="/undergroundtile.png"
-            alt="ground"
+            alt=""
             width={32}
             height={32}
-            className="w-8 h-8"
+            className="h-8 w-8"
           />
         ))}
       </div>
