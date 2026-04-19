@@ -2,19 +2,25 @@
 
 import Image from "next/image";
 
+/** Scrolling hills — render in a layer below the hero sprite (see page.tsx z-order). */
+export function HeroHills() {
+  const GROUND_H = 42;
+  const HILLS_H = 80;
+
+  return (
+    <div
+      className="absolute inset-x-0 bg-hills"
+      style={{ height: HILLS_H, bottom: GROUND_H + 22 }}
+    />
+  );
+}
+
 export default function EndScene() {
   const GROUND_H = 42;     // same as your ground tile height
-  const HILLS_H  = 80;     // visual height of the hills strip
-  
+
   return (
     <>
-      {/* Hills BEHIND everything except sky/ground */}
-      <div
-        className="absolute inset-x-0 bg-hills z-[15]"
-        style={{ height: HILLS_H, bottom: GROUND_H + 22 }}
-      />
-
-      {/* Foreground: Flag + Castle IN FRONT of hills */}
+      {/* Flag + castle (hills are a separate layer under the hero) */}
       <div
         className="absolute right-8 flex items-end gap-10 z-30"
         style={{ bottom: GROUND_H }}

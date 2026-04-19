@@ -110,6 +110,59 @@ html {
   z-index: 50;
 }
 
+/* Question block: skills burst upward and off-screen */
+.skill-float-burst {
+  position: fixed;
+  z-index: 10000;
+  border: 2px solid #000;
+  background: #facc15;
+  color: #0f172a;
+  padding: 0.2rem 0.45rem;
+  font-size: 0.5rem;
+  line-height: 1.2;
+  box-shadow: 3px 3px 0 #000;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  animation: skill-float-out 2.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+  image-rendering: pixelated;
+}
+
+@keyframes skill-float-out {
+  0% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--skill-drift, 0px)), calc(-50% + 12px)) scale(0.35) rotate(-6deg);
+  }
+  14% {
+    opacity: 1;
+    transform: translate(calc(-50% + var(--skill-drift, 0px)), -50%) scale(1.05) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--skill-drift, 0px)), calc(-50% - 115vh)) scale(0.75) rotate(4deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-float-burst {
+    animation: skill-float-out-reduced 0.85s ease-out forwards;
+  }
+}
+
+@keyframes skill-float-out-reduced {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% - 4rem)) scale(1);
+  }
+}
+
 /* --- Brick Scrolling Background --- */
 @keyframes brickScroll {
   from {
@@ -181,5 +234,45 @@ html {
   background-size: auto 80px; /* height of hills strip */
   image-rendering: pixelated;
   animation: hillsScroll 12s linear infinite; /* much slower than ground */
+}
+
+/* --- Hero: pixel-ish cursor (fine pointer only; no touch) --- */
+@media (hover: hover) and (pointer: fine) {
+  .hero-cursor-zone {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath fill='%23fff' stroke='%23000' stroke-width='2' d='M4 4l10 22 3-9 9 3z'/%3E%3C/svg%3E")
+        4 4,
+      crosshair;
+  }
+}
+
+/* --- Hero idle sprite: inner bob + outer flip on scroll --- */
+@keyframes hero-sprite-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.hero-sprite-phase {
+  transform: scaleX(1);
+  transform-origin: bottom center;
+}
+
+.hero-sprite-phase[data-phase="1"] {
+  transform: scaleX(-1);
+}
+
+.hero-sprite-bob {
+  animation: hero-sprite-bob 0.45s steps(2, end) infinite;
+  transform-origin: bottom center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-sprite-bob {
+    animation: none;
+  }
 }
 

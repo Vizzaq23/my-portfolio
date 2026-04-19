@@ -4,12 +4,13 @@ import HeroClouds from "@/components/HeroClouds";
 import Ground from "@/components/Ground";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
-import EndScene from "@/components/EndScene";
+import EndScene, { HeroHills } from "@/components/EndScene";
 import NavBar from "@/components/NavBar";
 import Block from "@/components/Block";
 import About from "@/components/About";
 import Staircase from "@/components/Staircase";
 import Platforms from "@/components/Platforms";
+import HeroIdleSprite from "@/components/HeroIdleSprite";
 
 const ctaClass =
   "no-underline inline-flex flex-col items-center justify-center min-w-[10rem] px-5 py-3 border-2 border-black text-center text-sm font-display leading-snug transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white active:translate-y-0.5 sm:min-w-[11rem] sm:px-6 sm:text-base";
@@ -19,7 +20,7 @@ export default function Home() {
     <>
       <NavBar />
 
-      <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-sky-600 px-4 pb-24 pt-28 text-center sm:pt-32">
+      <section className="hero-cursor-zone relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-sky-600 px-4 pb-24 pt-28 text-center sm:pt-32">
         <HeroClouds />
 
         <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-[0.2em] text-sky-100 sm:text-sm">
@@ -58,15 +59,34 @@ export default function Home() {
 
         <div className="absolute bottom-[20vh] flex gap-[1vw]">
           <Block type="empty" />
-          <Block type="question" />
+          <Block
+            type="question"
+            skills={["TypeScript", "Next.js", "Python", "React", "Tailwind"]}
+          />
           <Block type="empty" />
-          <Block type="question" />
+          <Block
+            type="question"
+            skills={["ML tooling", "APIs", "Shipped UIs", "Git", "CI"]}
+          />
           <Block type="empty" />
         </div>
 
         <Platforms />
         <div className="absolute bottom-0 w-full">
           <Ground />
+        </div>
+
+        {/* Hills behind the hero; flag/castle/stairs stay in front */}
+        <div className="pointer-events-none absolute inset-0 z-[35]">
+          <HeroHills />
+        </div>
+
+        <HeroIdleSprite />
+
+        {/* Level end: stairs + flag/castle — above ground & hero */}
+        <div className="pointer-events-none absolute inset-0 z-[45]">
+          <Staircase />
+          <EndScene />
         </div>
       </section>
 
@@ -78,11 +98,6 @@ export default function Home() {
 
       <div id="contact" className="scroll-mt-24">
         <Contact />
-      </div>
-
-      <div className="relative min-h-[300px] w-full overflow-hidden">
-        <Staircase />
-        <EndScene />
       </div>
     </>
   );

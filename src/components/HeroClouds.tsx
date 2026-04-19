@@ -24,20 +24,27 @@ function createCloud(): CloudState {
   };
 }
 
-export default function HeroClouds() {
-  const initial = useMemo(
-    () =>
-      Array.from({ length: 6 }).map(() => {
-        const c = createCloud();
-        return { ...c, left: Math.random() * 100, opacity: 1, delay: 0 };
-      }),
-    []
-  );
+/** Same layout on server and first client paint — avoids hydration mismatch from Math.random(). */
+function getStaticClouds(): CloudState[] {
+  return Array.from({ length: 6 }).map((_, i) => {
+    const size = 72 + (i % 3) * 12;
+    return {
+      top: `${8 + (i % 3) * 4}%`,
+      left: 8 + i * 14,
+      speed: (120 / size) * 0.1,
+      size,
+      opacity: 0.88,
+      delay: 0,
+    };
+  });
+}
 
-  const cloudsRef = useRef<CloudState[]>(initial);
+export default function HeroClouds() {
+  const cloudsRef = useRef<CloudState[]>(getStaticClouds());
   const elsRef = useRef<(HTMLDivElement | null)[]>([]);
   const rafRef = useRef(0);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [motionReady, setMotionReady] = useState(false);
 
   useEffect(() => {
     setReduceMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -45,6 +52,17 @@ export default function HeroClouds() {
 
   useEffect(() => {
     if (reduceMotion) {
+      return;
+    }
+    cloudsRef.current = Array.from({ length: 6 }).map(() => {
+      const c = createCloud();
+      return { ...c, left: Math.random() * 100, opacity: 1, delay: 0 };
+    });
+    setMotionReady(true);
+  }, [reduceMotion]);
+
+  useEffect(() => {
+    if (reduceMotion || !motionReady) {
       return;
     }
 
@@ -87,23 +105,15 @@ export default function HeroClouds() {
 
     rafRef.current = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [reduceMotion]);
+  }, [reduceMotion, motionReady]);
 
-  const staticLayout = useMemo(
-    () =>
-      Array.from({ length: 6 }).map((_, i) => ({
-        top: `${8 + (i % 3) * 4}%`,
-        left: 8 + i * 14,
-        size: 72 + (i % 3) * 12,
-        opacity: 0.88,
-      })),
-    []
-  );
+  const staticClouds = useMemo(() => getStaticClouds(), []);
 
   return (
     <>
       {Array.from({ length: 6 }).map((_, i) => {
-        const c = reduceMotion ? staticLayout[i] : cloudsRef.current[i];
+        const c =
+          reduceMotion || !motionReady ? staticClouds[i] : cloudsRef.current[i];
         if (!c) return null;
         return (
           <div

@@ -1,6 +1,6 @@
 "use client";
 
-import Coin from "./coin";
+import Coin from "@/components/Coin";
 import useQuestionBlock from "@/hooks/useQuestionBlock";
 import { useState } from "react";
 
