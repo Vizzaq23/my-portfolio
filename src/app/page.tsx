@@ -1,70 +1,61 @@
 "use client";
 
-import Cloud from "@/components/Cloud";
+import HeroClouds from "@/components/HeroClouds";
 import Ground from "@/components/Ground";
 import Projects from "@/components/Projects";
 import Contact from "@/components/Contact";
 import EndScene from "@/components/EndScene";
-import useClouds from "@/hooks/useClouds";
 import NavBar from "@/components/NavBar";
 import Block from "@/components/Block";
 import About from "@/components/About";
 import Staircase from "@/components/Staircase";
 import Platforms from "@/components/Platforms";
-import Image from "next/image";
+
+const ctaClass =
+  "no-underline inline-flex flex-col items-center justify-center min-w-[10rem] px-5 py-3 border-2 border-black text-center text-sm font-display leading-snug transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white active:translate-y-0.5 sm:min-w-[11rem] sm:px-6 sm:text-base";
 
 export default function Home() {
-  const clouds = useClouds();
-
   return (
     <>
-      {/* Top Navigation */}
       <NavBar />
 
-      {/* === HERO SECTION === */}
-      <section className="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden bg-sky-600">
-        {clouds.map((cloud) => (
-          <Cloud
-            key={cloud.id}
-            className="absolute"
-            style={{
-              top: cloud.top,
-              left: `${cloud.left}%`,
-              width: `${cloud.size}px`,
-              height: `${cloud.size * 0.6}px`,
-              opacity: cloud.opacity,
-              transition: "left 0.1s linear, opacity 0.3s ease-in-out",
-            }}
-          />
-        ))}
+      <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-sky-600 px-4 pb-24 pt-28 text-center sm:pt-32">
+        <HeroClouds />
 
-        <h1 className="text-6xl font-bold text-yellow-400 drop-shadow-lg mb-6">
-          Hey, I&apos;m Quintin!
+        <p className="mb-2 font-sans text-xs font-semibold uppercase tracking-[0.2em] text-sky-100 sm:text-sm">
+          Computer Engineering · Software &amp; ML
+        </p>
+        <h1 className="font-display text-3xl font-bold leading-tight text-brand-accent drop-shadow-lg sm:text-4xl md:text-5xl lg:text-6xl">
+          Quintin Vizza
         </h1>
 
-        <p className="text-xl max-w-xl text-white leading-relaxed">
-          A Computer Engineering student who loves building{" "}
-          <span className="text-green-400">AI tools</span>,{" "}
-          <span className="text-red-400">video games</span>, and{" "}
-          <span className="text-gray-200">web apps</span>. <br />
-          Let&apos;s power up together!
+        <p className="mt-4 max-w-2xl font-sans text-base leading-relaxed text-white/95 sm:text-lg md:text-xl">
+          I build production web features, ML-adjacent tooling, and game tech — from Next.js dashboards
+          and data pipelines to hardware-backed projects. Strong in TypeScript, Python, and shipping
+          end-to-end.
         </p>
 
-        {/* Buttons */}
-        <div className="mt-6 flex gap-6">
-          <a href="#projects">
-            <button className="px-6 py-3 bg-gray-200 text-black border-2 border-black transition transform active:translate-y-1 hover:scale-105">
-              ▶ START <br /> VIEW PROJECTS
-            </button>
+        <div className="mt-8 flex flex-col items-stretch gap-4 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-5">
+          <a
+            href="#projects"
+            className={`${ctaClass} bg-gray-200 text-black hover:scale-[1.02]`}
+          >
+            View projects
           </a>
-          <a href="#contact">
-            <button className="px-6 py-3 bg-red-500 text-white border-2 border-black transition transform active:translate-y-1 hover:scale-105">
-              ● SELECT <br /> CONTACT ME
-            </button>
+          <a
+            href="/resume.pdf"
+            className={`${ctaClass} bg-amber-400 text-black hover:scale-[1.02]`}
+          >
+            Resume (PDF)
+          </a>
+          <a
+            href="#contact"
+            className={`${ctaClass} bg-red-500 text-white hover:scale-[1.02]`}
+          >
+            Contact
           </a>
         </div>
 
-        {/* Floating Block Row */}
         <div className="absolute bottom-[20vh] flex gap-[1vw]">
           <Block type="empty" />
           <Block type="question" />
@@ -79,24 +70,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* === PROJECTS SECTION === */}
-      <div id="projects">
+      <div id="projects" className="scroll-mt-24">
         <Projects />
       </div>
 
-      {/* === ABOUT SECTION (NEW) === */}
       <About />
 
-    
-
-      {/* === CONTACT SECTION === */}
-      <div id="contact">
+      <div id="contact" className="scroll-mt-24">
         <Contact />
       </div>
 
-      {/* Staircase and End Scene */}
-      <Staircase />
-      <EndScene />
+      <div className="relative min-h-[300px] w-full overflow-hidden">
+        <Staircase />
+        <EndScene />
+      </div>
     </>
   );
 }

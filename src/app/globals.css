@@ -2,10 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Retro Mario-style font */
-body {
-  font-family: 'Press Start 2P', system-ui, sans-serif;
-}
+/* Body uses Inter via Tailwind font-sans (--font-inter); display font is font-display */
 
 /* Smooth text rendering */
 html, body {
@@ -15,8 +12,8 @@ html, body {
   padding: 0;
 }
 
-/* Better link styling */
-a {
+/* Link styling — skip link and nav CTAs override with no-underline */
+a:not([class*="no-underline"]) {
   @apply underline decoration-transparent hover:decoration-current transition;
 }
 
@@ -52,6 +49,18 @@ section {
     ripple 2s infinite ease-in-out 3s;
   transform-origin: left center;
 }
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise-then-ripple {
+    animation: none;
+    bottom: 80px;
+  }
+  .ground {
+    animation: none;
+  }
+  .bg-hills {
+    animation: none;
+  }
+}
 
 @keyframes ripple {
   0%   { transform: skewX(0deg) scaleX(1); }
@@ -66,6 +75,11 @@ section {
 /* Smooth scrolling for anchor links */
 html {
   scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 /* Coin pop animation */
@@ -117,6 +131,20 @@ html {
 }
 .block-bounce:active {
   animation: bounce 0.2s ease-in-out;
+}
+
+/* About section cloud drift */
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-slow {
+    animation: none;
+  }
 }
 
 /* === Mario Hills Background === */

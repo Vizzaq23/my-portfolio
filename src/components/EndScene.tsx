@@ -10,11 +10,9 @@ export default function EndScene() {
     <>
       {/* Hills BEHIND everything except sky/ground */}
       <div
-  className="absolute inset-x-0 bg-hills z-15"
-  style={{ height: HILLS_H, bottom: GROUND_H + 22 }}
-/>
-
-  
+        className="absolute inset-x-0 bg-hills z-[15]"
+        style={{ height: HILLS_H, bottom: GROUND_H + 22 }}
+      />
 
       {/* Foreground: Flag + Castle IN FRONT of hills */}
       <div

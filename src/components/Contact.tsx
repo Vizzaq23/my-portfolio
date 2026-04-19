@@ -30,42 +30,42 @@ export default function Contact() {
       </div>
 
       {/* Enemy */}
-      <div className="absolute bottom-8 right-20 animate-bounce">
+      <div className="absolute bottom-8 right-20 animate-bounce motion-reduce:animate-none">
         <Image src="/enemy.png" alt="enemy" width={40} height={40} />
       </div>
 
       {/* Contact Box */}
       <div className="relative z-10 flex flex-col items-center justify-center text-center text-white py-20">
-        <h2 className="text-3xl font-bold text-yellow-400 pixelated drop-shadow-[2px_2px_0px_#000] mb-4">
-          Contact Me
+        <h2 className="mb-4 font-display text-2xl font-bold text-brand-accent drop-shadow-[2px_2px_0px_#000] sm:text-3xl">
+          Contact
         </h2>
-        <p className="mb-6 text-sm max-w-lg">
-          Let’s connect and build something amazing together!
+        <p className="mb-6 max-w-lg font-sans text-sm leading-relaxed text-gray-200 sm:text-base">
+          Open to internships and collaborative projects. Prefer email or LinkedIn — include your role
+          and timeline for a faster reply.
         </p>
 
-        {/* Buttons */}
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col gap-4 md:flex-row">
           <a
-            href="qmviz23@gmail.com"
-            className="inline-block px-6 py-3 bg-red-500 text-white border-4 border-black shadow-[4px_4px_0px_#000] hover:scale-110 transition"
+            href="mailto:qmviz23@gmail.com"
+            className="no-underline inline-block border-4 border-black bg-red-500 px-6 py-3 font-display text-sm text-white shadow-[4px_4px_0px_#000] transition hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-yellow-400"
           >
-            Email Me →
+            Email
           </a>
 
           <a
             href="https://www.linkedin.com/in/quintin-vizza/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-6 py-3 bg-blue-600 text-white border-4 border-black shadow-[4px_4px_0px_#000] hover:scale-110 transition"
+            className="no-underline inline-block border-4 border-black bg-blue-600 px-6 py-3 font-display text-sm text-white shadow-[4px_4px_0px_#000] transition hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-yellow-400"
           >
-            LinkedIn →
+            LinkedIn
           </a>
 
           <a
             href="tel:+16317474494"
-            className="inline-block px-6 py-3 bg-green-500 text-white border-4 border-black shadow-[4px_4px_0px_#000] hover:scale-110 transition"
+            className="no-underline inline-block border-4 border-black bg-green-600 px-6 py-3 font-display text-sm text-white shadow-[4px_4px_0px_#000] transition hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-yellow-400"
           >
-            Call Me →
+            Phone
           </a>
         </div>
       </div>

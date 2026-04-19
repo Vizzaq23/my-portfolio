@@ -6,18 +6,16 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative min-h-[500px] flex flex-col items-center justify-center text-center overflow-hidden font-['Press_Start_2P'] text-xs sm:text-sm leading-relaxed"
+      className="relative flex min-h-[500px] scroll-mt-24 flex-col items-center justify-center overflow-hidden text-center"
     >
-      {/* Background Sky */}
       <div className="absolute inset-0 bg-gradient-to-b from-sky-300 to-sky-500" />
 
-      {/* Floating Clouds */}
-      <div className="absolute top-8 left-0 w-full flex justify-center opacity-80">
+      <div className="absolute left-0 top-8 flex w-full justify-center opacity-80">
         {Array.from({ length: 10 }).map((_, i) => (
           <Image
             key={i}
             src="/cloud-mario.svg"
-            alt="cloud"
+            alt=""
             width={64}
             height={32}
             className="mx-4 animate-float-slow"
@@ -25,39 +23,40 @@ export default function About() {
         ))}
       </div>
 
-    
-
-      {/* Ground Layer */}
       <div className="absolute bottom-0 left-0 flex w-full">
         {Array.from({ length: 50 }).map((_, i) => (
           <Image
             key={i}
             src="/groundtile.png"
-            alt="ground"
+            alt=""
             width={48}
             height={32}
-            className="w-10 h-10"
+            className="h-10 w-10"
           />
         ))}
       </div>
 
-      {/* Text Box */}
-      <div className="relative z-10 bg-[#b3d9ff]/90 border-4 border-yellow-400 rounded-2xl shadow-[6px_6px_0_#000] max-w-3xl mx-auto p-8">
-        <h2 className="text-2xl sm:text-3xl text-red-600 mb-6 flex items-center justify-center gap-2 drop-shadow-[2px_2px_0_#fff]">
-          <span>About Me</span>
-          <span role="img" aria-label="mushroom">
-            🍄
-          </span>
+      <div className="relative z-10 mx-auto max-w-3xl rounded-2xl border-4 border-yellow-400 bg-[#b3d9ff]/90 p-6 shadow-[6px_6px_0_#000] sm:p-8">
+        <h2 className="mb-4 font-display text-xl text-red-600 drop-shadow-[2px_2px_0_#fff] sm:mb-6 sm:text-2xl md:text-3xl">
+          About
         </h2>
-        <p className="text-black mb-6">
-          Hey there! I’m <span className="text-red-500">Quintin</span> — a computer engineer who
-          loves building fun, creative projects that mix code, hardware, and a bit of nostalgia.
-          From AI dashboards to pixel-style games, I’m always working on something new (and usually
-          debugging it, too).
+        <p className="mb-4 font-sans text-base leading-relaxed text-ink sm:mb-6 sm:text-lg">
+          I&apos;m a computer engineering student focused on{" "}
+          <strong className="font-semibold">full-stack web</strong>,{" "}
+          <strong className="font-semibold">ML tooling</strong>, and{" "}
+          <strong className="font-semibold">systems-level thinking</strong>. Recent work spans
+          Next.js dashboards, Python services, and data-heavy features in production settings.
         </p>
-        <p className="text-black">
-          If you’ve got an idea, question, or just want to chat about games and tech — hit the block
-          below and let’s connect!
+        <p className="font-sans text-base leading-relaxed text-ink sm:text-lg">
+          I also ship creative hardware and game-adjacent projects — same discipline: prototype
+          fast, measure outcomes, document tradeoffs.{" "}
+          <a
+            href="/resume.pdf"
+            className="font-semibold text-red-600 underline-offset-4 hover:underline focus-visible:rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+          >
+            Download my resume (PDF)
+          </a>{" "}
+          or use the contact section below.
         </p>
       </div>
     </section>

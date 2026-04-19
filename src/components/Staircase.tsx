@@ -7,7 +7,7 @@ export default function Staircase() {
 
   return (
     <div
-      className="absolute bottom-[64px] right-[300px] flex items-end z-50 scale-[0.30] origin-bottom-right"
+      className="absolute bottom-[64px] right-[4vw] z-50 hidden origin-bottom-right scale-[0.28] items-end sm:right-[12vw] md:flex lg:right-[18vw] xl:right-[300px]"
     >
       {Array.from({ length: steps }).map((_, colIndex) => (
         <div key={colIndex} className="flex flex-col">
