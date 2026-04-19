@@ -18,14 +18,15 @@ export const projects: Project[] = [
     title: "Sentari AI — SDE Internship",
     year: "2025",
     summary:
-      "Owned features across a transcript → empathy pipeline: embeddings, structured extraction, GPT-assisted replies, and longitudinal user profiles.",
+      "Worked on an AI pipeline that transforms raw diary entries into structured insights and empathetic responses.",
     detail:
-      "Delivered admin dashboards for growth metrics (referrals, retention, usage) with Next.js, Supabase, and MongoDB — production schema design, auth-aware queries, and iterative UX with stakeholders.",
-    tags: ["Next.js", "TypeScript", "Supabase", "MongoDB", "LLM APIs", "Dashboards"],
+      "Built and iterated on a TypeScript pipeline that processes diary transcripts into embeddings, detects user goals and intents, and generates short AI responses alongside an evolving user profile. Implemented multi-step data transformations, logging, and simulation runs to validate system behavior over time. Also developed internal dashboards using Next.js, Supabase, and MongoDB to track referral usage and user activity, focusing on clean data models, secure queries, and practical UI improvements.",
+    tags: ["Next.js", "TypeScript", "Supabase", "MongoDB", "LLM APIs", "Pipelines"],
     image: "/projects/sentari.jpeg",
     link: "https://journal.withsentari.com/signin",
     linkLabel: "Product (login)",
   },
+
   {
     id: "game-balancer",
     title: "AI Game Balancer",
@@ -39,6 +40,7 @@ export const projects: Project[] = [
     link: "https://github.com/Vizzaq23/ai-game-balancer-",
     linkLabel: "GitHub",
   },
+
   {
     id: "adaptive-shooter",
     title: "Adaptive Combat Trainer",
@@ -52,15 +54,16 @@ export const projects: Project[] = [
     link: "https://github.com/Vizzaq23/AdpativeShooter",
     linkLabel: "GitHub",
   },
+  // TODO: Add a video of the pinball game
   {
     id: "pinball",
     title: "Pinball",
     year: "2026",
     summary:
-      "Pinball table with custom layout, score rules, and physics-driven ball motion — focused on readable feedback, flipper timing, and juice (camera, SFX hooks).",
+      "Custom pinball game with real-time scoring, hardware integration, and responsive flipper/bumper interactions.",
     detail:
-      "Built as a self-contained game slice: bumpers, ramps, and multipliers wired into a clear scoring loop; structured so tables and tuning data are easy to iterate without rewriting core physics.",
-    tags: ["Physics", "Game feel", "Score systems", "Level design"],
+      "Built a pinball system in Python using Pygame and Raspberry Pi GPIO. Implemented game state management (attract, gameplay, test modes), scoring logic, and event-driven interactions for bumpers, targets, and ball drain. Integrated physical components (switches, solenoids) with safe timing controls, and structured the code to allow easy tuning of gameplay and rules without modifying core logic.",
+    tags: ["Python", "Pygame", "GPIO", "Game logic"],
     image: "/projects/pinball.svg",
     link: "https://github.com/Vizzaq23/pinball-scoreboard",
     linkLabel: "GitHub",
