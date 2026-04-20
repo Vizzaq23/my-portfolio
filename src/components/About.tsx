@@ -48,7 +48,7 @@ export default function About() {
         {Array.from({ length: 50 }).map((_, i) => (
           <Image
             key={i}
-            src="/groundtile.png"
+            src="/groundTile.png"
             alt=""
             width={48}
             height={32}
