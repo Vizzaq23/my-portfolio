@@ -1,9 +1,11 @@
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Quintin Vizza",
-  jobTitle: "Computer Engineering Student",
-  url: "https://github.com/Vizzaq23",
+  jobTitle: "Software Engineer",
+  ...(siteUrl ? { url: siteUrl } : {}),
   sameAs: [
     "https://www.linkedin.com/in/quintin-vizza/",
     "https://github.com/Vizzaq23",

@@ -4,20 +4,12 @@ import Image from "next/image";
 export default function NotFound() {
   return (
     <div className="relative flex min-h-[75vh] flex-col items-center justify-center overflow-hidden bg-black px-4 py-20 text-center">
-      <div className="absolute top-0 left-0 flex w-full justify-center">
-        {Array.from({ length: 24 }).map((_, i) => (
-          <Image
-            key={i}
-            src="/brickunder.png"
-            alt=""
-            width={28}
-            height={28}
-            className="pixelated h-7 w-7"
-          />
-        ))}
-      </div>
+      <div
+        className="absolute inset-x-0 top-0 h-7 bg-[url('/brickunder.png')] bg-repeat-x [background-size:28px_28px]"
+        aria-hidden
+      />
 
-      <div className="relative z-10 mt-12 max-w-md rounded-sm border-4 border-black bg-gray-900 px-6 py-8 shadow-[6px_6px_0_#000]">
+      <div className="relative z-10 mt-12 max-w-md border-4 border-black bg-gray-900 px-6 py-8 shadow-[6px_6px_0_#000]">
         <p className="mb-2 font-display text-[0.65rem] uppercase tracking-[0.2em] text-gray-400 sm:text-xs">
           Game over
         </p>
@@ -33,18 +25,10 @@ export default function NotFound() {
         </Link>
       </div>
 
-      <div className="pointer-events-none absolute bottom-0 left-0 flex w-full">
-        {Array.from({ length: 40 }).map((_, i) => (
-          <Image
-            key={i}
-            src="/undergroundtile.png"
-            alt=""
-            width={32}
-            height={32}
-            className="pixelated h-8 w-8"
-          />
-        ))}
-      </div>
+      <div
+        className="pointer-events-none absolute bottom-0 left-0 h-8 w-full bg-[url('/undergroundtile.png')] bg-repeat-x [background-size:32px_32px]"
+        aria-hidden
+      />
 
       <div
         className="pointer-events-none absolute bottom-24 left-8 opacity-40 sm:bottom-32 sm:left-16"

@@ -1,57 +1,59 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import localFont from "next/font/local";
 import "./globals.css";
-import { Inter, Press_Start_2P } from "next/font/google";
 import JsonLd from "@/components/JsonLd";
 
-const inter = Inter({
-  subsets: ["latin"],
+const inter = localFont({
+  src: [
+    { path: "../fonts/Inter-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/Inter-SemiBold.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/Inter-Bold.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-inter",
   display: "swap",
 });
 
-const pixelFont = Press_Start_2P({
-  weight: "400",
-  subsets: ["latin"],
+const pixelFont = localFont({
+  src: [{ path: "../fonts/PressStart2P-Regular.ttf", weight: "400", style: "normal" }],
   variable: "--font-pixel",
   display: "swap",
 });
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://my-portfolio.vercel.app";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  ...(siteUrl ? { metadataBase: new URL(siteUrl) } : {}),
   title: {
-    default: "Quintin Vizza — Portfolio",
+    default: "Quintin Vizza — Software Engineer",
     template: "%s · Quintin Vizza",
   },
   description:
-    "Computer engineering student: full-stack web (Next.js, TypeScript), ML tooling, Python, and shipped product features. Projects, resume, and contact.",
+    "Portfolio of Quintin Vizza, a software engineer and Computer Engineering graduate building full-stack products, data-driven tools, game systems, and hardware-integrated software.",
   keywords: [
     "Quintin Vizza",
     "portfolio",
+    "software engineer",
     "computer engineering",
     "Next.js",
     "TypeScript",
-    "software engineer",
-    "intern",
+    "full-stack",
   ],
   authors: [{ name: "Quintin Vizza" }],
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "/",
+    url: siteUrl ?? "/",
     siteName: "Quintin Vizza",
-    title: "Quintin Vizza — Portfolio",
+    title: "Quintin Vizza — Software Engineer",
     description:
-      "Full-stack web, ML-adjacent tooling, and systems projects. Resume and contact.",
+      "Portfolio of Quintin Vizza, a software engineer and Computer Engineering graduate building full-stack products, data-driven tools, game systems, and hardware-integrated software.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Quintin Vizza — Portfolio",
+    title: "Quintin Vizza — Software Engineer",
     description:
-      "Computer engineering student — Next.js, TypeScript, Python, shipped features.",
+      "Software engineer and Computer Engineering graduate — full-stack products, data tools, game systems, and hardware-integrated software.",
   },
   robots: {
     index: true,
@@ -82,7 +84,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
 
-        <footer className="bg-ink py-4 text-center text-sm font-sans text-white mt-10">
+        <footer className="bg-ink py-4 text-center text-sm font-sans text-white">
           © {new Date().getFullYear()} Quintin Vizza
         </footer>
         <Analytics />

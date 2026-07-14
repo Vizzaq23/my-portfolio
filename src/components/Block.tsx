@@ -88,7 +88,9 @@ export default function Block({ type = "empty", size, skills }: BlockProps) {
         onClick={() => {
           if (type === "question") spawnNextSkill();
         }}
-        className="m-0 cursor-pointer border-none bg-transparent p-0 active:translate-y-[2px]"
+        className={`m-0 cursor-pointer border-none bg-transparent p-0 active:translate-y-[2px] ${
+          type === "question" && !used ? "question-idle motion-reduce:animate-none" : ""
+        }`}
       >
         <Image src={sprite} alt="" width={blockSize} height={blockSize} />
       </button>
