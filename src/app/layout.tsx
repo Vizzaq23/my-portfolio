@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { Inter, Press_Start_2P } from "next/font/google";
 import JsonLd from "@/components/JsonLd";
@@ -84,6 +85,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="bg-ink py-4 text-center text-sm font-sans text-white mt-10">
           © {new Date().getFullYear()} Quintin Vizza
         </footer>
+        <Analytics />
       </body>
     </html>
   );
