@@ -28,9 +28,11 @@ export const projects: Project[] = [
     detail:
       "Built with Next.js, React, Supabase, PostgreSQL, Tailwind CSS, and Framer Motion. Features include authentication, searchable card catalogs, collection tracking, graded-slab support, cached market pricing, public profiles, a three-card showcase, trade offers, alerts, collector comparisons, activity feeds, and a documented API.",
     tags: ["Next.js", "TypeScript", "Supabase", "PostgreSQL", "Tailwind", "APIs"],
-    image: "/projects/tcg-shelf-placeholder.svg",
-    imageAlt: "Pixel-style placeholder for the One Piece TCG Shelf collector platform",
-    status: "In development",
+    image: "/projects/tcg-shelf.png",
+    imageAlt:
+      "One Piece TCG Shelf Collector’s Showcase with three graded BGS cards on a wooden shelf",
+    link: "https://tcg-lyart.vercel.app/",
+    linkLabel: "Live demo",
     badge: "NEW",
   },
   {
