@@ -22,6 +22,11 @@ const kindMeta: Record<
     className: "bg-green-500 text-white",
     icon: "/flag.png",
   },
+  leadership: {
+    label: "Squad Clear",
+    className: "bg-sky-500 text-white",
+    icon: "/coin.png",
+  },
 };
 
 export default function Experience() {

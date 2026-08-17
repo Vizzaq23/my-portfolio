@@ -1,4 +1,4 @@
-export type ExperienceKind = "work" | "certification" | "education";
+export type ExperienceKind = "work" | "certification" | "education" | "leadership";
 
 export type ExperienceItem = {
   id: string;
@@ -26,14 +26,13 @@ export const experience: ExperienceItem[] = [
     date: "June 2025 – August 2025",
     location: "Remote",
     summary:
-      "Shipped production dashboard features, analytics tools, and data workflows on a cross-functional product team.",
+      "Shipped production full-stack features, analytics tools, and data workflows on a cross-functional product team.",
     bullets: [
-      "Developed frontend features with Next.js, React, TypeScript, and Tailwind CSS.",
-      "Built analytics and admin tools for activity, referrals, and retention.",
-      "Worked with Supabase, APIs, and data-processing pipelines supporting systems with more than 500 active users.",
-      "Collaborated through GitHub workflows, code reviews, and technical documentation.",
+      "Developed production full-stack features using Next.js, React, TypeScript, Flask, and Supabase for an analytics platform serving 500+ active users.",
+      "Designed an admin analytics dashboard tracking referrals, retention, engagement, and user growth using Supabase RPCs and SQL.",
+      "Built REST APIs and backend data pipelines while collaborating through pull requests, code reviews, and documentation on a 10+ member cross-functional team.",
     ],
-    tags: ["Next.js", "TypeScript", "React", "Tailwind", "Supabase", "APIs"],
+    tags: ["Next.js", "TypeScript", "React", "Flask", "Supabase", "SQL", "APIs"],
     link: "https://withsentari.com/",
     linkLabel: "Company site",
   },
@@ -57,6 +56,20 @@ export const experience: ExperienceItem[] = [
     date: "May 2026",
     location: "Fairfield, CT",
     summary:
-      "Bachelor of Science in Computer Engineering with a minor in Mathematics. GPA 3.82.",
+      "Bachelor of Science in Computer Engineering with a minor in Mathematics. Magna Cum Laude — 3.76.",
+  },
+  {
+    id: "sigma-chi",
+    kind: "leadership",
+    title: "Founding Father & New Member Educator",
+    org: "Sigma Chi",
+    date: "Fall 2023 – Spring 2026",
+    location: "Sacred Heart University",
+    summary:
+      "Founding chapter member and New Member Educator supporting recruitment, development, and chapter growth.",
+    bullets: [
+      "Helped establish and grow the chapter as a founding member while supporting recruitment, member development, and chapter initiatives.",
+      "Served as New Member Educator, guiding new members through onboarding, expectations, and integration into the fraternity.",
+    ],
   },
 ];
