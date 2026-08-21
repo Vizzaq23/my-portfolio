@@ -3,6 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import localFont from "next/font/local";
 import "./globals.css";
 import JsonLd from "@/components/JsonLd";
+import { getSiteUrl } from "@/lib/site-url";
 
 const inter = localFont({
   src: [
@@ -20,7 +21,7 @@ const pixelFont = localFont({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   ...(siteUrl ? { metadataBase: new URL(siteUrl) } : {}),
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: siteUrl ?? "/",
+    ...(siteUrl ? { url: siteUrl } : {}),
     siteName: "Quintin Vizza",
     title: "Quintin Vizza — Software Engineer",
     description:

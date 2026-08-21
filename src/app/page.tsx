@@ -1,5 +1,3 @@
-"use client";
-
 import HeroClouds from "@/components/HeroClouds";
 import Ground from "@/components/Ground";
 import Projects from "@/components/Projects";

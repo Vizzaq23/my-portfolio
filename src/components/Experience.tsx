@@ -92,7 +92,7 @@ export default function Experience() {
         aria-hidden
       />
 
-      {/* Background airship — flies right to left */}
+      {/* Background airship - flies left to right */}
       <div
         className="pointer-events-none absolute top-16 z-[2] hidden w-full sm:block md:top-20"
         aria-hidden
@@ -106,7 +106,7 @@ export default function Experience() {
         />
       </div>
 
-      {/* Smaller distant airship — also RTL, slower */}
+      {/* Smaller distant airship - also left to right, slower */}
       <div
         className="pointer-events-none absolute top-36 z-[1] hidden w-full lg:block"
         aria-hidden
@@ -121,7 +121,7 @@ export default function Experience() {
         />
       </div>
 
-      {/* Bullet Bill fly-by (right to left) */}
+      {/* Bullet Bill fly-by (left to right) */}
       <div
         className="pointer-events-none absolute top-[30%] z-[5] hidden w-full sm:block"
         aria-hidden

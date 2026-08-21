@@ -1,5 +1,6 @@
 import Image from "next/image";
 import WorldLabel from "@/components/WorldLabel";
+import GitHubHeatmap from "@/components/GitHubHeatmap";
 
 export default function About() {
   return (
@@ -91,6 +92,8 @@ export default function About() {
             </div>
           </div>
         </div>
+
+        <GitHubHeatmap />
       </div>
     </section>
   );
