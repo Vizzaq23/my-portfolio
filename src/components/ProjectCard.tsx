@@ -46,7 +46,7 @@ export default function ProjectCard({
           <h3 className="font-display text-sm font-bold leading-tight text-black sm:text-base">
             {project.title}
           </h3>
-          <span className="shrink-0 font-display text-[9px] text-gray-800">
+          <span className="shrink-0 font-sans text-xs font-semibold tabular-nums text-gray-800">
             {project.year}
           </span>
         </div>
@@ -55,18 +55,18 @@ export default function ProjectCard({
           {project.tags.map((tag) => (
             <li
               key={tag}
-              className="border border-black/20 bg-black/10 px-1.5 py-0.5 font-sans text-[9px] font-medium text-black sm:text-[10px]"
+              className="border border-black/20 bg-black/10 px-1.5 py-0.5 font-sans text-[10px] font-semibold text-black sm:text-[11px]"
             >
               {tag}
             </li>
           ))}
         </ul>
 
-        <p className="mt-2 font-sans text-xs leading-snug text-black">
+        <p className="mt-2 font-sans text-xs font-medium leading-normal text-black">
           {project.summary}
         </p>
         {project.detail ? (
-          <p className="mt-2 line-clamp-4 font-sans text-[11px] leading-snug text-ink-muted">
+          <p className="mt-2 line-clamp-4 font-sans text-[11px] leading-normal text-ink-muted">
             {project.detail}
           </p>
         ) : null}

@@ -203,11 +203,11 @@ export default function Experience() {
                         />
                         {meta.label}
                       </span>
-                      <span className="border-2 border-black bg-white px-1.5 py-0.5 font-display text-[9px] text-ink">
+                      <span className="border-2 border-black bg-white px-1.5 py-0.5 font-sans text-xs font-semibold tabular-nums text-ink">
                         {item.date}
                       </span>
                       {item.location ? (
-                        <span className="font-sans text-xs text-ink/60">
+                        <span className="font-sans text-xs font-medium text-ink/60">
                           {item.location}
                         </span>
                       ) : null}
@@ -221,7 +221,7 @@ export default function Experience() {
                       }`}
                     >
                       <div className="min-w-0 flex-1 text-left">
-                        <h3 className="font-display text-sm leading-snug text-ink sm:text-base">
+                        <h3 className="font-sans text-base font-bold leading-snug tracking-tight text-ink">
                           {item.title}
                         </h3>
                         <p className="mt-1 font-sans text-sm font-semibold text-sky-900">
@@ -259,7 +259,7 @@ export default function Experience() {
                             {item.tags.map((tag) => (
                               <li
                                 key={tag}
-                                className="border-2 border-black bg-yellow-300 px-1.5 py-0.5 font-sans text-[10px] font-medium text-black shadow-[2px_2px_0_#000]"
+                                className="border-2 border-black bg-yellow-300 px-1.5 py-0.5 font-sans text-[11px] font-semibold text-black shadow-[2px_2px_0_#000]"
                               >
                                 {tag}
                               </li>
