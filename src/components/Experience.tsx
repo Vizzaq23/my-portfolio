@@ -54,7 +54,7 @@ export default function Experience() {
               src="/cloud-mario.svg"
               alt=""
               width={70 + (i % 2) * 20}
-              height={36}
+              height={Math.round((70 + (i % 2) * 20) * 0.625)}
               className={`animate-float-slow motion-reduce:animate-none ${
                 i % 2 === 0 ? "opacity-90" : "opacity-60 translate-y-4"
               }`}
@@ -70,7 +70,7 @@ export default function Experience() {
               src="/cloud-mario.svg"
               alt=""
               width={90}
-              height={40}
+              height={56}
               className="animate-float-slow motion-reduce:animate-none"
               style={{ animationDelay: `${i * 0.4}s` }}
             />

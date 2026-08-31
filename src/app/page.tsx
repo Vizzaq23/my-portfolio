@@ -45,7 +45,7 @@ export default function Home() {
           aria-hidden
         />
 
-        <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center">
+        <div className="relative z-[46] mx-auto flex max-w-3xl flex-col items-center sm:z-10">
           <p className="hero-enter hero-enter-delay-1 mb-2 font-display text-[9px] uppercase tracking-widest text-sky-100 drop-shadow-[2px_2px_0_#000] sm:text-[10px]">
             World 1 — Overworld
           </p>
@@ -74,7 +74,11 @@ export default function Home() {
             <a href="#projects" className={`${ctaClass} bg-gray-200 text-black`}>
               View Projects
             </a>
-            <a href="/resume.pdf" className={`${ctaClass} bg-amber-400 text-black`}>
+            <a
+              href="/resume.pdf"
+              download="Quintin-Vizza-Resume.pdf"
+              className={`${ctaClass} bg-amber-400 text-black`}
+            >
               Résumé
             </a>
             <a href="#contact" className={`${ctaClass} bg-red-500 text-white`}>
@@ -82,14 +86,14 @@ export default function Home() {
             </a>
           </div>
 
-          <p className="hero-enter hero-enter-delay-4 mt-5 hidden font-sans text-xs text-white/80 sm:block">
+          <p className="hero-enter hero-enter-delay-4 mt-3 hidden font-sans text-xs text-white/80 sm:block">
             Tip: tap the{" "}
             <span className="font-semibold text-brand-accent">?</span> blocks to
             reveal skills
           </p>
         </div>
 
-        <div className="absolute bottom-[16vh] z-[15] flex gap-[2vw] sm:bottom-[18vh] sm:gap-[1vw] md:bottom-[20vh]">
+        <div className="absolute bottom-[8vh] z-[47] flex gap-[2vw] sm:bottom-[9vh] sm:z-[15] sm:gap-[1vw] md:bottom-[8vh]">
           <div className="hidden sm:block">
             <Block type="empty" />
           </div>

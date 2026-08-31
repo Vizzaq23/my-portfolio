@@ -34,7 +34,7 @@ export default function NotFound() {
         className="pointer-events-none absolute bottom-24 left-8 opacity-40 sm:bottom-32 sm:left-16"
         aria-hidden
       >
-        <Image src="/pipe.png" alt="" width={72} height={72} className="object-contain" />
+        <Image src="/pipe.png" alt="" width={72} height={59} className="object-contain" />
       </div>
     </div>
   );

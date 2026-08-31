@@ -26,7 +26,7 @@ export default function WarpPipeLink({ href, label, className = "" }: Props) {
           src="/pipe.png"
           alt=""
           width={100}
-          height={100}
+          height={81}
           className="pointer-events-none drop-shadow-[4px_4px_0_#000]"
         />
         <span className="pointer-events-none absolute -top-8 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap rounded border-2 border-black bg-brand-accent px-2 py-0.5 font-display text-[10px] font-bold text-black opacity-0 shadow-[2px_2px_0_#000] transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 sm:-top-9 sm:text-xs">

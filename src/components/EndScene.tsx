@@ -22,21 +22,23 @@ export default function EndScene() {
     <>
       {/* Flag + castle (hills are a separate layer under the hero) */}
       <div
-        className="absolute right-8 flex items-end gap-10 z-30"
+        className="absolute right-8 z-30 flex items-end gap-10"
         style={{ bottom: GROUND_H }}
+        aria-hidden
       >
         {/* Flagpole + Flag */}
         <div className="relative w-[40px] h-[140px]">
           <Image
             src="/flagpole.png"
-            alt="Flagpole"
+            alt=""
             fill
+            sizes="40px"
             className="object-contain pixelated"
           />
           <Image
             src="/flag.png"
-            alt="Flag"
-            width={40}
+            alt=""
+            width={41}
             height={40}
             className="absolute animate-rise-then-ripple pixelated"
             style={{ left: "10px" }}
@@ -47,8 +49,8 @@ export default function EndScene() {
         <div className="relative">
           <Image
             src="/castle.png"
-            alt="Castle"
-            width={180}
+            alt=""
+            width={177}
             height={180}
             className="object-contain pixelated"
             style={{ bottom: "20px", position: "relative" }}

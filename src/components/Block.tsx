@@ -81,19 +81,23 @@ export default function Block({ type = "empty", size, skills }: BlockProps) {
 
   return (
     <div className="relative flex items-center justify-center overflow-visible">
-      <button
-        ref={btnRef}
-        type="button"
-        aria-label={type === "question" ? "Question block — one skill per tap" : "Block"}
-        onClick={() => {
-          if (type === "question") spawnNextSkill();
-        }}
-        className={`m-0 cursor-pointer border-none bg-transparent p-0 active:translate-y-[2px] ${
-          type === "question" && !used ? "question-idle motion-reduce:animate-none" : ""
-        }`}
-      >
-        <Image src={sprite} alt="" width={blockSize} height={blockSize} />
-      </button>
+      {type === "empty" ? (
+        <span className="block leading-none" aria-hidden>
+          <Image src={sprite} alt="" width={blockSize} height={blockSize} />
+        </span>
+      ) : (
+        <button
+          ref={btnRef}
+          type="button"
+          aria-label="Question block — one skill per tap"
+          onClick={spawnNextSkill}
+          className={`m-0 cursor-pointer border-none bg-transparent p-0 active:translate-y-[2px] ${
+            !used ? "question-idle motion-reduce:animate-none" : ""
+          }`}
+        >
+          <Image src={sprite} alt="" width={blockSize} height={blockSize} />
+        </button>
+      )}
 
       {mounted &&
         burst &&

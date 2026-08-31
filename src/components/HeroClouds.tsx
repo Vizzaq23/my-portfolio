@@ -96,7 +96,7 @@ export default function HeroClouds() {
         el.style.top = c.top;
         el.style.left = `${c.left}%`;
         el.style.width = `${c.size}px`;
-        el.style.height = `${c.size * 0.6}px`;
+        el.style.height = `${c.size * 0.625}px`;
         el.style.opacity = String(c.opacity);
       });
 
@@ -126,7 +126,7 @@ export default function HeroClouds() {
               top: c.top,
               left: `${c.left}%`,
               width: `${c.size}px`,
-              height: `${c.size * 0.6}px`,
+              height: `${c.size * 0.625}px`,
               opacity: c.opacity,
               transition: reduceMotion ? "none" : "opacity 0.3s ease-in-out",
             }}
@@ -134,8 +134,8 @@ export default function HeroClouds() {
             <Image
               src="/cloud-mario.svg"
               alt=""
-              width={100}
-              height={60}
+              width={64}
+              height={40}
               className="h-full w-full object-contain"
             />
           </div>

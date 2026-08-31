@@ -4,13 +4,16 @@ import Image from "next/image";
 
 export default function Platforms() {
   return (
-    <div className="absolute bottom-[12vh] left-1/2 -translate-x-1/2 flex gap-4 z-40">
+    <div
+      className="absolute bottom-[12vh] left-1/2 z-40 flex -translate-x-1/2 gap-4"
+      aria-hidden
+    >
       {/* Left platform */}
       <Image
         src="/platforms.png"
-        alt="Platform"
+        alt=""
         width={40}
-        height={16}
+        height={11}
         className="object-contain pixelated"
       />
 
@@ -18,9 +21,9 @@ export default function Platforms() {
       <div className="relative -top-6">
         <Image
           src="/platforms.png"
-          alt="Platform"
+          alt=""
           width={40}
-          height={16}
+          height={11}
           className="object-contain pixelated"
         />
       </div>
@@ -28,9 +31,9 @@ export default function Platforms() {
       {/* Right platform */}
       <Image
         src="/platforms.png"
-        alt="Platform"
+        alt=""
         width={40}
-        height={16}
+        height={11}
         className="object-contain pixelated"
       />
     </div>
