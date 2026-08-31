@@ -84,7 +84,7 @@ export default function About() {
             </p>
             <div className="flex flex-col gap-2 sm:items-start">
               <a
-                href="/resume.pdf"
+                href="/resume"
                 className="no-underline inline-flex min-h-11 w-full items-center justify-center border-4 border-black bg-red-500 px-5 py-2.5 font-display text-sm text-white shadow-[4px_4px_0px_#000] transition hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-600 sm:w-auto sm:min-w-[14rem]"
               >
                 Download my résumé (PDF)

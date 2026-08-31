@@ -98,7 +98,7 @@ export default function NavBar() {
             </a>
           </li>
           <li>
-            <a href="/resume.pdf" className={`${navLinkClass} bg-amber-400 text-black`}>
+            <a href="/resume" className={`${navLinkClass} bg-amber-400 text-black`}>
               <span>Résumé</span>
             </a>
           </li>

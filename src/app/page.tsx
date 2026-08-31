@@ -74,7 +74,7 @@ export default function Home() {
             <a href="#projects" className={`${ctaClass} bg-gray-200 text-black`}>
               View Projects
             </a>
-            <a href="/resume.pdf" className={`${ctaClass} bg-amber-400 text-black`}>
+            <a href="/resume" className={`${ctaClass} bg-amber-400 text-black`}>
               Résumé
             </a>
             <a href="#contact" className={`${ctaClass} bg-red-500 text-white`}>
