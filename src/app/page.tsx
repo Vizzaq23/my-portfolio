@@ -74,7 +74,13 @@ export default function Home() {
             <a href="#projects" className={`${ctaClass} bg-gray-200 text-black`}>
               View Projects
             </a>
-            <a href="/resume" className={`${ctaClass} bg-amber-400 text-black`}>
+            <a
+              href="/resume"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${ctaClass} bg-amber-400 text-black`}
+              aria-label="Open résumé in a new tab"
+            >
               Résumé
             </a>
             <a href="#contact" className={`${ctaClass} bg-red-500 text-white`}>
