@@ -26,49 +26,51 @@ export default function ProjectWorldMap({ currentIndex, onSelect }: Props) {
 
   return (
     <div className="project-map-canvas">
-      <Image src="/worlds/project-level-map.webp" alt="" fill sizes="(max-width: 1440px) 100vw, 1440px" className="project-level-art" />
       <div className="project-map-intro">
         <p className="map-world-label">World 02 / Project map</p>
         <h2 id="projects-heading">Choose your next level.</h2>
         <p>Six projects. Six paths into my work.</p>
       </div>
 
-      <nav className="project-levels" aria-label="Project levels">
-        {projects.map((project, index) => {
-          const level = projectLevels.find((item) => item.id === project.id)!;
-          return (
-            <button
-              key={project.id}
-              ref={(element) => { buttons.current[index] = element; }}
-              className="project-level"
-              type="button"
-              style={{ "--level-x": `${level.x}%`, "--level-y": `${level.y}%` } as CSSProperties}
-              aria-label={`Level ${index + 1}: ${project.title}`}
-              aria-pressed={index === currentIndex}
-              aria-controls={`project-panel-${project.id} project-map-preview`}
-              onClick={() => onSelect(index)}
-              onKeyDown={(event) => navigate(event, index)}
-            >
-              <span className="project-level-disc" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-              <span className="project-level-name" aria-hidden="true">{level.label}</span>
-            </button>
-          );
-        })}
-      </nav>
-      <ProjectMapRunner levelId={selected.id} />
+      <div className="project-map-artboard">
+        <Image src="/worlds/project-level-map.webp" alt="" fill sizes="100vw" className="project-level-art" />
+        <nav className="project-levels" aria-label="Project levels">
+          {projects.map((project, index) => {
+            const level = projectLevels.find((item) => item.id === project.id)!;
+            return (
+              <button
+                key={project.id}
+                ref={(element) => { buttons.current[index] = element; }}
+                className="project-level"
+                type="button"
+                style={{ "--level-x": `${level.x}%`, "--level-y": `${level.y}%` } as CSSProperties}
+                aria-label={`Level ${index + 1}: ${project.title}`}
+                aria-pressed={index === currentIndex}
+                aria-controls={`project-panel-${project.id} project-map-preview`}
+                onClick={() => onSelect(index)}
+                onKeyDown={(event) => navigate(event, index)}
+              >
+                <span className="project-level-disc" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                <span className="project-level-name" aria-hidden="true">{level.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+        <ProjectMapRunner levelId={selected.id} />
 
-      <div className="map-project-preview" id="project-map-preview">
-        <div className="map-preview-image">
-          <Image src={selected.image} alt="" fill sizes="360px" className="object-contain" />
+        <div className="map-project-preview" id="project-map-preview">
+          <div className="map-preview-image">
+            <Image src={selected.image} alt="" fill sizes="360px" className="object-contain" />
+          </div>
+          <div className="map-preview-copy">
+            <p className="map-preview-level">Level {String(currentIndex + 1).padStart(2, "0")} <span aria-hidden="true">/</span> {selected.year}</p>
+            <h3>{selected.title}</h3>
+            <p className="map-preview-category">{selected.category}</p>
+            <a className="map-details-link no-underline" href="#project-details">Explore this project <span aria-hidden="true">↓</span></a>
+          </div>
         </div>
-        <div className="map-preview-copy">
-          <p className="map-preview-level">Level {String(currentIndex + 1).padStart(2, "0")} <span aria-hidden="true">/</span> {selected.year}</p>
-          <h3>{selected.title}</h3>
-          <p className="map-preview-category">{selected.category}</p>
-          <a className="map-details-link no-underline" href="#project-details">Explore this project <span aria-hidden="true">↓</span></a>
-        </div>
+        <p className="project-map-hint">Select a numbered level to explore a project.</p>
       </div>
-      <p className="project-map-hint">Select a numbered level to explore a project.</p>
     </div>
   );
 }

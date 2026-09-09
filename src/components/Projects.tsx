@@ -4,6 +4,7 @@ import { useState } from "react";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectWorldMap from "@/components/ProjectWorldMap";
 import ProjectBackdrop from "@/components/ProjectBackdrop";
+import OnePieceEasterEgg from "@/components/OnePieceEasterEgg";
 import { projects } from "@/data/projects";
 
 export default function Projects() {
@@ -16,6 +17,7 @@ export default function Projects() {
       <ProjectWorldMap currentIndex={currentIndex} onSelect={setCurrentIndex} />
       <div className="project-detail-world">
         <ProjectBackdrop />
+        <OnePieceEasterEgg kind="zoro" placement="project-island" />
         <div className="project-browser project-detail-dock relative z-10 mx-auto" id="project-details" tabIndex={-1}>
           <div className="project-browser-toolbar">
             <p className="small-label text-amber-200">Inside the project</p>

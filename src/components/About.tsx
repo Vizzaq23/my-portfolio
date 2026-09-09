@@ -1,12 +1,14 @@
 import WorldLabel from "@/components/WorldLabel";
-import RetroSky from "@/components/RetroSky";
+import RetroAbout from "@/components/RetroAbout";
 import GitHubHeatmap from "@/components/GitHubHeatmap";
 import AboutFloor from "@/components/AboutFloor";
+import OnePieceEasterEgg from "@/components/OnePieceEasterEgg";
 
 export default function About() {
   return (
     <section id="about" aria-labelledby="about-heading" className="about-sky-world relative overflow-hidden px-4">
-      <RetroSky world="about" />
+      <RetroAbout />
+      <OnePieceEasterEgg kind="zoro" />
       <div className="about-profile-panel relative z-10 mx-auto">
         <div className="section-heading section-heading-dark">
           <WorldLabel world={3} subtitle="Player Profile" tone="light" />

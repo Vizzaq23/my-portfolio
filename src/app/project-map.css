@@ -1,6 +1,7 @@
-/* Fixed map geometry makes the scenery itself the project selector. */
+/* The map and every interactive layer share the same uncropped 3:2 artboard. */
 .project-world { padding: 0; overflow: hidden; border-top: 3px solid #d0ecff; background: #258de0; }
-.project-map-canvas { position: relative; width: 100%; max-width: 1440px; aspect-ratio: 3 / 2; margin-inline: auto; isolation: isolate; }
+.project-map-canvas { position: relative; width: 100%; isolation: isolate; }
+.project-map-artboard { position: relative; width: 100%; aspect-ratio: 3 / 2; }
 .project-level-art { z-index: -1; object-fit: contain; pointer-events: none; }
 .project-map-intro { position: absolute; top: 6.5%; left: 27%; width: 46%; text-align: center; color: #fff; text-shadow: 0 2px 0 #185eaa; }
 .map-world-label { color: #fff2b1; font: 9px/1.8 var(--font-pixel),monospace; }
@@ -127,14 +128,10 @@
   .project-ocean-coins i { width: 9px; height: 15px; }
   .project-water-pattern { background-size: 165px 82px; }
   .project-bay-shore { height: 39px; }
-  .project-map-canvas { padding-top: 108px; aspect-ratio: auto; height: calc(66.6667vw + 108px); }
-  .project-level-art { top: 108px !important; height: calc(100% - 108px) !important; }
-  .project-map-intro { top: 0; left: 0; width: 100%; height: 108px; background: #172b50; border-bottom: 2px solid #ffdb65; padding: 16px 12px; text-shadow: none; }
+  .project-map-intro { position: relative; top: auto; left: auto; width: 100%; min-height: 108px; background: #172b50; border-bottom: 2px solid #ffdb65; padding: 16px 12px; text-shadow: none; }
   .map-world-label { font-size: 7px; }
   .project-map-intro h2 { font-size: 23px; margin-top: 6px; }
   .project-map-intro > p:last-child { font-size: 12px; margin-top: 5px; }
-  .project-levels { top: 108px; }
-  .project-map-runner-layer { top: 108px; }
   .project-map-runner { width: 28px; height: 31.5px; }
   .map-runner-shadow { width: 16px; height: 5px; }
   .project-map-runner[data-moving="false"] .map-runner-lift { transform: translateY(-16px); }
@@ -142,7 +139,7 @@
   .project-level-disc { width: 38px; height: 35px; font-size: 9px; border-width: 2px; }
   .project-level-name { display: none; }
   .project-level[aria-pressed="true"]::before { width: 12px; height: 10px; bottom: 100%; }
-  .map-project-preview { top: calc(108px + 12vw); left: 31%; width: 42%; border-width: 2px; box-shadow: 3px 3px 0 #12497988; }
+  .map-project-preview { top: 18%; left: 31%; width: 42%; border-width: 2px; box-shadow: 3px 3px 0 #12497988; }
   .map-preview-image, .map-preview-category { display: none; }
   .map-preview-copy { padding: 10px; }
   .map-preview-level { font-size: 6px; }
@@ -157,7 +154,7 @@
   .project-detail-dock .project-featured h3 { font-size: 24px; }
 }
 @media (max-width: 380px) {
-  .map-project-preview { top: calc(108px + 6vw); }
+  .map-project-preview { top: 9%; }
   .project-map-runner { width: 24px; height: 27px; }
   .project-map-runner[data-moving="false"] .map-runner-lift { transform: translateY(-14px); }
   .map-runner-shadow { width: 13px; }

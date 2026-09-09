@@ -1,0 +1,72 @@
+/* World 3: a bright 16-bit sky garden, composed around the reading panel. */
+#about.about-sky-world { padding-top: 144px; padding-bottom: 260px; background: #55b4e6; }
+.about-garden {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(#449bdb 0%,#66c4ed 48%,#a5e4ef 100%);
+  image-rendering: pixelated;
+}
+.about-sky-clouds { position: absolute; display: flex; justify-content: space-around; align-items: flex-start; gap: 14%; width: 120%; left: -10%; animation: about-cloud-travel 38s linear infinite alternate; }
+.about-sky-clouds svg { width: clamp(100px,12vw,210px); flex-shrink: 0; }
+.about-sky-clouds-high { top: 28px; }
+.about-sky-clouds-high svg:nth-child(even) { margin-top: 34px; width: 100px; }
+.about-sky-clouds-mid { top: 33%; opacity: .65; animation-duration: 54s; animation-direction: alternate-reverse; }
+.about-sky-clouds-mid svg:nth-child(2) { margin-top: 80px; }
+.about-sky-clouds-low { top: 67%; opacity: .8; animation-duration: 44s; }
+.about-sky-clouds-low svg:last-child { margin-top: 58px; }
+.about-distant-islands { position: absolute; inset: auto -6% 80px; height: 460px; display: flex; align-items: flex-end; justify-content: space-between; gap: 4%; opacity: .48; }
+.about-distant-islands i { width: 22%; height: 52%; background: #64bda7; box-shadow: inset 0 12px #a7e4b6; clip-path: polygon(0 8%,12% 8%,12% 3%,32% 3%,32% 0,70% 0,70% 3%,90% 3%,90% 8%,100% 8%,100% 86%,86% 86%,86% 94%,66% 94%,66% 100%,24% 100%,24% 94%,10% 94%,10% 84%,0 84%); }
+.about-distant-islands i:nth-child(2) { height: 35%; margin-bottom: 70px; background: #8bd1c2; }
+.about-distant-islands i:nth-child(3) { height: 65%; }
+.about-distant-islands i:nth-child(4) { height: 30%; margin-bottom: 110px; }
+.about-garden-island { position: absolute; width: clamp(128px,13vw,210px); height: auto; }
+.about-island-top-left { top: 118px; left: -42px; }
+.about-island-top-right { top: 28px; right: 2%; width: 136px; }
+.about-island-middle-left { top: 40%; left: -3%; width: clamp(112px,11vw,182px); }
+.about-island-middle-right { top: 50%; right: -3%; }
+.about-island-bottom-left { bottom: 84px; left: 6%; width: clamp(160px,14vw,192px); }
+.about-island-bottom-right { bottom: 92px; right: 4%; width: clamp(152px,13vw,184px); }
+.about-coin-trail { position: absolute; display: flex; gap: 18px; }
+.about-coin-trail-left { left: 2%; top: 30%; transform: rotate(-12deg); }
+.about-coin-trail-right { right: 3%; bottom: 410px; transform: rotate(12deg); }
+.about-coin-trail i { width: 16px; height: 24px; background: #ffdf64; border: 3px solid #b77830; box-shadow: inset 3px 0 #fff7b6,2px 2px #247ba755; clip-path: polygon(20% 0,80% 0,80% 12%,100% 12%,100% 88%,80% 88%,80% 100%,20% 100%,20% 88%,0 88%,0 12%,20% 12%); animation: about-coin-spin 3.2s steps(5,end) infinite; }
+.about-coin-trail i:nth-child(2) { margin-top: -12px; animation-delay: -.25s; }
+.about-coin-trail i:nth-child(3) { animation-delay: -.5s; }
+.about-koopa-flight { position: absolute; width: 58px; height: 58px; animation: about-koopa-bob 6s ease-in-out infinite; }
+.about-koopa-flight svg { width: 100%; height: 100%; }
+.about-koopa-left { top: 59%; left: 5%; }
+.about-koopa-right { bottom: 154px; right: 26%; width: 64px; height: 64px; scale: -1 1; animation-delay: -2.5s; }
+.about-koopa-wing { transform-box: fill-box; transform-origin: bottom center; animation: about-wing-flap .7s steps(2,end) infinite; }
+.about-garden-cloud-bank { position: absolute; display: flex; align-items: flex-end; justify-content: space-around; width: 130%; left: -15%; bottom: 45px; animation: about-cloud-travel 48s linear infinite alternate-reverse; }
+.about-garden-cloud-bank svg { width: 31%; height: 100px; flex-shrink: 0; margin-left: -7%; }
+.about-garden-cloud-bank svg:nth-child(even) { width: 23%; height: 84px; margin-bottom: -12px; }
+#about .about-world-floor { height: 88px; }
+#about .about-floor-clouds { display: none; }
+#about .about-floor-surface { height: 14px; bottom: 56px; border-top: 4px solid #fff6b4; background: #f5d777; box-shadow: inset 0 -4px #bc8d40; }
+#about .about-floor-blocks { height: 48px; bottom: 8px; border-top: 2px solid #8c673c; border-bottom: 2px solid #8c673c; background-color: #dcb46a; background-image: linear-gradient(0deg,transparent 21px,#9b763e 21px 24px,transparent 24px),repeating-linear-gradient(90deg,#bb8b48 0 2px,#ffe59b 2px 5px,#dfb768 5px 45px,#a87d41 45px 48px); background-size: 48px 48px; box-shadow: inset 0 4px #f3d385,inset 0 -4px #a87d41; }
+#about .about-floor-underlay { height: 8px; background: #7d653e; box-shadow: inset 0 2px #b29857; }
+@keyframes about-cloud-travel { from { transform: translateX(-3%); } to { transform: translateX(5%); } }
+@keyframes about-coin-spin { 0%,65%,100% { transform: scaleX(1); } 80% { transform: scaleX(.25); } }
+@keyframes about-koopa-bob { 0%,100% { transform: translate(0,0); } 50% { transform: translate(20px,-38px); } }
+@keyframes about-wing-flap { 50% { transform: rotate(-32deg) scaleX(.75); } }
+#about:not([data-world-active="true"]) .about-garden * { animation-play-state: paused; }
+@media (min-width: 1800px) { .about-island-middle-left { left: 6%; } .about-island-middle-right { right: 6%; } .about-koopa-left { left: 12%; } }
+@media (max-width: 767px) {
+  #about.about-sky-world { padding-top: 134px; padding-bottom: 255px; }
+  .about-sky-clouds-high { top: 20px; gap: 24%; }
+  .about-sky-clouds-high svg { width: 108px; }
+  .about-island-top-left { top: 42px; left: -24px; width: 102px; }
+  .about-island-top-right { top: 46px; right: 8px; width: 98px; }
+  .about-island-middle-left,.about-island-middle-right,.about-coin-trail-left { display: none; }
+  .about-island-bottom-left { bottom: 98px; left: -20px; width: 154px; }
+  .about-island-bottom-right { bottom: 94px; right: -20px; width: 145px; }
+  .about-koopa-left { top: 45px; left: 42%; width: 46px; height: 46px; }
+  .about-koopa-right { bottom: 145px; right: 39%; width: 52px; height: 52px; }
+  .about-coin-trail-right { bottom: 214px; right: 8%; gap: 12px; }
+  .about-coin-trail i { width: 12px; height: 18px; border-width: 2px; }
+  .about-garden-cloud-bank { bottom: 52px; width: 190%; left: -45%; }
+}
+@media (prefers-reduced-motion: reduce) { .about-garden * { animation: none !important; } }

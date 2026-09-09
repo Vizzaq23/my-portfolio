@@ -1,6 +1,7 @@
 import CredlyBadge from "@/components/CredlyBadge";
 import WorldLabel from "@/components/WorldLabel";
 import RetroAirship from "@/components/RetroAirship";
+import OnePieceEasterEgg from "@/components/OnePieceEasterEgg";
 import { experience, type ExperienceKind } from "@/data/experience";
 
 const kindLabel: Record<ExperienceKind, string> = {
@@ -13,6 +14,7 @@ export default function Experience() {
   return (
     <section id="experience" aria-labelledby="experience-heading" className="airship-level relative overflow-hidden px-4">
       <RetroAirship />
+      <OnePieceEasterEgg kind="luffy" />
       <div className="experience-content relative z-10 mx-auto">
         <div className="section-heading">
           <WorldLabel world={4} subtitle="Airship" tone="sky" />

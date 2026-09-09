@@ -15,6 +15,7 @@ import HeroProfile from "@/components/HeroProfile";
 import WorldMotion from "@/components/WorldMotion";
 import RetroOverworld from "@/components/RetroOverworld";
 import RetroSky from "@/components/RetroSky";
+import OnePieceEasterEgg from "@/components/OnePieceEasterEgg";
 
 
 export default function Home() {
@@ -67,6 +68,7 @@ export default function Home() {
         />
 
         <HeroIdleSprite />
+        <OnePieceEasterEgg kind="nami" />
 
         <div className="pointer-events-none absolute inset-0 z-[45]">
           <Staircase />
