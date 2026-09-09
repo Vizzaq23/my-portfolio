@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect, useRef, useLayoutEffect, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import useQuestionBlock from "@/hooks/useQuestionBlock";
@@ -24,28 +23,6 @@ export default function Block({ type = "empty", size, skills }: BlockProps) {
     y: number;
     items: string[];
   } | null>(null);
-
-  const [blockSize, setBlockSize] = useState(size ?? 50); // default 50px
-
-  useEffect(() => {
-    function updateSize() {
-      let newSize = size ?? window.innerWidth * 0.06; // 6vw
-      if (newSize < 40) newSize = 40; // min
-      if (newSize > 80) newSize = 80; // max
-      setBlockSize(newSize);
-    }
-
-    updateSize(); // run on mount
-    window.addEventListener("resize", updateSize);
-    return () => window.removeEventListener("resize", updateSize);
-  }, [size]);
-
-  const sprite =
-    type === "question"
-      ? used
-        ? "/emptyBlock.png"
-        : "/questionBlock.png"
-      : "/emptyBlock.png";
 
   useEffect(() => {
     setMounted(true);
@@ -84,16 +61,35 @@ export default function Block({ type = "empty", size, skills }: BlockProps) {
       <button
         ref={btnRef}
         type="button"
-        aria-label={type === "question" ? "Question block — one skill per tap" : "Block"}
+        tabIndex={type === "empty" ? -1 : undefined}
+        aria-hidden={type === "empty" ? true : undefined}
+        aria-label={type === "question" ? (nextSkillIndex >= (skills?.length ?? 0) ? "Question block — all skills revealed" : "Question block — one skill per tap") : "Block"}
+        aria-disabled={type === "question" && nextSkillIndex >= (skills?.length ?? 0) ? true : undefined}
         onClick={() => {
           if (type === "question") spawnNextSkill();
         }}
-        className={`m-0 cursor-pointer border-none bg-transparent p-0 active:translate-y-[2px] ${
+        className={`world-block m-0 cursor-pointer border-none bg-transparent p-0 active:translate-y-[2px] ${
           type === "question" && !used ? "question-idle motion-reduce:animate-none" : ""
         }`}
       >
-        <Image src={sprite} alt="" width={blockSize} height={blockSize} />
+        <span className="block-model" style={size ? { "--block-size": `${size}px` } as CSSProperties : undefined} aria-hidden="true">
+          {type === "question" && !used ? (
+            <span className="block-gold">
+              <span className="block-rivet" /><span className="block-rivet-bottom" />
+              <svg className="block-question" viewBox="0 0 48 56" fill="currentColor">
+                <path d="M10 4h26v6h6v16h-6v6h-8v8H16V28h6v-6h8V16H16v6H4V10h6Z" />
+                <rect x="16" y="45" width="12" height="11" />
+              </svg>
+            </span>
+          ) : (
+            <span className="block-masonry">
+              {[0, 1, 2].map((row) => <span className="block-brick-row" key={row}>{[0, 1].map((brick) => <span key={brick} />)}</span>)}
+            </span>
+          )}
+        </span>
       </button>
+
+      {type === "question" && <span className="sr-only" aria-live="polite" aria-atomic="true">{nextSkillIndex > 0 ? "Skill: " + skills?.[nextSkillIndex - 1] : ""}</span>}
 
       {mounted &&
         burst &&

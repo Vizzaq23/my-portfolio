@@ -4,108 +4,84 @@ import type { Project } from "@/data/projects";
 type ProjectCardProps = {
   project: Project;
   className?: string;
-  /** Emphasize the active carousel card */
-  active?: boolean;
+  /** Expanded layout used in the project browser. */
+  featured?: boolean;
 };
 
 const cardShell =
-  "pixelated relative flex h-full w-full max-w-[280px] min-h-[420px] flex-col border-4 border-black bg-yellow-300 p-3 shadow-[6px_6px_0px_#000] transition duration-300";
+  "project-cartridge relative flex h-full w-full max-w-[400px] flex-col border-4 border-black bg-white p-4 shadow-[6px_6px_0px_#000] transition duration-300";
 
 export default function ProjectCard({
   project,
   className = "",
-  active = false,
+  featured = false,
 }: ProjectCardProps) {
   const hasLink = Boolean(project.link);
-  const shellClass = `${cardShell} ${
-    active ? "ring-4 ring-brand-accent ring-offset-2 ring-offset-black" : ""
-  } ${hasLink ? "hover:-translate-y-1 hover:shadow-[8px_8px_0px_#000]" : ""} ${className}`;
+  const shellClass = `${cardShell} ${featured ? "project-featured" : ""} ${className}`;
 
-  const content = (
-    <>
-      {project.badge === "NEW" ? (
-        <span className="absolute -left-2 -top-2 z-10 border-2 border-black bg-red-500 px-2 py-0.5 font-display text-[9px] text-white shadow-[2px_2px_0_#000]">
-          NEW
-        </span>
-      ) : null}
+  return (
+    <article className={shellClass} data-project-id={project.id}>
+      <header className="project-card-heading">
+        <div className="project-meta">
+          <p className="project-category small-label">{project.category}</p>
+          {project.badge === "NEW" ? <span className="project-new">NEW</span> : null}
+          <span className="project-year">{project.year}</span>
+        </div>
+        <h3 className="font-sans text-xl font-bold leading-tight text-ink">{project.title}</h3>
+      </header>
 
-      <div className="relative mb-2 aspect-[4/3] w-full overflow-hidden border-2 border-black bg-black">
+      <div className="project-preview relative mb-4 aspect-[16/9] w-full overflow-hidden border-2 border-black bg-black">
         <Image
           src={project.image}
           alt={project.imageAlt}
           fill
-          sizes="(max-width: 1024px) 280px, 280px"
+          sizes="(max-width: 800px) 90vw, 440px"
           unoptimized={project.image.endsWith(".svg")}
-          className="object-cover pixelated"
+          className="object-cover"
           loading="lazy"
         />
       </div>
 
-      <div className="flex flex-1 flex-col">
-        <div className="flex items-start justify-between gap-2">
-          <h3 className="font-display text-sm font-bold leading-tight text-black sm:text-base">
-            {project.title}
-          </h3>
-          <span className="shrink-0 font-sans text-xs font-semibold tabular-nums text-gray-800">
-            {project.year}
-          </span>
-        </div>
+      <div className="project-copy flex flex-1 flex-col">
+        <p className="project-summary font-sans text-base leading-relaxed text-ink">{project.summary}</p>
 
-        <ul className="mt-2 flex flex-wrap gap-1" aria-label="Technologies">
+        <ul className="project-technologies mt-3 flex flex-wrap gap-1.5" aria-label="Technologies">
           {project.tags.map((tag) => (
             <li
               key={tag}
-              className="border border-black/20 bg-black/10 px-1.5 py-0.5 font-sans text-[10px] font-semibold text-black sm:text-[11px]"
+              className="rounded border border-slate-300 bg-slate-100 px-2 py-1 font-sans text-xs font-semibold text-slate-800"
             >
               {tag}
             </li>
           ))}
         </ul>
 
-        <p className="mt-2 font-sans text-xs font-medium leading-normal text-black">
-          {project.summary}
-        </p>
+        <p className="small-label project-highlights-label">Engineering highlights</p>
+        <ul className="project-highlights mt-4 space-y-3 font-sans text-base leading-relaxed text-slate-700">
+          {project.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
+        </ul>
         {project.detail ? (
-          <p className="mt-2 line-clamp-4 font-sans text-[11px] leading-normal text-ink-muted">
-            {project.detail}
-          </p>
+          <details className="project-details mt-4 border-t border-slate-300 pt-3 font-sans">
+            <summary className="cursor-pointer text-sm font-semibold text-sky-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-800">Technical details</summary>
+            <p className="mt-3 text-base leading-relaxed text-slate-700">{project.detail}</p>
+          </details>
         ) : null}
+        <div className="project-footer mt-5 flex">
+          {hasLink ? (
+            <a href={project.link} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} — ${project.linkLabel} (opens in a new tab)`} className="no-underline inline-flex min-h-11 w-full items-center justify-center rounded border-2 border-red-950 bg-red-700 px-3 py-2 font-display text-[11px] leading-relaxed text-white transition hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-800">
+              {project.linkLabel}
+              <span aria-hidden="true">↗</span>
+            </a>
+          ) : (
+            <span
+              className="inline-block border-2 border-black bg-amber-400 px-3 py-1 font-display text-[10px] text-black"
+              aria-label={`Status: ${project.status ?? "Unavailable"}`}
+            >
+              {project.status ?? "Unavailable"}
+            </span>
+          )}
+        </div>
       </div>
-
-      <div className="mt-3 flex justify-center">
-        {hasLink ? (
-          <span className="inline-block border-2 border-black bg-red-500 px-3 py-1 font-display text-xs text-white">
-            {project.linkLabel}
-          </span>
-        ) : (
-          <span
-            className="inline-block border-2 border-black bg-amber-400 px-3 py-1 font-display text-[10px] text-black"
-            aria-label={`Status: ${project.status ?? "Unavailable"}`}
-          >
-            {project.status ?? "Unavailable"}
-          </span>
-        )}
-      </div>
-    </>
-  );
-
-  if (hasLink && project.link) {
-    return (
-      <a
-        href={project.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`no-underline ${shellClass}`}
-        aria-label={`${project.title} — ${project.linkLabel} (opens in a new tab)`}
-      >
-        {content}
-      </a>
-    );
-  }
-
-  return (
-    <div className={shellClass} aria-label={`${project.title} — ${project.status}`}>
-      {content}
-    </div>
+    </article>
   );
 }

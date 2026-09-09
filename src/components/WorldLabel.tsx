@@ -18,7 +18,7 @@ export default function WorldLabel({
 }: WorldLabelProps) {
   return (
     <p
-      className={`mb-2 text-center font-display text-[9px] uppercase tracking-widest sm:text-[10px] ${toneClass[tone]}`}
+      className={`world-label mb-2 text-center font-display text-[9px] uppercase tracking-widest sm:text-[10px] ${toneClass[tone]}`}
     >
       World {world} — {subtitle}
     </p>

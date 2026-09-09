@@ -8,7 +8,7 @@ export type ExperienceItem = {
   date: string;
   location?: string;
   summary: string;
-  bullets?: string[];
+  bullets?: { lead: string; detail: string }[];
   tags?: string[];
   link?: string;
   linkLabel?: string;
@@ -26,14 +26,13 @@ export const experience: ExperienceItem[] = [
     date: "June 2025 – August 2025",
     location: "Remote",
     summary:
-      "Shipped production dashboard features, analytics tools, and data workflows on a cross-functional product team.",
+      "Developed full-stack features for a production analytics platform, contributing across the interface, APIs, and database.",
     bullets: [
-      "Developed frontend features with Next.js, React, TypeScript, and Tailwind CSS.",
-      "Built analytics and admin tools for activity, referrals, and retention.",
-      "Worked with Supabase, APIs, and data-processing pipelines supporting systems with more than 500 active users.",
-      "Collaborated through GitHub workflows, code reviews, and technical documentation.",
+      { lead: "Production software for 500+ active users.", detail: "Shipped features with Next.js, React, TypeScript, Flask, and Supabase." },
+      { lead: "Analytics that made product activity visible.", detail: "Designed an admin dashboard for referrals, retention, engagement, and user growth using Supabase RPCs and SQL." },
+      { lead: "Backend development and team delivery.", detail: "Built REST APIs and data pipelines; worked with a 10+ member cross-functional team through pull requests, code reviews, and documentation." },
     ],
-    tags: ["Next.js", "TypeScript", "React", "Tailwind", "Supabase", "APIs"],
+    tags: ["Next.js", "TypeScript", "React", "Flask", "Supabase", "SQL", "REST APIs"],
     link: "https://withsentari.com/",
     linkLabel: "Company site",
   },
@@ -44,7 +43,7 @@ export const experience: ExperienceItem[] = [
     org: "NCEES",
     date: "April 2026",
     summary:
-      "Passed the Fundamentals of Engineering exam — the first step toward professional engineering licensure.",
+      "Passed the Fundamentals of Engineering exam in April 2026, demonstrating a foundation in engineering principles and problem-solving.",
     verifyUrl: "https://www.credly.com/badges/bab7b21d-e63a-4634-a44a-cfa8990246b3",
     verifyLabel: "Verify on Credly",
     showCredlyBadge: true,
@@ -57,6 +56,6 @@ export const experience: ExperienceItem[] = [
     date: "May 2026",
     location: "Fairfield, CT",
     summary:
-      "Bachelor of Science in Computer Engineering with a minor in Mathematics. GPA 3.82.",
+      "Graduated in May 2026 with a Bachelor of Science in Computer Engineering and a minor in Mathematics.",
   },
 ];
