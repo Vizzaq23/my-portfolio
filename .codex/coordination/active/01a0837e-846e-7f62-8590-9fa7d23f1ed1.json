@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "projectId": "cef45b44-0b30-42f7-9da7-93662017b867",
+  "threadId": "01a0837e-846e-7f62-8590-9fa7d23f1ed1",
+  "title": "Coordinate current portfolio tasks",
+  "goal": "Keep the current portfolio visual update and repository coordination setup from conflicting; provide on-demand boundary coordination until the visual update completes.",
+  "status": "active",
+  "revision": 1,
+  "createdAt": "2026-09-09T00:09:54Z",
+  "updatedAt": "2026-09-09T00:09:54Z",
+  "paths": [],
+  "actions": [
+    "goal-coordination"
+  ],
+  "blockedBy": [],
+  "limitOverride": false
+}
