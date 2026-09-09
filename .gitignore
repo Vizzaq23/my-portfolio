@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.codex/coordination/*
+!.codex/coordination/project.yaml

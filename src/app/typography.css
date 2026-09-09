@@ -1,0 +1,31 @@
+/* Squared technical headings, humanist body text, and the existing pixel UI. */
+.section-heading h2,
+.content-heading,
+.experience-record h3,
+.project-map-intro h2,
+.map-preview-copy h3,
+.project-detail-dock .project-featured h3 {
+  font-family: var(--font-heading), sans-serif;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+.site-brand strong,
+.hero-role,
+.hero-proof strong,
+.profile-proof-grid dd strong,
+.contact-email {
+  font-family: var(--font-heading), sans-serif;
+  letter-spacing: 0;
+}
+.site-brand strong { font-weight: 700; }
+.hero-role { font-weight: 600; }
+.small-label,
+.project-detail-dock .project-browser-toolbar .small-label,
+.project-level-name {
+  font-family: var(--font-heading), sans-serif;
+  font-weight: 600;
+}
+.project-detail-dock .project-featured h3 { line-height: 1.28; }
+.project-detail-dock .project-summary,
+.project-detail-dock .project-highlights { letter-spacing: .005em; }
+.section-heading h2 { line-height: 1.22; }

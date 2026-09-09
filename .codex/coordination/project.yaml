@@ -1,0 +1,11 @@
+schema_version: 2
+coordination_enabled: true
+project_id: cef45b44-0b30-42f7-9da7-93662017b867
+project_name: "My Portfolio"
+task_prefix: PORT
+canonical_paths:
+  active: .codex/coordination/active
+  archive: .codex/coordination/archive
+access:
+  cross_project_task_access: false
+  cross_project_state_changes: false

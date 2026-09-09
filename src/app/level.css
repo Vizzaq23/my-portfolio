@@ -1,0 +1,314 @@
+/* One material palette for all five Mario-inspired worlds. */
+:root {
+  --world-gold: #ffc62b;
+  --world-cream: #fff1bb;
+  --world-green: #29b638;
+  --world-ink: #143744;
+}
+
+/* World 1: keep all foreground objects anchored to the runner's 64px ground. */
+#top { padding-top: 155px; padding-bottom: 385px; min-height: max(980px, 100svh); background: #32acfa; }
+.world-backdrop { position: absolute; inset: -12px; pointer-events: none; transform: translate3d(var(--world-x, 0px), var(--world-y, 0px), 0); transition: transform 500ms ease-out; }
+.world-atmosphere { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 36%, #005c9b8c, #086aa657 28%, transparent 63%); }
+.hero-copy { width: 100%; max-width: 860px; padding: 34px 36px; border: 1px solid #6a9fbe; border-top: 3px solid #d3b55c; border-radius: 9px; background: #123e5ff5; box-shadow: 0 4px 0 #123650; text-shadow: none; }
+.hero-copy h1 { color: #ffda30; }
+.hero-copy > p:nth-of-type(3) { text-shadow: none; }
+.hero-sparkle { border: 0; width: 13px; height: 13px; box-shadow: none; background: #fff2a4; clip-path: polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%); }
+.world-clouds { position: absolute; top: 100px; left: 0; right: 0; height: 90px; overflow: hidden; pointer-events: none; }
+.world-cloud { position: absolute; width: clamp(85px, 8vw, 120px); height: auto; opacity: .82; filter: drop-shadow(0 4px 4px #067bb71a); animation: world-cloud-drift 50s ease-in-out infinite alternate; }
+@keyframes world-cloud-drift { from { transform: translateX(-30px); } to { transform: translateX(100px); } }
+.hero-sun { top: 135px; right: 8%; width: 72px; height: auto; filter: none; animation: none; }
+.hero-sun svg { width: 100%; height: auto; overflow: visible; }
+
+.level-skill-blocks { bottom: 266px; gap: clamp(12px, 1.8vw, 24px); }
+.world-block { outline-offset: 10px; border-radius: 10px; }
+.world-block[aria-hidden] { cursor: default; }
+.block-model { --block-size: clamp(56px, 6vw, 80px); display: block; width: var(--block-size); height: var(--block-size); transition: transform 250ms ease; }
+.block-gold, .block-masonry { position: relative; display: flex; width: 100%; height: 100%; border-radius: 8px; }
+.block-gold {
+  align-items: center; justify-content: center; border: 2px solid #ce8c0c;
+  background: linear-gradient(145deg, #ffde54, #ffc31d 65%, #f4ad09);
+  box-shadow: inset 3px 3px 1px #fff2a6, inset -4px -4px 1px #e09a0b, 0 5px 0 #b4730a, 0 9px 13px #62480045;
+}
+.block-question { color: #fff9d5; width: 51%; height: 64%; filter: drop-shadow(0 3px 0 #ae710c); }
+.block-rivet, .block-rivet-bottom { position: absolute; left: 7%; width: 7%; height: 7%; background: #fff0a0; border-radius: 50%; box-shadow: 0 1px 1px #ae790b; }
+.block-rivet { top: 7%; }
+.block-rivet-bottom { bottom: 7%; }
+.block-rivet::after, .block-rivet-bottom::after { content: ''; position: absolute; left: calc(var(--block-size) * .72); top: 0; width: 100%; height: 100%; border-radius: inherit; background: inherit; box-shadow: inherit; }
+.block-masonry { padding: 3px; gap: 3px; flex-direction: column; overflow: hidden; background: #945221; border: 2px solid #994f1b; box-shadow: inset 0 2px 0 #f1b878, 0 5px 0 #783c15, 0 9px 13px #62480040; }
+.block-brick-row { display: flex; flex: 1; gap: 3px; min-height: 0; }
+.block-brick-row:nth-child(even) { margin: 0 -28%; }
+.block-brick-row > span { flex: 1; border-radius: 3px; background: linear-gradient(145deg, #f1bd76, #d88c38 70%, #c1772d); box-shadow: inset 2px 2px 1px #ffe0a0, inset -2px -2px 1px #b46b24; }
+.question-idle { animation-duration: 3s; }
+.world-block:focus-visible .block-model { transform: translateY(-5px); }
+
+.level-ground { position: absolute; bottom: 0; left: 0; width: 100%; height: 64px; z-index: 46; }
+.level-turf { position: relative; height: 15px; background: linear-gradient(#a8e94d, #5bc322 50%, #279d29); box-shadow: 0 -2px 0 #c4f36f, 0 3px 4px #50662055; }
+.level-turf::after { content: ''; position: absolute; top: 11px; width: 100%; height: 8px; background: radial-gradient(ellipse at 50% 0, #30a728 65%, transparent 69%) 0 0 / 18px 8px repeat-x; z-index: 1; }
+.level-soil { height: 49px; border-bottom: 5px solid #bc842e; background: radial-gradient(ellipse, #ffebad 0 15%, transparent 19%) 8px 8px / 53px 24px, radial-gradient(ellipse, #d99f3e 0 14%, transparent 19%) 30px 3px / 67px 28px, linear-gradient(#f4ca6b 0 42%, #e9b54e 42% 52%, #ffe298 52% 79%, #e5b24e 79%); box-shadow: inset 0 5px 5px #8c812c33; }
+.level-platforms { position: absolute; bottom: 155px; left: 50%; transform: translateX(-50%); display: flex; align-items: flex-end; gap: clamp(20px, 3vw, 42px); z-index: 40; pointer-events: none; }
+.level-platform { position: relative; width: clamp(64px, 7vw, 100px); animation: platform-hover 4s ease-in-out infinite; filter: drop-shadow(0 6px 4px #1b664333); }
+.level-platform-1 { margin-bottom: 27px; animation-delay: -1.4s; }
+.level-platform-2 { animation-delay: -2.8s; }
+.platform-grass { position: relative; z-index: 1; height: 15px; border-radius: 50% 50% 25% 25%; background: linear-gradient(#b1ed54, #62cb28 45%, #30a132); box-shadow: inset 0 2px 1px #d3f889, 0 3px 0 #268d28; }
+.platform-grass::after { content: ''; position: absolute; top: 12px; left: 3px; right: 3px; height: 7px; background: radial-gradient(ellipse at 50% 0,#32a82e 65%,transparent 70%) 0 0 / 12px 7px repeat-x; }
+.platform-earth { display: flex; gap: 0; margin-top: -3px; padding: 5px 8px; height: 26px; border-radius: 0 0 45% 45%; background: linear-gradient(#e5ae4e 0 35%, #ffe7a0 35% 68%, #e5b44f 68%); box-shadow: inset 4px 0 3px #fff3bd88, inset -4px -2px 3px #bb872c77; }
+.platform-earth i { width: 5px; height: 4px; margin: 4px; border-radius: 50%; background: #fff1ba; }
+.platform-vine { position: absolute; top: 12px; right: 10px; width: 9px; height: 13px; border-radius: 0 0 70% 70%; background: linear-gradient(90deg,#75cf39,#299735); }
+.level-coin { position: absolute; bottom: 56px; left: calc(50% - 9px); width: 18px; height: 25px; border: 2px solid #e2a917; border-radius: 50%; background: linear-gradient(110deg, #fff499, #ffcf23 40%, #efb716 80%); box-shadow: inset 2px 0 0 #fffbd4, inset -2px 0 0 #bb7d08, 2px 1px 0 #a87512; animation: coin-turn 3s linear infinite; }
+.level-coin::after { content: ''; position: absolute; inset: 4px 5px; border-radius: 3px; background: #dfab18; box-shadow: 1px 0 0 #fff09a; }
+.level-pipe { display: block; position: relative; width: 92px; height: 96px; filter: drop-shadow(0 4px 3px #245b4b55); }
+.pipe-shaft { position: absolute; bottom: 0; left: 9px; width: 74px; height: 76px; border-radius: 0 0 9px 9px / 0 0 4px 4px; background: linear-gradient(90deg,#038325,#09ac34 13%,#48ef71 23%,#13c341 38%,#0ba933 68%,#027125); box-shadow: inset 0 7px 3px #03501c88, inset 2px 0 2px #b3ffc777; }
+.pipe-rim { position: absolute; top: 6px; left: 0; width: 92px; height: 29px; border-radius: 8px / 5px; z-index: 1; background: linear-gradient(90deg,#008127,#28d959 13%,#77ff99 23%,#13c941 38%,#07ad31 78%,#007523); box-shadow: inset 0 2px 1px #a0ffbe, inset 0 -3px 2px #006322, 0 3px 3px #004c2455; }
+.pipe-rim::before { content: ''; position: absolute; left: 5px; right: 5px; top: -5px; height: 13px; border: 4px solid #44e46a; border-top-color: #a0ffba; border-bottom-color: #17b63b; border-radius: 50%; background: linear-gradient(#004b1c,#07892c); box-shadow: inset 0 3px 3px #002e17; }
+.level-finish { position: absolute; bottom: 64px; right: 3%; display: flex; align-items: flex-end; gap: 28px; }
+.level-castle { width: clamp(140px, 15vw, 210px); height: auto; filter: drop-shadow(0 4px 3px #71532140); margin-bottom: -2px; }
+.level-flagpole { position: relative; height: 180px; width: 6px; margin-right: 12px; border-radius: 4px; background: linear-gradient(90deg,#aab4a5,#fffdec 45%,#b7bfac); }
+.level-flagpole::before { content: ''; position: absolute; top: -10px; left: -4px; width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle at 30% 25%,#fff6b0,#ffd128 45%,#c58d17); box-shadow: 0 2px 2px #91691e55; }
+.level-pennant { position: absolute; top: 9px; left: 4px; width: 40px; height: 29px; border-radius: 2px; background: linear-gradient(120deg,#ff8580,#f23938 35%,#d42d33 75%,#ff5953); clip-path: polygon(0 0,100% 8%,80% 50%,100% 90%,0 100%); transform-origin: left center; animation: pennant-wave 2.4s ease-in-out infinite; }
+.level-pennant i { position: absolute; width: 11px; height: 11px; left: 9px; top: 8px; border-radius: 50%; background: #fff7d9; }
+.flag-base { position: absolute; bottom: 0; left: -8px; width: 22px; height: 14px; border-radius: 5px 5px 2px 2px; background: linear-gradient(110deg,#e9c781,#bd934b); box-shadow: inset 2px 2px 0 #fff0b0; }
+.castle-firefly { position: absolute; width: 9px; height: 9px; background: #fff6ac; clip-path: polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%); animation: finish-sparkle 4s ease-in-out infinite; }
+.castle-firefly-one { left: 36%; top: 20%; }
+.castle-firefly-two { right: 15%; top: 5%; animation-delay: -2s; }
+.level-staircase { position: absolute; right: calc(3% + clamp(140px,15vw,210px) + 74px); bottom: 64px; display: flex; align-items: flex-end; }
+.level-staircase > div { display: flex; flex-direction: column; }
+.level-staircase span { width: 23px; height: 23px; border: 1px solid #b87c31; border-radius: 3px; background: linear-gradient(145deg,#f7d37e,#dfac4b); box-shadow: inset 2px 2px 1px #ffedac,inset -2px -2px 1px #c58c34; }
+
+/* World 2: a project showcase framed by the connected island map. */
+.project-world { background: #118ddd; isolation: isolate; border-top-color: #99d561; padding-top: 78px; padding-bottom: 104px; }
+.project-map-art { object-fit: cover; object-position: center; pointer-events: none; }
+.project-map-shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg,#005e9618,transparent 25%,transparent 75%,#006faa20); }
+.project-world .project-cartridge { background: #fffdf5; }
+.project-cartridge { border-color: #e1ae26; border-radius: 12px; box-shadow: inset 0 3px 0 #fff,0 5px 0 #926216,0 12px 22px #12385666; }
+.project-cartridge > div:first-of-type { border-color: #be8b26; border-radius: 6px; }
+.project-cartridge > div:first-of-type img { transition: transform 500ms ease; }
+.project-cartridge > span:first-child { border-radius: 4px; }
+.project-world button { border-radius: 6px; }
+.section-reading-note { padding: 10px 16px; border-radius: 6px; background: #06395dee; box-shadow: 0 3px 0 #042b4f44; text-shadow: none !important; }
+.project-highlights, .profile-strengths { list-style: none; }
+.project-highlights li, .profile-strengths li { position: relative; padding-left: 19px; }
+.project-highlights li::before, .profile-strengths li::before { content: ''; position: absolute; top: 9px; left: 0; width: 8px; height: 8px; border: 1px solid #9c6500; background: #f5bf25; box-shadow: 1px 1px 0 #9c6500; }
+.profile-strengths strong { color: #0f172a; }
+.project-details[open] summary { margin-bottom: 8px; }
+
+/* A single selected project gets a full-size reading surface. */
+.project-browser { width: calc(100% - 48px); max-width: 1360px; border: 3px solid #d4b15b; border-radius: 10px; background: #102e44; box-shadow: 0 6px 0 #775b25,0 18px 35px #13394840; overflow: hidden; }
+.project-browser-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px 22px; border-bottom: 1px solid #496276; background: #112d42; }
+.project-count { white-space: nowrap; }
+.project-step { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid #8aabbc; background: #24485f; color: #fff; font-family: var(--font-body),sans-serif; font-size: 23px; transition: background 150ms; }
+.project-step:hover { background: #3b6178; }
+.project-step:focus-visible, .project-pick:focus-visible { outline: 3px solid #f5d66f; outline-offset: -5px; }
+.project-browser-layout { display: grid; grid-template-columns: 236px minmax(0,1fr); }
+.project-picker { display: flex; flex-direction: column; gap: 8px; padding: 16px; border-right: 1px solid #496276; }
+.project-pick { display: flex; align-items: center; gap: 12px; min-height: 68px; padding: 14px 12px; border: 1px solid #4a6578; background: #183d54; color: #e4eef5; text-align: left; font: 600 14px/1.5 var(--font-body),sans-serif; transition: background 150ms,color 150ms; }
+.project-pick:hover { background: #2a526b; }
+.project-pick[aria-pressed="true"] { border-color: #efce78; background: #efd17b; color: #142f42; }
+.project-pick-number { flex-shrink: 0; font-family: var(--font-pixel),monospace; font-size: 10px; color: #d1b66a; }
+.project-pick[aria-pressed="true"] .project-pick-number { color: #62481c; }
+.project-stage { min-width: 0; padding: 30px; background: #f7f8f6; }
+.project-stage > [hidden] { display: none; }
+.project-world .project-featured { display: grid; grid-template-columns: minmax(0,.95fr) minmax(0,1.15fr); column-gap: 28px; row-gap: 22px; max-width: none; padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; transform: none; }
+.project-featured .project-preview { grid-column: 1; grid-row: 1 / span 2; min-height: 330px; height: 100%; margin: 0; aspect-ratio: auto; border: 1px solid #bdc9ce; border-radius: 6px; background: #132732; }
+.project-featured .project-preview img { object-fit: contain; padding: 12px; transform: none; }
+.project-featured .project-copy { grid-column: 2; min-width: 0; }
+.project-featured h3 { font-size: 26px; line-height: 1.25; }
+.project-featured .project-footer { grid-column: 2; margin-top: 0; }
+.project-featured .project-footer a { font-family: var(--font-body),sans-serif; font-size: 16px; }
+.project-featured .project-new { top: 12px; left: 12px; border: 1px solid #dfaa49; border-radius: 3px; background: #f2d27c; color: #4b3716; box-shadow: none; }
+@media (max-width: 1199px) {
+  .project-browser-layout { grid-template-columns: 200px minmax(0,1fr); }
+  .project-stage { padding: 22px; }
+  .project-world .project-featured { grid-template-columns: 1fr; }
+  .project-featured .project-preview { grid-column: 1; grid-row: auto; min-height: 0; height: auto; aspect-ratio: 16 / 9; }
+  .project-featured .project-copy, .project-featured .project-footer { grid-column: 1; }
+}
+@media (max-width: 767px) {
+  .project-browser { width: calc(100% - 32px); }
+  .project-browser-toolbar { padding: 12px 14px; }
+  .project-browser-layout { grid-template-columns: 1fr; }
+  .project-picker { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); padding: 12px; border-right: 0; border-bottom: 1px solid #496276; }
+  .project-pick { min-height: 68px; gap: 7px; padding: 10px 8px; font-size: 12px; }
+  .project-pick-number { font-size: 8px; }
+  .project-stage { padding: 20px 16px; }
+  .project-featured h3 { font-size: 22px; }
+  .project-featured .project-new { top: 8px; left: 8px; }
+}
+
+/* World 3: mushroom platforms frame a clean profile card. */
+.about-sky-world { background: #45b5fa; border-top: 4px solid #dcf6ff; padding-bottom: 180px; }
+.about-sky-art { object-fit: cover; object-position: center; pointer-events: none; }
+.about-sky-wash { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg,#137bbb1a,transparent 35%,#b8e8ff22); }
+.about-profile-panel { background: #fcfdff; border: 4px solid #ffcf37; border-radius: 18px; box-shadow: inset 0 3px 0 #fff,0 6px 0 #bd8f27,0 16px 35px #06538b4d; }
+.profile-proof-grid > div { padding: 18px 16px; border: 1px solid #adc9d8; border-top: 4px solid #eaba32; border-radius: 6px; background: #edf5fb; font-family: var(--font-body),sans-serif; }
+.profile-proof-grid dt { margin-bottom: 9px; color: #365a71; font-size: 12px; font-weight: 700; line-height: 1.5; }
+.profile-proof-grid dd strong { display: block; color: #102d43; font-size: 20px; line-height: 1.35; }
+.profile-proof-grid dd span { display: block; margin-top: 8px; color: #334155; font-size: 14px; line-height: 1.6; }
+.profile-career-panel { padding: 22px; border: 1px solid #bcd4d5; border-radius: 8px; background: #f0f8f6; }
+.profile-action { display: inline-flex; min-height: 46px; align-items: center; justify-content: center; padding: 10px 12px; border: 2px solid; border-radius: 5px; font-family: var(--font-body),sans-serif; font-size: 16px; font-weight: 700; line-height: 1.5; text-decoration: none; }
+.profile-action-primary { border-color: #7f1d1d; background: #b91c1c; color: white; }
+.profile-action-primary:hover { background: #991b1b; }
+.profile-action-secondary { border-color: #1e5577; background: white; color: #123f5d; }
+.profile-action-secondary:hover { background: #e3f0fa; }
+.profile-action:focus-visible { outline: 3px solid #075985; outline-offset: 4px; }
+.about-sky-sparkles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.about-sky-sparkles i { position: absolute; top: 14%; width: 14px; height: 14px; background: #fffbd3; clip-path: polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%); animation: sky-star 5s ease-in-out infinite; }
+.about-sky-sparkles i:nth-child(even) { top: 76%; }
+.about-world-floor { position: absolute; bottom: 0; left: 0; width: 100%; height: 136px; z-index: 3; pointer-events: none; }
+.about-floor-clouds { position: absolute; bottom: 59px; left: 0; right: 0; height: 77px; overflow: hidden; }
+.about-floor-clouds::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 27px; background: linear-gradient(#f4fcff,#c7e8fa); }
+.about-floor-clouds i { position: absolute; width: clamp(110px,16vw,245px); height: 48px; border-radius: 60% 60% 15% 15%; background: linear-gradient(150deg,#fff 20%,#edf9ff 58%,#b8dff6); box-shadow: inset 0 4px 2px #ffffffbb; }
+.about-floor-clouds i::before { content: ''; position: absolute; left: 32%; top: -10px; width: 45%; height: 40px; border-radius: 50%; background: linear-gradient(140deg,#fff,#ebf8ff); }
+.about-floor-surface { position: absolute; bottom: 48px; left: -2px; right: -2px; height: 22px; border-top: 3px solid #fff8d5; border-radius: 5px 5px 0 0; background: repeating-linear-gradient(100deg,transparent 0 92px,#bd8e3b66 93px,#fff5bb 95px,transparent 98px),linear-gradient(#fff2b7,#f0cd75); box-shadow: 0 -4px 12px #74b9d933,inset 0 -3px 0 #d5a44b; }
+.about-floor-blocks { position: absolute; bottom: 8px; left: 0; right: 0; height: 42px; border-top: 3px solid #fff0b0; border-bottom: 4px solid #bc8435; background-color: #dfb566; background-image: linear-gradient(90deg,#b68435 0 2px,#ffebac 2px 5px,transparent 5px 90px,#bd8c3e 93px 96px),linear-gradient(#f9d98a,#f4d181 16%,#e8bb63 75%,#d6a14d); background-size: 96px 100%,100% 100%; box-shadow: inset 0 3px 2px #fff1b8,inset 0 -3px 1px #d49a3f; }
+.about-floor-underlay { position: absolute; bottom: 0; left: 0; right: 0; height: 9px; background: linear-gradient(#f9de8e,#c09245 55%,#846130); box-shadow: 0 3px 6px #20478533; }
+.about-sky-world .ambient-mushroom { bottom: 106px; }
+
+/* World 4: modular timber decks and a moving airship platform. */
+.airship-level { background: #1b7be4; border-top-color: #fff1ba; }
+.experience-airship-art { position: absolute; inset: 0; pointer-events: none; }
+.experience-sky-shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg,#0054a622,transparent 24%); }
+#experience-heading, #experience-heading + p { text-shadow: 0 2px 4px #153c66; }
+.airship-deck-frame { border-color: #845021; border-radius: 15px; background: repeating-linear-gradient(0deg,#a16430 0 40px,#885022 41px,#bb7f40 44px,#a56a33 48px); box-shadow: inset 2px 3px 1px #f0c07e,0 6px 0 #6f431f,0 15px 35px #254f8d55; }
+.airship-deck-frame > div:first-child span { width: 10px; height: 10px; border: 1px solid #ae7d20; background: radial-gradient(circle at 30% 25%,#fff1a4,#ebba43 50%,#ae791e); box-shadow: 0 1px 2px #5e361d; }
+.airship-deck-inset { border-radius: 10px; border-color: #e3b667; background: #76552c66; box-shadow: inset 0 2px 4px #513613; }
+.experience-stage { border-radius: 9px; border: 3px solid #4d799e; background: #fcfdff; box-shadow: inset 0 2px 0 #fff,0 3px 0 #284862; padding: 24px; }
+.experience-bullets { max-width: 68ch; }
+.experience-stage > div:first-child { display: none; }
+.experience-wind { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.experience-wind i { position: absolute; left: -10%; width: 70px; height: 2px; background: linear-gradient(90deg,transparent,#effbff,transparent); animation: airship-wind 16s linear infinite; opacity: 0; }
+.level-bullet-bill { position: relative; width: 62px; height: 34px; border-radius: 7px 60% 60% 7px; background: linear-gradient(#727c8e,#252e3c 45%,#121824); box-shadow: inset 0 2px 1px #aab7c8,0 3px 5px #1f447155; }
+.level-bullet-bill::before { content: ''; position: absolute; left: -4px; top: -2px; width: 12px; height: 38px; border-radius: 5px; background: linear-gradient(#6b7a8d,#27384c,#132438); }
+.level-bullet-bill i { position: absolute; right: 12px; top: 6px; width: 12px; height: 11px; border-radius: 60% 50%; background: #fff; transform: rotate(15deg); }
+.level-bullet-bill i::after { content: ''; position: absolute; right: 1px; top: 2px; height: 7px; width: 4px; border-radius: 50%; background: #14213a; }
+.level-bullet-bill span { position: absolute; top: 19px; left: 22px; width: 17px; height: 11px; border-radius: 45%; background: linear-gradient(#fff,#ccd7e2); box-shadow: -4px -2px 0 #ecf2f6; }
+
+/* World 5: blue course bricks, glossy pipes and warm gold details. */
+#contact.underground-world { min-height: 760px; padding-top: 150px; padding-bottom: 195px; background: #063578; border-top-color: #348dcc; }
+.underground-world-art { object-fit: cover; object-position: center bottom; pointer-events: none; }
+.underground-atmosphere { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 42%,#041c4144,transparent 65%); }
+.contact-vault-panel { background: linear-gradient(130deg,#102f58,#102445); border: 4px solid #ffd445; border-radius: 16px; box-shadow: inset 0 3px 0 #7396b844,0 6px 0 #ab781a,0 16px 30px #03163466; }
+.contact-home-pipe { left: 5%; bottom: clamp(68px, 8.5vw, 150px); }
+.underground-koopa { right: 6%; bottom: clamp(68px, 8.5vw, 150px); z-index: 3; animation: cavern-patrol 9s steps(18) infinite alternate; }
+.level-green-shell { position: relative; display: block; width: 39px; height: 29px; border-radius: 50% 50% 30% 30%; border-bottom: 6px solid #fff5d7; background: radial-gradient(ellipse at 35% 20%,#7bf584,#21b846 45%,#007735 80%); box-shadow: inset 0 2px 1px #b6ffc0,0 3px 3px #042c4b77; }
+.level-green-shell::before, .level-green-shell::after { content: ''; position: absolute; top: 3px; width: 16px; height: 20px; border: 1px solid #006b3299; border-radius: 50%; }
+.level-green-shell::before { left: 4px; transform: rotate(-30deg); }
+.level-green-shell::after { right: 4px; transform: rotate(30deg); }
+.level-green-shell i { position: absolute; bottom: -5px; left: 13px; width: 14px; height: 9px; border-radius: 50% 50% 0 0; background: #073f2b; border: 2px solid #f3e7c4; }
+.underground-glints { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.underground-glints i { position: absolute; width: 12px; height: 12px; background: #cbfbff; clip-path: polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%); animation: cavern-glimmer 6s ease-in-out infinite; }
+.about-profile-panel a, .contact-vault-panel a { border-radius: 7px; }
+
+/* Motion is limited to small props and gentle atmospheric layers. */
+.world-ambience { position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none; }
+.world-water-glints { position: absolute; top: 36%; left: 3%; right: 3%; bottom: 17%; }
+.world-water-glints i { position: absolute; left: var(--glint-x); top: var(--glint-y); width: 24px; height: 3px; border-radius: 50%; background: #edfcff; box-shadow: 8px 7px 0 -1px #d9fbff; opacity: 0; animation: water-sparkle 5s ease-in-out var(--delay) infinite; }
+.ambience-overworld .world-water-glints { top: auto; bottom: 100px; left: 22%; right: 20%; height: 130px; }
+.ambience-underground .world-water-glints { top: auto; bottom: 11%; left: 8%; right: 8%; height: 80px; }
+.ambient-cloud { position: absolute; width: 135px; height: 34px; border-radius: 50px; background: linear-gradient(#fff,#d0e8ff); filter: drop-shadow(0 6px 6px #1969a529); animation: ambient-cloud-travel 38s ease-in-out infinite alternate; }
+.ambient-cloud i { position: absolute; border-radius: 50%; background: linear-gradient(140deg,#fff 40%,#e1f2ff); }
+.ambient-cloud i:nth-child(1) { width: 48px; height: 44px; left: 15px; top: -23px; }
+.ambient-cloud i:nth-child(2) { width: 60px; height: 54px; left: 46px; top: -35px; }
+.ambient-cloud i:nth-child(3) { width: 41px; height: 33px; right: 3px; top: -15px; }
+.ambient-cloud-one { top: 11%; left: 2%; opacity: .82; }
+.ambient-cloud-two { bottom: 5%; right: 6%; scale: .7; animation-delay: -19s; opacity: .78; }
+.ambience-sky .ambient-cloud-one { top: 8%; left: 13%; scale: .7; }
+.ambience-map .ambient-cloud-one { top: 14%; left: 5%; scale: .7; }
+.ambience-map .ambient-cloud-two { bottom: 18%; right: 4%; scale: .85; }
+.ambient-coin-arc { position: absolute; left: 5%; top: 45%; display: flex; gap: 16px; }
+.ambient-coin-arc .level-coin { position: relative; left: auto; bottom: auto; width: 19px; height: 28px; }
+.ambient-coin-arc .level-coin:nth-child(2) { top: -13px; }
+.ambient-coin-arc .level-coin:nth-child(3) { top: -22px; }
+.ambience-underground .ambient-coin-arc { top: 29%; left: 8%; }
+.ambient-mushroom { position: absolute; right: 5%; bottom: 3%; width: 160px; transform-origin: center 75%; animation: mushroom-bob 5s ease-in-out infinite; }
+.ambient-mushroom img, .ambient-airship img { display: block; width: 100%; height: auto; }
+.ambient-airship-route { position: absolute; top: 62%; left: 2%; width: 220px; animation: airship-cruise 19s ease-in-out infinite alternate; }
+.ambient-airship { transform-origin: center; animation: airship-bob 6s ease-in-out infinite; }
+.cavern-light-beam { position: absolute; left: 3%; top: -6%; width: 20%; height: 57%; background: linear-gradient(175deg,#6ceaff4d,transparent 78%); clip-path: polygon(35% 0,48% 0,100% 100%,0 100%); transform-origin: center top; animation: cavern-light 10s ease-in-out infinite; }
+.cavern-ripples { position: absolute; left: 8%; right: 18%; bottom: 13%; height: 35px; }
+.cavern-ripples i { position: absolute; left: 10%; width: 40px; height: 9px; border: 1px solid #a9f4ff99; border-radius: 50%; opacity: 0; animation: cavern-ripple 5s ease-out infinite; }
+.cavern-ripples i:nth-child(2) { left: 52%; animation-delay: -1.7s; }
+.cavern-ripples i:nth-child(3) { left: 86%; animation-delay: -3.3s; }
+@keyframes water-sparkle { 0%,70%,100% { opacity: 0; transform: translateX(0) scaleX(.5); } 25% { opacity: .75; transform: translateX(10px) scaleX(1); } 50% { opacity: .15; transform: translateX(20px) scaleX(.8); } }
+@keyframes ambient-cloud-travel { from { transform: translateX(-35px); } to { transform: translateX(65px); } }
+@keyframes mushroom-bob { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-16px) rotate(2deg); } }
+@keyframes airship-cruise { from { transform: translateX(0); } to { transform: translateX(45px); } }
+@keyframes airship-bob { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-12px) rotate(1deg); } }
+@keyframes cavern-light { 0%,100% { opacity: .4; transform: rotate(-3deg); } 50% { opacity: .8; transform: rotate(3deg); } }
+@keyframes cavern-ripple { 0% { opacity: 0; transform: scale(.4); } 20% { opacity: .7; } 100% { opacity: 0; transform: scale(2.2); } }
+[data-world-active="false"] :is(.world-ambience *, .world-cloud, .hero-sun, .sun-rays, .hero-sparkle, .level-platform, .level-coin, .level-pennant, .castle-firefly, .about-sky-sparkles i, .experience-airship-art, .experience-wind i, .bullet-bill-fly, .underground-glints i, .underground-koopa) { animation-play-state: paused; }
+.world-reveal { opacity: 0; translate: 0 24px; transition: opacity 700ms ease,translate 700ms cubic-bezier(.2,.8,.2,1); }
+.world-revealed, .world-reveal:focus-within { opacity: 1; translate: 0 0; }
+@keyframes platform-hover { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes coin-turn { 0%,100% { transform: scaleX(1); } 50% { transform: scaleX(.2); } }
+@keyframes pennant-wave { 0%,100% { transform: skewY(-4deg) scaleX(1); } 50% { transform: skewY(5deg) scaleX(.9); } }
+@keyframes finish-sparkle { 0%,100% { opacity: 0; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-16px); } }
+@keyframes sky-star { 0%,100% { opacity: .15; transform: translateY(0); } 50% { opacity: .9; transform: translateY(-12px); } }
+@keyframes airship-wind { 0% { transform: translateX(0); opacity: 0; } 15%,75% { opacity: .3; } 100% { transform: translateX(120vw); opacity: 0; } }
+@keyframes cavern-glimmer { 0%,100% { opacity: .15; transform: translateY(0); } 50% { opacity: .8; transform: translateY(-6px); } }
+@keyframes cavern-patrol { from { transform: translateX(0); } to { transform: translateX(-36px); } }
+@media (hover: hover) and (pointer: fine) {
+  .world-block:hover .block-model { transform: translateY(-5px); }
+}
+@media (max-width: 1023px) {
+  .project-map-art { height: 900px !important; object-fit: cover; object-position: center top; mask-image: linear-gradient(#000 65%,transparent); }
+  .project-world { background: linear-gradient(#249bf0,#047cbe); }
+  .about-sky-world { padding-top: 120px; padding-bottom: 166px; }
+  .about-sky-art { object-position: 24% center; }
+  .experience-airship-art img { object-position: 20% center; }
+}
+@media (max-width: 639px) {
+  .hero-copy { padding: 26px 18px; border-radius: 12px; }
+  .profile-career-panel { padding: 18px; }
+  .experience-stage { padding: 18px 14px; }
+  #top { min-height: 1050px; padding-top: 145px; padding-bottom: 405px; }
+  .world-backdrop img { object-position: 47% bottom; }
+  .world-atmosphere { background: linear-gradient(180deg,#0675be6b,#03629e80 45%,transparent 75%); }
+  .world-clouds { top: auto; bottom: 150px; }
+  .level-skill-blocks { bottom: 290px; gap: 22px; }
+  .block-model { --block-size: 64px; }
+  .level-platforms { bottom: 190px; gap: 20px; }
+  .level-platform { width: 61px; }
+  .level-coin { bottom: 46px; }
+  .level-finish { right: 2%; gap: 10px; }
+  .level-castle { width: 120px; }
+  .level-flagpole { height: 131px; }
+  .level-staircase { display: none; }
+  .level-pipe { transform: scale(.78); transform-origin: bottom center; }
+  .project-world { padding-top: 72px; padding-bottom: 76px; }
+  .project-map-art { height: 720px !important; object-position: 20% top; opacity: .86; }
+  .about-profile-panel { padding: 24px 20px; border-radius: 13px; }
+  .about-world-floor { height: 120px; }
+  .about-floor-clouds { height: 61px; }
+  .about-floor-clouds i { height: 36px; }
+  .about-floor-clouds i::before { top: -7px; height: 32px; }
+  .about-sky-world .ambient-mushroom { bottom: 100px; }
+  .about-sky-art { object-position: 12% center; }
+  .experience-airship-art { height: 760px; bottom: auto; mask-image: linear-gradient(#000 70%,transparent); }
+  .experience-airship-art img { object-position: 20% top; }
+  .experience-wind { display: none; }
+  .airship-level { padding-top: 110px; padding-bottom: 120px; background: linear-gradient(#399af7,#287bdd); }
+  #contact.underground-world { min-height: 790px; padding-top: 120px; padding-bottom: 160px; }
+  .underground-world-art { object-position: 73% bottom; }
+  .contact-vault-panel { padding: 26px 16px; }
+  .ambient-cloud { scale: .6; }
+  .ambient-cloud-one { top: 45px; }
+  .ambience-map .ambient-cloud-one { top: 60px; }
+  .ambience-map .ambient-cloud-two { display: none; }
+  .ambience-map .world-water-glints { top: 200px; height: 330px; bottom: auto; }
+  .ambient-mushroom { width: 90px; right: 9%; bottom: 16px; }
+  .ambience-sky .ambient-cloud-one { top: 50px; left: 6%; }
+  .ambience-sky .ambient-coin-arc { top: 67px; left: auto; right: 12%; }
+  .ambient-coin-arc { gap: 12px; }
+  .ambient-airship-route { top: 12px; left: auto; right: 10%; width: 120px; }
+  .ambience-underground .ambient-coin-arc { top: 70px; left: 12%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .world-ambience * { animation: none; }
+  .world-water-glints, .cavern-ripples { display: none; }
+  .world-cloud, .sun-rays, .level-platform, .level-coin, .level-pennant, .castle-firefly, .about-sky-sparkles i, .experience-airship-art, .experience-wind i, .underground-glints i, .underground-koopa { animation: none; }
+  .castle-firefly, .experience-wind { display: none; }
+  .world-backdrop, .block-model, .project-cartridge, .project-cartridge > div:first-of-type img { transition: none; }
+  .world-backdrop, .project-cartridge:hover, .project-cartridge:hover > div:first-of-type img, .world-block:hover .block-model, .world-block:focus-visible .block-model { transform: none; }
+  .world-reveal { opacity: 1; translate: none; transition: none; }
+}

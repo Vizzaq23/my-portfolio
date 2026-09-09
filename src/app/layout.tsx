@@ -1,17 +1,35 @@
 import type { Metadata, Viewport } from "next";
+import Link from "next/link";
 import { Analytics } from "@vercel/analytics/next";
 import localFont from "next/font/local";
 import "./globals.css";
+import "./level.css";
+import "./portfolio.css";
+import "./retro-home.css";
+import "./retro-interface.css";
+import "./retro-airship.css";
+import "./cave-fish.css";
+import "./project-map.css";
+import "./github-activity.css";
+import "./typography.css";
+import NavBar from "@/components/NavBar";
 import JsonLd from "@/components/JsonLd";
 import { getSiteUrl } from "@/lib/site-url";
 
-const inter = localFont({
+const bodyFont = localFont({
+  src: "../fonts/IBMPlexSans-Variable.woff2",
+  weight: "400 700",
+  style: "normal",
+  variable: "--font-body",
+  display: "swap",
+});
+
+const headingFont = localFont({
   src: [
-    { path: "../fonts/Inter-Regular.woff2", weight: "400", style: "normal" },
-    { path: "../fonts/Inter-SemiBold.woff2", weight: "600", style: "normal" },
-    { path: "../fonts/Inter-Bold.woff2", weight: "700", style: "normal" },
+    { path: "../fonts/ChakraPetch-SemiBold.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/ChakraPetch-Bold.woff2", weight: "700", style: "normal" },
   ],
-  variable: "--font-inter",
+  variable: "--font-heading",
   display: "swap",
 });
 
@@ -72,7 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${pixelFont.variable} font-sans bg-gray-50 text-ink antialiased`}
+        className={`${bodyFont.variable} ${headingFont.variable} ${pixelFont.variable} font-sans bg-gray-50 text-ink antialiased`}
       >
         <JsonLd />
         <a
@@ -81,12 +99,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to main content
         </a>
+        <NavBar />
         <main id="main-content" tabIndex={-1}>
           {children}
         </main>
 
-        <footer className="bg-ink py-4 text-center text-sm font-sans text-white">
-          © {new Date().getFullYear()} Quintin Vizza
+        <footer className="site-footer bg-ink text-sm font-sans text-white">
+          <div>
+            <p>© {new Date().getFullYear()} Quintin Vizza</p>
+            <p>Built with Next.js & TypeScript. Inspired by the games I love.</p>
+            <Link href="/#top" className="no-underline">Back to top <span aria-hidden="true">↑</span></Link>
+          </div>
         </footer>
         <Analytics />
       </body>

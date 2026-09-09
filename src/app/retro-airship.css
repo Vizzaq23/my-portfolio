@@ -1,0 +1,71 @@
+/* A quiet 16-bit airship course; the content keeps its own opaque layer. */
+#experience.airship-level {
+  padding-top: 170px;
+  padding-bottom: 188px;
+  background: #648cab;
+  border-top: 3px solid #d6bc76;
+}
+
+.retro-airship-scene { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.retro-airship-scene svg { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+.airship-sky-bands { position: absolute; inset: 0; background: linear-gradient(180deg,#739eba 0 27%,#648cab 27% 61%,#527793 61% 84%,#456780 84%); }
+.retro-airship-scene .airship-pixel-cloud { position: absolute; width: 144px; opacity: .62; animation: airship-cloud-pass 32s linear infinite alternate; }
+.airship-cloud-one { left: 20%; top: 45px; }
+.airship-cloud-two { right: 7%; top: 22%; animation-delay: -13s !important; }
+.airship-cloud-three { left: -36px; top: 45%; animation-delay: -7s !important; }
+.airship-cloud-four { right: -25px; top: 72%; animation-delay: -19s !important; }
+.airship-cloud-five { left: 25%; bottom: 65px; animation-delay: -11s !important; }
+.retro-distant-vessel { position: absolute; top: 32px; right: 17%; width: 104px; opacity: .72; animation: airship-distant-cruise 24s ease-in-out infinite alternate; }
+
+/* Both launch origins use the ship's exact 240 × 144 pixel coordinate system. */
+.retro-airship-battery { --ship-width: 288px; --ship-overhang: -100px; --cycle: 12s; position: absolute; left: 0; width: 100%; height: 173px; }
+.retro-airship-port { top: 0; }
+.retro-airship-starboard { bottom: 20px; transform: scaleX(-1); --cycle: 15s; }
+.retro-airship-vessel { position: absolute; top: 0; left: var(--ship-overhang); width: var(--ship-width); }
+.retro-bill-flight { position: absolute; top: calc(var(--ship-width) * .275 - 20px); left: calc(var(--ship-width) + var(--ship-overhang)); width: 72px; opacity: 0; animation: retro-bill-fire var(--cycle) linear infinite; }
+.retro-bill-flight svg { width: 72px; height: 40px; }
+.retro-cannon-smoke { position: absolute; top: calc(var(--ship-width) * .275 - 14px); left: calc(var(--ship-width) + var(--ship-overhang) - 3px); width: 32px; height: 28px; opacity: 0; animation: retro-cannon-puff var(--cycle) steps(4,end) infinite; }
+.retro-cannon-smoke i { position: absolute; width: 10px; height: 10px; background: #e6e4cd; }
+.retro-cannon-smoke i:nth-child(1) { left: 3px; top: 2px; }
+.retro-cannon-smoke i:nth-child(2) { left: 17px; top: 12px; }
+.retro-cannon-smoke i:nth-child(3) { left: 0; top: 23px; width: 6px; height: 6px; }
+.retro-airship-starboard :is(.retro-bill-flight,.retro-cannon-smoke) { animation-delay: -7s; }
+.retro-propeller { transform-box: fill-box; transform-origin: center; animation: retro-propeller-turn .4s steps(2,end) infinite; }
+
+.airship-timber { position: absolute; width: 146px; height: 332px; border: 4px solid #293744; background: repeating-linear-gradient(0deg,#9c7049 0 25px,#d4a268 25px 28px,#604832 28px 32px); box-shadow: inset 8px 0 #604832,inset -8px 0 #604832; }
+.airship-timber::before, .airship-timber::after { content: ''; position: absolute; left: -12px; right: -12px; height: 16px; border: 4px solid #293744; background: #c5ad6c; box-shadow: inset 0 4px #eed79e; }
+.airship-timber::before { top: -8px; }
+.airship-timber::after { bottom: 12px; }
+.airship-timber-left { left: -72px; top: 33%; }
+.airship-timber-right { right: -72px; top: 49%; }
+.airship-timber i { position: absolute; left: 51px; width: 34px; height: 34px; border: 6px solid #d8b66c; background: #263c51; box-shadow: 3px 3px 0 #352e2d,inset 0 4px #102338; }
+.airship-timber i:nth-child(1) { top: 45px; }
+.airship-timber i:nth-child(2) { top: 137px; }
+.airship-timber i:nth-child(3) { top: 229px; }
+.airship-deck-edge { position: absolute; bottom: 0; left: 0; right: 0; height: 24px; border-top: 4px solid #efd18d; border-bottom: 4px solid #293744; background: repeating-linear-gradient(90deg,#a67846 0 60px,#5f4933 60px 64px); box-shadow: inset 0 4px #c79b5d,inset 0 -4px #775133; }
+
+@keyframes retro-bill-fire { 0%,3% { transform: translateX(0); opacity: 0; } 3.1% { transform: translateX(0); opacity: 1; } 38% { transform: translateX(100vw); opacity: 1; } 38.1%,100% { transform: translateX(100vw); opacity: 0; } }
+@keyframes retro-cannon-puff { 0%,3% { opacity: 0; transform: translateX(0) scale(.6); } 3.1% { opacity: .8; } 7% { opacity: 0; transform: translateX(22px) scale(1.25); } 100% { opacity: 0; } }
+@keyframes retro-propeller-turn { 0% { transform: scaleY(1); } 50% { transform: scaleY(.3); } }
+@keyframes airship-cloud-pass { from { transform: translateX(-22px); } to { transform: translateX(42px); } }
+@keyframes airship-distant-cruise { from { transform: translateX(0); } to { transform: translateX(-72px); } }
+
+[data-world-active="false"] .retro-airship-scene * { animation-play-state: paused; }
+
+@media (max-width: 767px) {
+  #experience.airship-level { padding-top: 152px; padding-bottom: 164px; }
+  .retro-airship-battery { --ship-width: 216px; --ship-overhang: -86px; height: 130px; }
+  .retro-airship-starboard { bottom: 20px; }
+  .retro-bill-flight { top: calc(var(--ship-width) * .275 - 15px); width: 54px; }
+  .retro-bill-flight svg { width: 54px; height: 30px; }
+  .retro-distant-vessel { top: 81px; right: 12%; width: 72px; }
+  .retro-airship-scene .airship-pixel-cloud { width: 96px; }
+  .airship-cloud-one { left: 56%; top: 16px; }
+  .airship-cloud-five { left: 13%; bottom: 42px; }
+  .airship-timber { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .retro-airship-scene * { animation: none !important; }
+  .retro-bill-flight, .retro-cannon-smoke { display: none; }
+}
