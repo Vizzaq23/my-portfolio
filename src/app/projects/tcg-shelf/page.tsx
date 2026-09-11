@@ -24,6 +24,11 @@ export default function TcgCaseStudy() {
         <a className="inline-flex min-h-11 items-center rounded bg-yellow-300 px-5 font-bold text-slate-950" href="https://tcg-lyart.vercel.app/" target="_blank" rel="noopener noreferrer">Open live app ↗</a>
         <a className="inline-flex min-h-11 items-center underline" href="/resume">View résumé</a>
       </div>
+      <section className="mt-10 rounded-lg bg-white p-6 text-slate-950" aria-labelledby="collector-heading">
+        <h2 id="collector-heading" className="text-2xl font-bold">Built from my experience as a collector</h2>
+        <p className="mt-4 leading-relaxed">As a One Piece collector, I understand the challenge of tracking card variants, graded cards, and changing market prices. That experience informs how I build TCG Shelf.</p>
+        <a className="mt-4 inline-flex min-h-11 items-center font-semibold text-blue-800 underline" href="https://app.getcollectr.com/showcase/profile/@alostzoro" target="_blank" rel="noopener noreferrer">View my personal collection on Collectr ↗</a>
+      </section>
       <section className="mt-10 rounded-lg bg-white p-6 text-slate-950" aria-labelledby="demo-heading">
         <h2 id="demo-heading" className="text-2xl font-bold">See the application in use</h2>
         <ProjectDemo id="tcg-shelf" title="One Piece TCG Shelf" image="/projects/tcg-shelf.png" imageAlt="TCG Shelf catalog and collection walkthrough" />
