@@ -21,7 +21,7 @@ export type Project = {
   badge?: "NEW";
 };
 
-export const projects: Project[] = [
+const projectCatalog: Project[] = [
   {
     id: "lavender",
     category: "Community & fabrication",
@@ -140,3 +140,7 @@ export const projects: Project[] = [
     badge: "NEW",
   },
 ];
+
+// Lead with the work most relevant to software engineering roles.
+const projectOrder = ["tcg-shelf", "pinball", "adaptive-shooter", "game-balancer", "arcade", "lavender"];
+export const projects: Project[] = projectOrder.map((id) => projectCatalog.find((project) => project.id === id)!);

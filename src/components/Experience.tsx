@@ -21,6 +21,15 @@ export default function Experience() {
           <h2 id="experience-heading">Experience & education.</h2>
           <p>Production work, a foundation in engineering, and a habit of learning by building.</p>
         </div>
+        <article className="mb-8 rounded-lg border-2 border-slate-600 bg-slate-950/95 p-6 font-sans text-slate-100" aria-labelledby="sentari-story-title">
+          <p className="text-sm font-semibold uppercase tracking-wider text-yellow-300">Inside the work · Sentari AI</p>
+          <h3 id="sentari-story-title" className="mt-3 text-2xl font-bold">Making product activity visible to the team</h3>
+          <div className="mt-5 grid gap-6 md:grid-cols-3">
+            <div><h4 className="font-bold text-yellow-300">The problem</h4><p className="mt-2 leading-relaxed">The product team needed an admin view of referrals, retention, engagement, and user growth to understand activity on the platform.</p></div>
+            <div><h4 className="font-bold text-yellow-300">My implementation</h4><p className="mt-2 leading-relaxed">I built the analytics dashboard with Supabase RPCs and SQL, alongside React/Next.js features and backend APIs. The work connected interface, application logic, and database queries.</p></div>
+            <div><h4 className="font-bold text-yellow-300">Team delivery</h4><p className="mt-2 leading-relaxed">The dashboard brought these metrics into an admin interface for the team. I worked through pull requests, code reviews, and documentation with a 10+ member cross-functional team.</p></div>
+          </div>
+        </article>
         <ol className="experience-records">
           {experience.map((item, index) => (
             <li key={item.id} className={"experience-record experience-record-" + item.kind}>

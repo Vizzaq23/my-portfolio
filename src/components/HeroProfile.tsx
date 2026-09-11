@@ -3,16 +3,16 @@ export default function HeroProfile() {
     <div className="hero-copy relative z-10 mx-auto">
       <div className="hero-profile-main">
         <p className="hero-world-label">World 01 <span aria-hidden="true">/</span> Overworld</p>
-        <p className="availability"><span aria-hidden="true" /> Available for full-time opportunities</p>
+        <p className="availability"><span aria-hidden="true" /> Open to full-time software engineering · NYC, Long Island & remote</p>
         <h1>Quintin Vizza<span className="hero-title-dot">.</span></h1>
-        <p className="hero-role">Software engineer. Game enthusiast.</p>
+        <p className="hero-role">Full-stack software engineer.</p>
         <p className="hero-description">I build full-stack products, data tools, and interactive systems—from production dashboards to software that powers physical hardware.</p>
         <div className="hero-actions">
           <a href="#projects" className="dev-button dev-button-primary no-underline">View projects <span aria-hidden="true">↓</span></a>
           <a href="/resume" className="dev-button dev-button-outline no-underline">View résumé <span aria-hidden="true">↗</span></a>
           <a href="#contact" className="hero-contact-link no-underline">Get in touch <span aria-hidden="true">→</span></a>
         </div>
-        <p className="hero-game-note">Built with an engineer&apos;s mindset and a player&apos;s curiosity.</p>
+        <p className="hero-game-note">Computer Engineering graduate · May 2026. Built with an engineer&apos;s mindset and a player&apos;s curiosity.</p>
       </div>
       <aside className="hero-proof" aria-label="Engineering at a glance">
         <p className="small-label">Engineering at a glance</p>
