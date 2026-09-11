@@ -22,6 +22,7 @@ export default function TcgCaseStudy() {
       <p className="mt-5 text-xl leading-relaxed">A deployed application for browsing cards, managing a collection, tracking estimated value, and sharing a collector profile.</p>
       <div className="mt-6 flex flex-wrap gap-4">
         <a className="inline-flex min-h-11 items-center rounded bg-yellow-300 px-5 font-bold text-slate-950" href="https://tcg-lyart.vercel.app/" target="_blank" rel="noopener noreferrer">Open live app ↗</a>
+        <a className="inline-flex min-h-11 items-center underline" href="https://github.com/Vizzaq23/TCG" target="_blank" rel="noopener noreferrer">View source on GitHub ↗</a>
         <a className="inline-flex min-h-11 items-center underline" href="/resume">View résumé</a>
       </div>
       <section className="mt-10 rounded-lg bg-white p-6 text-slate-950" aria-labelledby="collector-heading">
@@ -35,7 +36,7 @@ export default function TcgCaseStudy() {
       </section>
       <section className="mt-10 rounded-lg bg-white p-6 text-slate-950">
         <h2 className="text-2xl font-bold">My contribution</h2>
-        <p className="mt-4 leading-relaxed">I built the application across the React/Next.js interface, TypeScript APIs, Supabase authentication and storage, PostgreSQL data model, and server-side pricing workflow. The product includes collections, public profiles, trade offers, and a storefront. The source repository remains private; this case study explains the architecture without exposing application secrets or user data.</p>
+        <p className="mt-4 leading-relaxed">I built the application across the React/Next.js interface, TypeScript APIs, Supabase authentication and storage, PostgreSQL data model, and server-side pricing workflow. The product includes collections, public profiles, trade offers, and a storefront. The source repository is public; this case study explains the architecture and the engineering decisions behind the application.</p>
         <p className="mt-4 leading-relaxed"><strong>Stack:</strong> Next.js, React, TypeScript, Supabase, PostgreSQL, Tailwind CSS, Vercel.</p>
       </section>
       <section className="mt-10">

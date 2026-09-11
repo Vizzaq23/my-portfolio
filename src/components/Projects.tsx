@@ -31,6 +31,7 @@ export default function Projects() {
               </ul>
               <div className="mt-5 flex flex-wrap gap-4 font-semibold text-blue-800">
                 <a className="inline-flex min-h-11 items-center underline" href={project.link} target="_blank" rel="noopener noreferrer">{project.linkLabel} ↗</a>
+                {project.id === "tcg-shelf" && <a className="inline-flex min-h-11 items-center underline" href="https://github.com/Vizzaq23/TCG" target="_blank" rel="noopener noreferrer">View code ↗</a>}
                 {project.id === "tcg-shelf" && <Link className="inline-flex min-h-11 items-center underline" href="/projects/tcg-shelf">Engineering case study →</Link>}
               </div>
             </article>
