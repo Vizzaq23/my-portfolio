@@ -7,9 +7,9 @@ type Props = { id: string; title: string; image: string; imageAlt: string };
 export default function ProjectDemo({ id, title, image, imageAlt }: Props) {
   const [playing, setPlaying] = useState(false);
   const pinball = id === "pinball";
-  const src = id === "tcg-shelf" ? "/demos/tcg.mp4" : "/demos/trainer.mp4";
-  const poster = pinball ? image : id === "tcg-shelf" ? "/demos/tcg.jpg" : "/demos/trainer.jpg";
-  const length = pinball ? "21-second showcase" : id === "tcg-shelf" ? "45-second walkthrough" : "12-second gameplay preview";
+  const src = id === "tcg-shelf" ? "/demos/tcg-20260911.mp4" : "/demos/trainer-20260911.mp4";
+  const poster = pinball ? image : id === "tcg-shelf" ? "/demos/tcg-20260911.jpg" : "/demos/trainer-20260911.jpg";
+  const length = pinball ? "21-second showcase" : id === "tcg-shelf" ? "30-second walkthrough" : "41-second gameplay walkthrough";
   return (
     <figure className="mt-4">
       <div className="relative aspect-video overflow-hidden rounded border border-slate-300 bg-slate-950">
@@ -22,7 +22,7 @@ export default function ProjectDemo({ id, title, image, imageAlt }: Props) {
         </video>}
       </div>
       <figcaption className="mt-2 text-sm leading-relaxed text-slate-600">
-        {length}. {pinball ? "A playable team capstone, with physical inputs and the digital scoreboard." : id === "tcg-shelf" ? "Catalog, collection value, and collector workflows. Recorded July 2026; interface has since evolved. Silent preview." : "Recorded gameplay with targets and performance HUD. Silent preview."}
+        {length}. {pinball ? "A playable team capstone, with physical inputs and the digital scoreboard." : id === "tcg-shelf" ? "Current interface: Journey, collection overview, public shelf, and card catalog. Edited from a September 2026 recording. Silent preview." : "Training menu, Flick and Tracking gameplay, and Flick session results. Edited highlights from a September 2026 recording. Silent preview."}
         {pinball && <a className="ml-1 underline" href="https://www.linkedin.com/feed/update/urn:li:activity:7453827527732539392/" target="_blank" rel="noopener noreferrer">Open original video ↗</a>}
       </figcaption>
     </figure>
