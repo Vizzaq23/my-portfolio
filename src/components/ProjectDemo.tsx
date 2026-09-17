@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { trackPortfolioEvent } from "@/lib/analytics";
 
 type Props = { id: string; title: string; image: string; imageAlt: string };
 export default function ProjectDemo({ id, title, image, imageAlt }: Props) {
@@ -13,8 +14,11 @@ export default function ProjectDemo({ id, title, image, imageAlt }: Props) {
   return (
     <figure className="mt-4">
       <div className="relative aspect-video overflow-hidden rounded border border-slate-300 bg-slate-950">
-        {!playing ? <button type="button" onClick={() => setPlaying(true)} className="group relative h-full w-full focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-[-4px] focus-visible:outline-yellow-300" aria-label={`Watch ${title}: ${length}`}>
-          <Image src={poster} alt={pinball ? imageAlt : `${title} demonstration frame`} fill sizes="(max-width: 768px) 90vw, 380px" className="object-contain opacity-80 transition group-hover:opacity-100" />
+        {!playing ? <button type="button" onClick={() => {
+          setPlaying(true);
+          trackPortfolioEvent("project_demo_play", { project_id: id, title });
+        }} className="group relative h-full w-full focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-[-4px] focus-visible:outline-yellow-300" aria-label={`Watch ${title}: ${length}`}>
+          <Image src={poster} alt={pinball ? imageAlt : `${title} demonstration frame`} fill sizes="(max-width: 768px) 90vw, 380px" className="object-contain opacity-80 transition group-hover:opacity-100" loading="lazy" decoding="async" />
           <span className="absolute inset-0 flex items-center justify-center"><span className="rounded-full border-2 border-white bg-slate-950/90 px-5 py-3 font-semibold text-white">▶ Watch demo</span></span>
         </button> : pinball ? <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7453827479741415424?compact=1" title="Pinball machine showcase video" className="h-full w-full border-0" allowFullScreen allow="fullscreen" /> : <video className="h-full w-full" controls autoPlay muted playsInline preload="metadata" poster={poster} aria-label={`${title} silent demonstration`}>
           <source src={src} type="video/mp4" />

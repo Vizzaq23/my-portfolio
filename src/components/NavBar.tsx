@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { trackPortfolioEvent } from "@/lib/analytics";
 
 const sections = ["top", "projects", "about", "experience", "contact"];
 const links = [
@@ -50,7 +51,7 @@ export default function NavBar() {
             <Link href={"/#" + id} className={`nav-world nav-world-${id} no-underline`} aria-current={active === id ? "location" : undefined}><span className="nav-world-number" aria-hidden="true">{number}</span>{label}</Link>
           </li>)}
         </ul>
-        <a className="dev-button dev-button-primary nav-resume no-underline" href="/resume">Résumé <span aria-hidden="true">↗</span></a>
+        <a className="dev-button dev-button-primary nav-resume no-underline" href="/resume" onClick={() => trackPortfolioEvent("resume_click", { source: "nav" })}>Résumé <span aria-hidden="true">↗</span></a>
       </nav>
     </header>
   );
