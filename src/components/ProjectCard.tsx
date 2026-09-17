@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { Project } from "@/data/projects";
+import { trackPortfolioEvent } from "@/lib/analytics";
 
 type ProjectCardProps = {
   project: Project;
@@ -68,7 +69,7 @@ export default function ProjectCard({
         ) : null}
         <div className="project-footer mt-5 flex">
           {hasLink ? (
-            <a href={project.link} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} — ${project.linkLabel} (opens in a new tab)`} className="no-underline inline-flex min-h-11 w-full items-center justify-center rounded border-2 border-red-950 bg-red-700 px-3 py-2 font-display text-[11px] leading-relaxed text-white transition hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-800">
+            <a href={project.link} target="_blank" rel="noopener noreferrer" aria-label={`${project.title} — ${project.linkLabel} (opens in a new tab)`} className="no-underline inline-flex min-h-11 w-full items-center justify-center rounded border-2 border-red-950 bg-red-700 px-3 py-2 font-display text-[11px] leading-relaxed text-white transition hover:bg-red-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-800" onClick={() => trackPortfolioEvent("project_link_click", { project_id: project.id, target: project.linkLabel ?? "external" })}>
               {project.linkLabel}
               <span aria-hidden="true">↗</span>
             </a>
