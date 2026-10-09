@@ -24,6 +24,9 @@ const path: Point[] = [
   stop(8), point(95.8,41.8,true), point(95.1,35.5), point(93.6,31.3), point(94.8,28.2), point(93.3,26.3), stop(5),
 ];
 
+// Use the physical route as the single source of truth for level numbering.
+export const projectLevelOrder = path.flatMap((position) => position.level ? [position.level] : []);
+
 let distance = 0;
 const route = path.map((position, index) => {
   if (index > 0) distance += Math.hypot(position.x - path[index - 1].x, (position.y - path[index - 1].y) * 2 / 3);

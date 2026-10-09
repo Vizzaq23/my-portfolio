@@ -7,7 +7,7 @@ import ProjectCard from "@/components/ProjectCard";
 import ProjectWorldMap from "@/components/ProjectWorldMap";
 import ProjectBackdrop from "@/components/ProjectBackdrop";
 import OnePieceEasterEgg from "@/components/OnePieceEasterEgg";
-import { projects } from "@/data/projects";
+import { projects, featuredProjects } from "@/data/projects";
 
 export default function Projects() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -18,9 +18,9 @@ export default function Projects() {
     <section className="project-world relative" aria-labelledby="featured-projects-heading">
       <div className="relative z-10 mx-auto max-w-6xl px-5 py-12 font-sans">
         <h2 id="featured-projects-heading" className="text-3xl font-bold text-slate-950">Selected engineering work</h2>
-        <p className="mt-3 text-lg text-slate-950">Recent builds across AI workspaces, full-stack products, game systems, and research tools.</p>
+        <p className="mt-3 text-lg text-slate-950">Three featured builds. Explore the map below for all nine projects, including my latest AI and research work.</p>
         <div className="mt-6 grid gap-5 md:grid-cols-3">
-          {projects.slice(0, 6).map((project) => (
+          {featuredProjects.map((project) => (
             <article key={project.id} className="rounded-lg border-2 border-slate-900 bg-white p-5 text-slate-950 shadow-lg">
               <p className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-600">{project.category}{project.badge === "NEW" ? " · NEW" : ""}</p>
               <h3 className="text-xl font-bold">{project.title}</h3>

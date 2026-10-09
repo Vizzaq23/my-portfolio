@@ -1,3 +1,5 @@
+import { projectLevelOrder } from "@/lib/project-map-route";
+
 export type Project = {
   id: string;
   title: string;
@@ -209,6 +211,9 @@ const projectCatalog: Project[] = [
   },
 ];
 
-// Lead with the work most relevant to software engineering roles.
-const projectOrder = ["tcg-shelf", "sunny-hq", "tcg-coach", "trading-agent", "pinball", "adaptive-shooter", "game-balancer", "arcade", "lavender"];
-export const projects: Project[] = projectOrder.map((id) => projectCatalog.find((project) => project.id === id)!);
+// Map numbering and next/previous navigation follow the actual walking route.
+export const projects: Project[] = projectLevelOrder.map((id) => projectCatalog.find((project) => project.id === id)!);
+
+// Featured work is curated independently of the complete project map.
+const featuredProjectIds = ["tcg-shelf", "pinball", "adaptive-shooter"];
+export const featuredProjects: Project[] = featuredProjectIds.map((id) => projectCatalog.find((project) => project.id === id)!);
