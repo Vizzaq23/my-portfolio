@@ -18,10 +18,11 @@ export default function Projects() {
     <section className="project-world relative" aria-labelledby="featured-projects-heading">
       <div className="relative z-10 mx-auto max-w-6xl px-5 py-12 font-sans">
         <h2 id="featured-projects-heading" className="text-3xl font-bold text-slate-950">Selected engineering work</h2>
-        <p className="mt-3 text-lg text-slate-950">Three ways I build: full-stack products, physical systems, and responsive gameplay.</p>
+        <p className="mt-3 text-lg text-slate-950">Recent builds across AI workspaces, full-stack products, game systems, and research tools.</p>
         <div className="mt-6 grid gap-5 md:grid-cols-3">
-          {projects.slice(0, 3).map((project) => (
+          {projects.slice(0, 6).map((project) => (
             <article key={project.id} className="rounded-lg border-2 border-slate-900 bg-white p-5 text-slate-950 shadow-lg">
+              <p className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-600">{project.category}{project.badge === "NEW" ? " · NEW" : ""}</p>
               <h3 className="text-xl font-bold">{project.title}</h3>
               <ProjectDemo id={project.id} title={project.title} image={project.image} imageAlt={project.imageAlt} />
               <p className="mt-3 leading-relaxed">{project.summary}</p>
@@ -30,7 +31,7 @@ export default function Projects() {
                 {project.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
               </ul>
               <div className="mt-5 flex flex-wrap gap-4 font-semibold text-blue-800">
-                <a className="inline-flex min-h-11 items-center underline" href={project.link} target="_blank" rel="noopener noreferrer">{project.linkLabel} ↗</a>
+                {project.link ? <a className="inline-flex min-h-11 items-center underline" href={project.link} target="_blank" rel="noopener noreferrer">{project.linkLabel} ↗</a> : <span className="inline-flex min-h-11 items-center text-sm text-slate-600">{project.status}</span>}
                 {project.id === "tcg-shelf" && <a className="inline-flex min-h-11 items-center underline" href="https://github.com/Vizzaq23/TCG" target="_blank" rel="noopener noreferrer">View code ↗</a>}
                 {project.id === "tcg-shelf" && <Link className="inline-flex min-h-11 items-center underline" href="/projects/tcg-shelf">Engineering case study →</Link>}
               </div>

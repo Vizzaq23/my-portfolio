@@ -7,6 +7,17 @@ import { trackPortfolioEvent } from "@/lib/analytics";
 type Props = { id: string; title: string; image: string; imageAlt: string };
 export default function ProjectDemo({ id, title, image, imageAlt }: Props) {
   const [playing, setPlaying] = useState(false);
+  const hasDemo = ["pinball", "tcg-shelf", "adaptive-shooter"].includes(id);
+  if (!hasDemo) {
+    return (
+      <figure className="mt-4">
+        <div className="relative aspect-video overflow-hidden rounded border border-slate-300 bg-slate-950">
+          <Image src={image} alt={imageAlt} fill sizes="(max-width: 768px) 90vw, 380px" className="object-contain" unoptimized={image.endsWith(".svg")} loading="lazy" />
+        </div>
+        <figcaption className="mt-2 text-sm text-slate-600">Project workflow overview.</figcaption>
+      </figure>
+    );
+  }
   const pinball = id === "pinball";
   const src = id === "tcg-shelf" ? "/demos/tcg-20260911.mp4" : "/demos/trainer-20260911.mp4";
   const poster = pinball ? image : id === "tcg-shelf" ? "/demos/tcg-20260911.jpg" : "/demos/trainer-20260911.jpg";

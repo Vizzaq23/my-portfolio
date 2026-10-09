@@ -29,7 +29,7 @@ export default function ProjectWorldMap({ currentIndex, onSelect }: Props) {
       <div className="project-map-intro">
         <p className="map-world-label">World 02 / Project map</p>
         <h2 id="projects-heading">Choose your next level.</h2>
-        <p>Six projects. Six paths into my work.</p>
+        <p>{projects.length} projects. Explore my latest builds and earlier work.</p>
       </div>
 
       <div className="project-map-artboard">
