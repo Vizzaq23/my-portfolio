@@ -45,7 +45,7 @@
   #top .hero-copy { padding: 28px 25px; }
   #top .hero-copy h1 { font-size: 28px; }
   #top .hero-proof { border-left: 0; border-top-style: dashed; }
-  #top .hero-actions .dev-button { font-size: 8px; padding: 10px 9px; gap: 8px; }
+  #top .hero-actions .dev-button { font: 700 15px/1.4 var(--font-heading),sans-serif; padding: 10px 9px; gap: 8px; }
   #top .world-clouds { top: auto; bottom: 300px; }
   .retro-overworld { height: 210px; }
   #top .level-castle { width: 116px; }

@@ -164,7 +164,9 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
   .skill-float-burst {
-    animation: skill-float-out-reduced 0.85s ease-out forwards;
+    animation: none;
+    opacity: 1;
+    transform: translate(-50%, calc(-100% - 32px));
   }
 }
 

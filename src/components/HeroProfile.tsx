@@ -1,3 +1,5 @@
+import SceneryToggle from "@/components/SceneryToggle";
+
 export default function HeroProfile() {
   return (
     <div className="hero-copy relative z-10 mx-auto">
@@ -13,6 +15,7 @@ export default function HeroProfile() {
           <a href="#contact" className="hero-contact-link no-underline">Get in touch <span aria-hidden="true">→</span></a>
         </div>
         <p className="hero-game-note">Computer Engineering graduate · May 2026. Built with an engineer&apos;s mindset and a player&apos;s curiosity.</p>
+        <div className="scenery-controls"><SceneryToggle /></div>
       </div>
       <aside className="hero-proof" aria-label="Engineering at a glance">
         <p className="small-label">Engineering at a glance</p>

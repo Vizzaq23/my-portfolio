@@ -19,13 +19,14 @@ export default function Projects() {
       <div className="relative z-10 mx-auto max-w-6xl px-5 py-12 font-sans">
         <h2 id="featured-projects-heading" className="text-3xl font-bold text-slate-950">Selected engineering work</h2>
         <p className="mt-3 text-lg text-slate-950">Three featured builds. Explore the map below for all nine projects, including my latest AI and research work.</p>
-        <div className="mt-6 grid gap-5 md:grid-cols-3">
+        <a href="#all-projects" className="mt-3 inline-flex min-h-11 items-center font-semibold text-slate-950 underline underline-offset-4">Explore all {projects.length} projects →</a>
+        <div className="mt-6 grid gap-6 xl:grid-cols-3">
           {featuredProjects.map((project) => (
             <article key={project.id} className="rounded-lg border-2 border-slate-900 bg-white p-5 text-slate-950 shadow-lg">
               <p className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-600">{project.category}{project.badge === "NEW" ? " · NEW" : ""}</p>
               <h3 className="text-xl font-bold">{project.title}</h3>
-              <ProjectDemo id={project.id} title={project.title} image={project.image} imageAlt={project.imageAlt} />
               <p className="mt-3 leading-relaxed">{project.summary}</p>
+              <ProjectDemo id={project.id} title={project.title} image={project.image} imageAlt={project.imageAlt} />
               <p className="mt-3 text-sm font-semibold">{project.tags.join(" · ")}</p>
               <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed">
                 {project.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
@@ -39,7 +40,9 @@ export default function Projects() {
           ))}
         </div>
       </div>
-      <ProjectWorldMap currentIndex={currentIndex} onSelect={setCurrentIndex} />
+      <div id="all-projects" className="scroll-mt-40" tabIndex={-1}>
+        <ProjectWorldMap currentIndex={currentIndex} onSelect={setCurrentIndex} />
+      </div>
       <div className="project-detail-world">
         <ProjectBackdrop />
         <OnePieceEasterEgg kind="zoro" placement="project-island" />

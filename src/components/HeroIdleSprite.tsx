@@ -89,7 +89,7 @@ export default function HeroIdleSprite() {
     const sync = () => {
       cancelAnimationFrame(frame);
       previous = 0;
-      const running = visible && !document.hidden && !motion.matches;
+      const running = visible && !document.hidden && !motion.matches && document.documentElement.dataset.sceneryPaused !== "true";
       element.dataset.running = String(running);
       if (motion.matches) {
         element.style.transform = `translate3d(${width * .06}px, 0, 0)`;
@@ -104,12 +104,15 @@ export default function HeroIdleSprite() {
     measure();
     sync();
     motion.addEventListener("change", sync);
+    const sceneryObserver = new MutationObserver(sync);
+    sceneryObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-scenery-paused"] });
     document.addEventListener("visibilitychange", sync);
     return () => {
       cancelAnimationFrame(frame);
       resize.disconnect();
       observer.disconnect();
       motion.removeEventListener("change", sync);
+      sceneryObserver.disconnect();
       document.removeEventListener("visibilitychange", sync);
     };
   }, []);

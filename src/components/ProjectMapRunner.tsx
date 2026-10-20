@@ -99,7 +99,7 @@ export default function ProjectMapRunner({ levelId }: { levelId: string }) {
       cancelAnimationFrame(frame);
       frame = 0;
       previous = 0;
-      if (motion.matches) {
+      if (motion.matches || document.documentElement.dataset.sceneryPaused === "true") {
         travelled.current = target;
         paint(false);
       } else if (visible && !document.hidden && travelled.current !== target) {
@@ -112,6 +112,8 @@ export default function ProjectMapRunner({ levelId }: { levelId: string }) {
     const resize = new ResizeObserver(() => { hopHeight = Math.min(40, track.clientWidth * .075); paint(travelled.current !== target); });
     resize.observe(track);
     motion.addEventListener("change", sync);
+    const sceneryObserver = new MutationObserver(sync);
+    sceneryObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-scenery-paused"] });
     document.addEventListener("visibilitychange", sync);
     paint(false);
     return () => {
@@ -119,6 +121,7 @@ export default function ProjectMapRunner({ levelId }: { levelId: string }) {
       observer.disconnect();
       resize.disconnect();
       motion.removeEventListener("change", sync);
+      sceneryObserver.disconnect();
       document.removeEventListener("visibilitychange", sync);
       selectTarget.current = null;
     };
