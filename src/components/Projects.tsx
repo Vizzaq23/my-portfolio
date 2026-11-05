@@ -22,19 +22,24 @@ export default function Projects() {
         <a href="#all-projects" className="mt-3 inline-flex min-h-11 items-center font-semibold text-slate-950 underline underline-offset-4">Explore all {projects.length} projects →</a>
         <div className="mt-6 grid gap-6 xl:grid-cols-3">
           {featuredProjects.map((project) => (
-            <article key={project.id} className="rounded-lg border-2 border-slate-900 bg-white p-5 text-slate-950 shadow-lg">
+            <article key={project.id} className="featured-glass-card text-slate-950">
+              <ProjectDemo id={project.id} title={project.title} image={project.image} imageAlt={project.imageAlt} />
+              <div className="featured-glass-body">
               <p className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-600">{project.category}{project.badge === "NEW" ? " · NEW" : ""}</p>
               <h3 className="text-xl font-bold">{project.title}</h3>
               <p className="mt-3 leading-relaxed">{project.summary}</p>
-              <ProjectDemo id={project.id} title={project.title} image={project.image} imageAlt={project.imageAlt} />
               <p className="mt-3 text-sm font-semibold">{project.tags.join(" · ")}</p>
-              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed">
+              <details className="featured-glass-details mt-4">
+              <summary className="cursor-pointer py-2 text-sm font-semibold underline underline-offset-4">Engineering highlights</summary>
+              <ul className="mt-2 list-disc space-y-2 pl-5 text-sm leading-relaxed">
                 {project.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
               </ul>
+              </details>
               <div className="mt-5 flex flex-wrap gap-4 font-semibold text-blue-800">
                 {project.link ? <a className="inline-flex min-h-11 items-center underline" href={project.link} target="_blank" rel="noopener noreferrer">{project.linkLabel} ↗</a> : <span className="inline-flex min-h-11 items-center text-sm text-slate-600">{project.status}</span>}
                 {project.id === "tcg-shelf" && <a className="inline-flex min-h-11 items-center underline" href="https://github.com/Vizzaq23/TCG" target="_blank" rel="noopener noreferrer">View code ↗</a>}
                 {project.id === "tcg-shelf" && <Link className="inline-flex min-h-11 items-center underline" href="/projects/tcg-shelf">Engineering case study →</Link>}
+              </div>
               </div>
             </article>
           ))}

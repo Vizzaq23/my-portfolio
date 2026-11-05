@@ -42,6 +42,8 @@ export default function About() {
             </div>
           </aside>
         </div>
+      </div>
+      <div className="github-glass-card relative z-10 mx-auto">
         <GitHubHeatmap />
       </div>
       <AboutFloor />

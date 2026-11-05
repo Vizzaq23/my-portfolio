@@ -1,0 +1,131 @@
+/* Card-only finish: the game worlds, typography and controls retain their identity. */
+:root {
+  --card-radius: 36px;
+  --card-glass-light: #fffdf6;
+  --card-glass-dark: #172b50;
+  --card-glass-shadow: 0 18px 44px #07152826, inset 0 2px 0 #ffffffa6;
+}
+
+#top .hero-copy,
+.section-heading:not(.section-heading-dark),
+.about-profile-panel,
+.experience-record,
+.contact-vault-panel,
+.project-detail-dock,
+.featured-glass-card,
+.github-glass-card,
+.project-world .project-cartridge:not(.project-featured),
+.activity-console {
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-glass-shadow);
+}
+
+#top .hero-copy,
+.section-heading:not(.section-heading-dark),
+.contact-vault-panel {
+  background: var(--card-glass-dark);
+  border-color: #ffd34e99;
+}
+
+.about-profile-panel,
+.experience-record,
+.project-detail-dock,
+.featured-glass-card,
+.github-glass-card,
+.project-world .project-cartridge:not(.project-featured) {
+  background: var(--card-glass-light);
+  border-color: #ffffffb3;
+}
+
+.about-profile-panel,
+.experience-record-work {
+  border-top-color: #ffd34e;
+}
+
+/* The dock is the card surface; its content must let that surface show through. */
+.project-detail-dock .project-stage { background: transparent; }
+.project-detail-dock .project-browser-toolbar { background: #edf3f980; }
+.project-detail-dock .project-featured .project-preview,
+.project-cartridge > .project-preview { border-radius: 18px; }
+
+.profile-proof-grid > div,
+.profile-career-panel { border-radius: 18px; }
+
+.activity-console { border-color: #7893ad80; }
+.activity-console:has(.activity-chart-link:hover),
+.activity-console:focus-within {
+  box-shadow: 0 16px 36px #07152824, inset 0 1px 0 #ffffff80;
+}
+
+/* Keep a solid readable fallback on browsers without backdrop filtering. */
+@supports ((backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px))) {
+  :root {
+    --card-glass-light: linear-gradient(145deg, #fffffff2, #f5f7f2d9);
+    --card-glass-dark: linear-gradient(145deg, #24416be8, #172b50d9);
+  }
+
+  #top .hero-copy,
+  .section-heading:not(.section-heading-dark),
+  .about-profile-panel,
+  .experience-record,
+  .contact-vault-panel,
+  .project-detail-dock,
+  .featured-glass-card,
+  .github-glass-card,
+  .project-world .project-cartridge:not(.project-featured),
+  .activity-console {
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+  }
+
+  .activity-console { background: linear-gradient(145deg, #203e54ed, #142c40e0); }
+}
+
+/* This heading lives inside a card and should not become a second glass panel. */
+.contact-vault-panel .section-heading {
+  background: none;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+@media (max-width: 767px) {
+  :root { --card-radius: 30px; }
+}
+
+/* Large preview, compact caption and soft continuous edge, as in the references. */
+.featured-glass-card { min-width: 0; overflow: hidden; border: 1px solid #ffffffc9; }
+.featured-glass-card > figure { margin-top: 0; }
+.featured-glass-card > figure > div:first-child { border: 0; border-radius: 0; aspect-ratio: 16 / 10; }
+.featured-glass-card > figure > figcaption,
+.featured-glass-card > figure > div:not(:first-child) { margin: 0; padding: 12px 24px; background: #ffffff50; }
+.featured-glass-body { padding: 24px 26px 28px; border-top: 1px solid #ffffffa6; }
+.featured-glass-body h3 { line-height: 1.35; }
+.featured-glass-details summary:focus-visible { outline: 2px solid #214d77; outline-offset: 4px; border-radius: 6px; }
+.github-glass-card { width: 100%; max-width: 1120px; margin-top: 24px; padding: 28px 32px; border: 1px solid #ffffffc9; }
+.github-glass-card .github-activity { margin: 0; padding: 0; border: 0; }
+.github-glass-card .activity-console { background: transparent; border: 0; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; border-radius: 20px; }
+.github-glass-card .activity-console-header { border-color: #17334d1a; padding-inline: 16px; }
+.github-glass-card .activity-console-label,
+.github-glass-card .activity-console-label > span,
+.github-glass-card .activity-refresh,
+.github-glass-card .activity-console-footer,
+.github-glass-card .activity-motion-toggle,
+.github-glass-card .activity-motion-toggle > span { color: #24445e; }
+.github-glass-card .activity-screen { padding: 16px 0; background: transparent; }
+.github-glass-card .activity-chart-link { background: #ffffff80; border: 0; border-radius: 16px; }
+.github-glass-card .activity-motion-toggle:focus-visible { outline-color: #214d77; }
+.github-glass-card .activity-motion-toggle:hover { color: #14213e; }
+
+@media (max-width: 767px) {
+  .featured-glass-body { padding: 22px 24px 26px; }
+  .github-glass-card { padding: 24px 20px; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --card-glass-light: #fffdf6;
+    --card-glass-dark: #172b50;
+  }
+  .activity-console { background: #142c40; }
+}
