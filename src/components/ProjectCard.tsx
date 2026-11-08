@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ProjectDisclosure from "@/components/ProjectDisclosure";
 import type { Project } from "@/data/projects";
 import { trackPortfolioEvent } from "@/lib/analytics";
 
@@ -62,10 +63,9 @@ export default function ProjectCard({
           {project.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
         </ul>
         {project.detail ? (
-          <details className="project-details mt-4 border-t border-slate-300 pt-3 font-sans">
-            <summary className="cursor-pointer text-sm font-semibold text-sky-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-800">Technical details</summary>
+          <ProjectDisclosure title="Technical details" className="mt-4 border-t border-slate-300 pt-3 font-sans">
             <p className="mt-3 text-base leading-relaxed text-slate-700">{project.detail}</p>
-          </details>
+          </ProjectDisclosure>
         ) : null}
         <div className="project-footer mt-5 flex">
           {hasLink ? (

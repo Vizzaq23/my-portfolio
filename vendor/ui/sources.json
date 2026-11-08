@@ -1,0 +1,26 @@
+[
+  {
+    "retrieved": "2026-11-07",
+    "sha256": "67485C20B5FE966019AC7B40CF85334DA929700F31070E8802778D5CD878D4CD",
+    "url": "https://magicui.design/r/hero-video-dialog.json",
+    "file": "hero-video-dialog.json"
+  },
+  {
+    "retrieved": "2026-11-07",
+    "sha256": "A80EF32F8FAC99705FA6FDB0ECF404C638F2E910F84DADC1F754F9C0AC409888",
+    "url": "https://magicui.design/r/scroll-progress.json",
+    "file": "scroll-progress.json"
+  },
+  {
+    "retrieved": "2026-11-07",
+    "sha256": "A257FCF5C120BE506779F0A832EE877DC1B58327E530B83C70E0C86BF5ACE505",
+    "url": "https://ui.aceternity.com/registry/timeline.json",
+    "file": "timeline.json"
+  },
+  {
+    "retrieved": "2026-11-07",
+    "sha256": "6FF585F95B063F1FDCFF31C117051F732EF247A99FE039FE500BCCCB3DC8BD40",
+    "url": "https://raw.githubusercontent.com/ibelick/motion-primitives/120f64f6ca60348e251f929e9c81f11ccbe45eda/components/core/disclosure.tsx",
+    "file": "disclosure.tsx.txt"
+  }
+]

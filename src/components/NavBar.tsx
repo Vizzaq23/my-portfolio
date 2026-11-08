@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ScrollProgress } from "@/components/magicui/scroll-progress";
 import Link from "next/link";
 import { trackPortfolioEvent } from "@/lib/analytics";
 
@@ -53,6 +54,7 @@ export default function NavBar() {
         </ul>
         <a className="dev-button dev-button-primary nav-resume no-underline" href="/resume" onClick={() => trackPortfolioEvent("resume_click", { source: "nav" })}>Résumé <span aria-hidden="true">↗</span></a>
       </nav>
+      <ScrollProgress className="reading-progress" aria-hidden="true" />
     </header>
   );
 }

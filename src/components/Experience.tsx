@@ -1,4 +1,5 @@
 import CredlyBadge from "@/components/CredlyBadge";
+import { Timeline } from "@/components/aceternity/timeline";
 import WorldLabel from "@/components/WorldLabel";
 import RetroAirship from "@/components/RetroAirship";
 import OnePieceEasterEgg from "@/components/OnePieceEasterEgg";
@@ -30,9 +31,10 @@ export default function Experience() {
             <div><h4 className="font-bold text-yellow-300">Team delivery</h4><p className="mt-2 leading-relaxed">The dashboard brought these metrics into an admin interface for the team. I worked through pull requests, code reviews, and documentation with a 10+ member cross-functional team.</p></div>
           </div>
         </article>
-        <ol className="experience-records">
-          {experience.map((item, index) => (
-            <li key={item.id} className={"experience-record experience-record-" + item.kind}>
+        <Timeline data={experience.map((item, index) => ({
+          title: item.date,
+          content: (
+            <article key={item.id} className={"experience-record experience-record-" + item.kind}>
               <div className="experience-record-meta">
                 <span className="record-index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
                 <span className="small-label">{kindLabel[item.kind]}</span>
@@ -54,9 +56,9 @@ export default function Experience() {
                 </div>
                 {item.showCredlyBadge && <div className="credential-badge"><CredlyBadge /></div>}
               </div>
-            </li>
-          ))}
-        </ol>
+            </article>
+          ),
+        }))} />
       </div>
     </section>
   );

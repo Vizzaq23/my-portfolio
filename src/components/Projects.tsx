@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import ProjectDemo from "@/components/ProjectDemo";
 import ProjectCard from "@/components/ProjectCard";
+import ProjectDisclosure from "@/components/ProjectDisclosure";
 import ProjectWorldMap from "@/components/ProjectWorldMap";
 import ProjectBackdrop from "@/components/ProjectBackdrop";
 import OnePieceEasterEgg from "@/components/OnePieceEasterEgg";
@@ -29,12 +30,11 @@ export default function Projects() {
               <h3 className="text-xl font-bold">{project.title}</h3>
               <p className="mt-3 leading-relaxed">{project.summary}</p>
               <p className="mt-3 text-sm font-semibold">{project.tags.join(" · ")}</p>
-              <details className="featured-glass-details mt-4">
-              <summary className="cursor-pointer py-2 text-sm font-semibold underline underline-offset-4">Engineering highlights</summary>
+              <ProjectDisclosure title="Engineering highlights" className="mt-4">
               <ul className="mt-2 list-disc space-y-2 pl-5 text-sm leading-relaxed">
                 {project.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}
               </ul>
-              </details>
+              </ProjectDisclosure>
               <div className="mt-5 flex flex-wrap gap-4 font-semibold text-blue-800">
                 {project.link ? <a className="inline-flex min-h-11 items-center underline" href={project.link} target="_blank" rel="noopener noreferrer">{project.linkLabel} ↗</a> : <span className="inline-flex min-h-11 items-center text-sm text-slate-600">{project.status}</span>}
                 {project.id === "tcg-shelf" && <a className="inline-flex min-h-11 items-center underline" href="https://github.com/Vizzaq23/TCG" target="_blank" rel="noopener noreferrer">View code ↗</a>}

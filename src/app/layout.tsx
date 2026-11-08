@@ -15,6 +15,7 @@ import "./github-activity.css";
 import "./one-piece-secrets.css";
 import "./typography.css";
 import "./glass-cards.css";
+import "./component-enhancements.css";
 import NavBar from "@/components/NavBar";
 import JsonLd from "@/components/JsonLd";
 import { getSiteUrl } from "@/lib/site-url";
