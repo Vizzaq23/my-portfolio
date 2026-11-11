@@ -64,3 +64,10 @@ Preview entry from the Vercel bot: https://my-portfolio-git-codex-playable-atlas
 - Enabling reduced motion during an active unfolding or travel finishes that transition immediately. Audio cleanup clears the closed context reference.
 - Validation: TypeScript and targeted ESLint passed; production build passed with no new dependencies. Browser interaction and desktop/mobile animation QA remain unverified because of the previously recorded preview/access blockers. This checkpoint fixes source-observable transition issues; it does not establish visual quality approval.
 - Next useful work remains visual inspection of the existing opening and travel before adding more art or motion. Hands, envelope extraction, and project interiors are still incomplete. No homepage or project catalog changes.
+
+## Paper depth review — November 11
+
+- Rendered the original SVG at 1200 × 760 with Inkscape and inspected the result. The palette and landmark silhouettes are coherent; the sparse geometric islands remain an illustration study, not the requested final detailed art. No assets were added or replaced.
+- Found a 3D compositing defect: `filter: drop-shadow(...)` on `.atlas-paper` forces its `preserve-3d` children flat. Moved the shadow to `.atlas-camera` and assigned perspective there, directly above the paper. This preserves the folding layer's 3D context while keeping camera travel independent.
+- References for the correction: [MDN transform-style grouping properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/transform-style), [MDN perspective](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/perspective).
+- Type-check and production build passed. SVG inspection does **not** verify browser composition, responsive UI, or animation. The recorded preview blockers still apply; actual desktop/mobile opening review remains the next quality gate. Do not treat repeated source-only refinements as visual approval.
