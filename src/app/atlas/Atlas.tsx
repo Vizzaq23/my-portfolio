@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { projects } from '@/data/projects';
+import Signature from './Signature';
 
 const locations = [
   { id: 'arcade', name: 'The Arcade', x: 29, y: 45, caption: 'Where an idea became something you can play.' },
@@ -101,8 +102,9 @@ export default function Atlas() {
       <section className="atlas-stage" aria-label="Interactive portfolio atlas">
         <div className="atlas-introduction" aria-hidden={phase !== 'closed'} inert={phase !== 'closed'}>
           <p className="atlas-eyebrow">A FIELD GUIDE TO MY WORK · VOL. 01</p>
-          <h1>Good things start<br />with <em>curiosity.</em></h1>
-          <p className="atlas-lede">A few worlds I’ve built.<br />An invitation to look a little closer.</p>
+          <div className="atlas-author"><span className="sr-only">Quintin Vizza</span><Signature /></div>
+          <h1 aria-label="Good things start with curiosity."><span aria-hidden="true" className="atlas-title-line">Good things start</span><span aria-hidden="true" className="atlas-title-line">with <em>curiosity.</em></span></h1>
+          <p className="atlas-lede"><span className="atlas-typed-line">Software, hardware, and a little play.</span><span className="atlas-lede-invitation">An invitation to look a little closer.</span></p>
         </div>
 
         <div className="atlas-map-heading" aria-hidden={phase !== 'open'}>

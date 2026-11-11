@@ -17,3 +17,26 @@ body:has(.atlas-experience){background:#182e2b}body:has(.atlas-experience)>.site
 @media(min-width:1500px){.atlas-paper{width:min(75vw,1250px)}}
 @media(max-width:760px){.atlas-nav{height:78px;padding:0 22px}.atlas-signature{font-size:29px;gap:10px}.atlas-signature>span{font-size:8px;letter-spacing:1px}.atlas-signature small{font-size:7px}.atlas-nav-actions{gap:15px}.atlas-nav-actions button,.atlas-nav-actions a{font-size:10px}.atlas-nav-actions span{display:none}.atlas-stage{min-height:660px;height:calc(100svh - 139px)}.atlas-introduction{top:40px}.atlas-introduction h1{font-size:47px}.atlas-lede{font-size:12px}.atlas-eyebrow{font-size:8px!important;letter-spacing:2px}.atlas-paper{width:780px;top:54%;transform:translate(-50%,-50%) rotate(-7deg) scale(.48)}.atlas-opening .atlas-paper,.atlas-open .atlas-paper{width:94vw;top:50%;transform:translate(-50%,-50%) rotate(0) scale(1)}.atlas-cover strong{font-size:41px}.atlas-cover>span{font-size:10px}.atlas-map-heading{top:38px;padding:0 25px}.atlas-map-heading h2{font-size:30px}.atlas-map-heading>p:last-child{font-size:11px}.atlas-map-title{font-size:5px;letter-spacing:1px}.atlas-coordinates{display:none}.atlas-map-note{font-size:7px}.atlas-rose{font-size:5px}.atlas-rose b{font-size:30px}.atlas-marker{min-width:65px}.atlas-marker-pin{width:23px;height:23px;line-height:19px;font-size:8px}.atlas-marker-label{font-size:11px;padding:5px 6px;margin-top:3px}.atlas-marker-label small{font-size:6px;letter-spacing:.8px;margin-top:3px}.atlas-map-toolbar{bottom:48px;left:7%;right:7%;flex-wrap:wrap;gap:12px;font-size:10px}.atlas-map-toolbar>span{width:100%;text-align:center;margin-bottom:6px}.atlas-opening-actions{bottom:38px}.atlas-primary{padding:14px 25px}.atlas-footer{margin:0 22px;font-size:7px;letter-spacing:1px}.atlas-footer>span:nth-child(2){display:none}.atlas-desk-compass{right:4%;top:58%;width:65px;height:65px}.atlas-destination-grid{grid-template-columns:1fr}.atlas-project-visual{min-height:290px;border-right:0;border-bottom:1px solid #203b3520}.atlas-project-visual img{padding:20px 25px 65px}.atlas-project-visual>span{font-size:20px;bottom:20px}.atlas-project-copy{padding:30px 25px}.atlas-project-copy h2{font-size:35px}.atlas-destination-top{padding:12px 17px;font-size:8px;letter-spacing:1px}.atlas-index button{gap:15px}.atlas-index button strong{font-size:18px}.atlas-index button small{display:none}}
 @media(prefers-reduced-motion:reduce){.atlas-experience *,.atlas-experience *::before,.atlas-experience *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Entrance choreography: lettering → title → short typed line. Controls never wait. */
+.atlas-author { height: 64px; margin: -16px auto 12px; }
+.atlas-handwriting { width: 215px; height: 65px; overflow: visible; color: var(--gold); }
+.atlas-handwriting path { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 0; animation: atlas-write .42s cubic-bezier(.4,0,.2,1) backwards; }
+.atlas-handwriting path:last-child { stroke-width: .9; opacity: .65; }
+.atlas-title-line { display: block; animation: atlas-title-arrive .85s cubic-bezier(.2,.8,.2,1) .4s backwards; }
+.atlas-title-line + .atlas-title-line { animation-delay: .55s; }
+.atlas-typed-line { display: block; width: fit-content; margin: auto; animation: atlas-type 1.05s steps(36,end) .9s backwards; }
+.atlas-lede-invitation { display: block; animation: atlas-title-arrive .65s ease 1.8s backwards; }
+@keyframes atlas-write { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes atlas-title-arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes atlas-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@media (max-width: 760px) {
+  .atlas-author { height: 48px; margin: -18px auto 8px; }
+  .atlas-handwriting { width: 180px; height: 54px; }
+  .atlas-introduction h1 { font-size: 42px; }
+  .atlas-closed .atlas-paper { top: 58%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .atlas-handwriting path { stroke-dasharray: none; }
+  .atlas-typed-line { clip-path: none; }
+}

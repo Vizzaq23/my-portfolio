@@ -39,3 +39,9 @@ Browser QA is pending: the managed `sites-preview` launcher appends Vite flags (
 - https://cainos.itch.io/pixel-art-top-down-basic
 
 These are research references only; their code or assets have not been copied into this prototype.
+
+## Entrance refinement
+
+The opening now includes original monoline name lettering drawn with SVG stroke animation, staggered title lines, and a short stepped text reveal. The complete text remains in the accessibility tree; controls are immediately available, and reduced-motion preferences suppress the choreography. No fake loading percentage or mandatory wait is introduced.
+
+Art direction requirement: match the restraint and deliberate timing of the reference at https://antwi.dev/ (its handwritten name and Skip/Fast forward intro were observed in the browser). Do not copy its lettering or assets. Aim for senior-level execution: coherent palette, typography, layout, animation timing, accessibility, responsive behavior, and performance. This is still a prototype pending visual QA, not a claim of final polish.
