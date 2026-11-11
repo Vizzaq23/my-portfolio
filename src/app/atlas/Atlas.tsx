@@ -16,6 +16,8 @@ const locations = [
 export default function Atlas() {
   const [phase, setPhase] = useState<'closed' | 'opening' | 'open'>('closed');
   const [selected, setSelected] = useState<string | null>(null);
+  const [travelling, setTravelling] = useState(false);
+  const returnTarget = useRef<HTMLElement | null>(null);
   const [visited, setVisited] = useState<string[]>([]);
   const [sound, setSound] = useState(false);
   const [list, setList] = useState(false);
@@ -26,26 +28,51 @@ export default function Atlas() {
   const audioContext = useRef<AudioContext | null>(null);
   const project = projects.find(p => p.id === selected);
   const location = locations.find(p => p.id === selected);
+  const cameraStyle = { '--travel-x': `${50 - (location?.x ?? 50)}%`, '--travel-y': `${50 - (location?.y ?? 50)}%` } as CSSProperties;
 
   useEffect(() => {
     function syncHash() {
       const id = window.location.hash.slice(1);
+      setTravelling(false);
       if (projects.some(p => p.id === id)) { setPhase('open'); setSelected(id); }
       else setSelected(null);
     }
     syncHash();
     window.addEventListener('hashchange', syncHash);
+    window.addEventListener('popstate', syncHash);
     return () => {
       window.removeEventListener('hashchange', syncHash);
+      window.removeEventListener('popstate', syncHash);
       if (timer.current) clearTimeout(timer.current);
       void audioContext.current?.close();
     };
   }, []);
 
   useEffect(() => {
-    if (project && dialog.current && !dialog.current.open) dialog.current.showModal();
-    if (!project && dialog.current?.open) dialog.current.close();
-  }, [project]);
+    if (!project) {
+      if (dialog.current?.open) dialog.current.close();
+      return;
+    }
+    if (!travelling) {
+      if (dialog.current && !dialog.current.open) dialog.current.showModal();
+      return;
+    }
+    const arrival = window.setTimeout(() => setTravelling(false), 380);
+    return () => window.clearTimeout(arrival);
+  }, [project, travelling]);
+
+  useEffect(() => {
+    if (!travelling) return;
+    function cancelTravel(event: KeyboardEvent) {
+      if (event.key !== 'Escape') return;
+      setTravelling(false);
+      setSelected(null);
+      window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search);
+      window.requestAnimationFrame(() => returnTarget.current?.focus({ preventScroll: true }));
+    }
+    window.addEventListener('keydown', cancelTravel);
+    return () => window.removeEventListener('keydown', cancelTravel);
+  }, [travelling]);
 
   function chime() {
     if (!sound) return;
@@ -79,18 +106,23 @@ export default function Atlas() {
   }
 
   function enter(id: string) {
-    chime(); setSelected(id);
+    if (selected) return;
+    returnTarget.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    chime();
+    setTravelling(locations.some(place => place.id === id) && !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    setSelected(id);
     setVisited(previous => previous.includes(id) ? previous : [...previous, id]);
-    window.history.replaceState(null, '', `#${id}`);
+    window.history.pushState(window.history.state, '', `#${id}`);
   }
 
   function leave() {
+    setTravelling(false);
     setSelected(null);
-    window.history.replaceState(null, '', window.location.pathname + window.location.search);
+    window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search);
   }
 
   return (
-    <div className={`atlas-experience atlas-${phase}`}>
+    <div className={`atlas-experience atlas-${phase}${selected ? ' atlas-at-destination' : ''}`} style={cameraStyle}>
       <header className="atlas-nav">
         <Link href="/" className="atlas-signature" aria-label="Quintin Vizza original portfolio">QV<span>QUINTIN VIZZA<br /><small>ENGINEER & BUILDER</small></span></Link>
         <div className="atlas-nav-actions">
@@ -115,7 +147,7 @@ export default function Atlas() {
 
         <div className="atlas-table">
           <div className="atlas-desk-compass" aria-hidden="true">N<span>✦</span>S</div>
-          <div className="atlas-paper" aria-hidden={phase !== 'open'}>
+          <div className="atlas-camera"><div className="atlas-paper" aria-hidden={phase !== 'open'}>
             <div className="atlas-sheet atlas-sheet-left" />
             <div className="atlas-sheet atlas-sheet-center" />
             <div className="atlas-sheet atlas-sheet-right" />
@@ -128,7 +160,7 @@ export default function Atlas() {
                   <button ref={index === 0 ? firstLocation : undefined} key={place.id}
                     className={`atlas-marker ${visited.includes(place.id) ? 'atlas-visited' : ''}`}
                     style={{ '--x': `${place.x}%`, '--y': `${place.y}%` } as CSSProperties}
-                    onClick={() => enter(place.id)} aria-label={`Explore ${place.name}: ${projects.find(p => p.id === place.id)?.title}`}>
+                    disabled={selected !== null} onClick={() => enter(place.id)} aria-label={`Explore ${place.name}: ${projects.find(p => p.id === place.id)?.title}`}>
                     <span className="atlas-marker-pin" aria-hidden="true">{visited.includes(place.id) ? '✓' : `0${index + 1}`}</span>
                     <span className="atlas-marker-label">{place.name}<small>EXPLORE ↗</small></span>
                   </button>
@@ -141,14 +173,15 @@ export default function Atlas() {
               <span>FIELD NOTES / Q. VIZZA</span><b>✦</b><strong>The Atlas</strong><i>Places, projects & possibilities</i><span>EST. 2021 &nbsp; • &nbsp; ALWAYS BUILDING</span>
             </div>
           </div>
-        </div>
+        </div></div>
 
         <div className="atlas-opening-actions" inert={phase !== 'closed'} aria-hidden={phase !== 'closed'}>
           <button ref={openButton} className="atlas-primary" onClick={() => reveal()}>Unfold the map <span>↗</span></button>
           <button className="atlas-quiet" onClick={() => reveal(true)}>Skip the introduction</button>
         </div>
+        {travelling && <button className="atlas-travel-skip" onClick={() => setTravelling(false)}>Open {location?.name} now →</button>}
         {phase === 'opening' && <button className="atlas-skip-motion" onClick={() => reveal(true)}>Skip animation →</button>}
-        <div className="atlas-map-toolbar" inert={phase !== 'open'} aria-hidden={phase !== 'open'}>
+        <div className="atlas-map-toolbar" inert={phase !== 'open' || selected !== null} aria-hidden={phase !== 'open' || selected !== null}>
           <span><i /> {visited.length} destinations explored</span>
           <button onClick={() => setList(!list)} aria-expanded={list} aria-controls="atlas-project-index">{list ? 'Close' : 'Open'} project index <span>☷</span></button>
           <button onClick={() => {setPhase('closed'); setList(false); timer.current = setTimeout(() => openButton.current?.focus(), 0);}}>Fold map ↙</button>
@@ -161,9 +194,12 @@ export default function Atlas() {
       </section>}
 
       <footer className="atlas-footer"><span>NEW YORK, NY</span><span>SOFTWARE · HARDWARE · PLAY</span><Link href="/">Classic portfolio ↗</Link></footer>
-      <div role="status" className="sr-only">{phase === 'opening' ? 'Unfolding the map.' : phase === 'open' ? 'Map ready. Choose a project destination.' : 'Map folded.'}</div>
+      <div role="status" className="sr-only">{travelling ? `Travelling to ${location?.name}.` : phase === 'opening' ? 'Unfolding the map.' : phase === 'open' ? 'Map ready. Choose a project destination.' : 'Map folded.'}</div>
 
-      <dialog ref={dialog} className="atlas-destination" onCancel={leave} onClose={leave} aria-labelledby="atlas-project-title">
+      <dialog ref={dialog} className="atlas-destination" onCancel={event => { event.preventDefault(); leave(); }} onClose={() => {
+        // Native close events also occur after browser Back; never rewrite its URL here.
+        (returnTarget.current?.isConnected ? returnTarget.current : firstLocation.current)?.focus({ preventScroll: true });
+      }} aria-labelledby="atlas-project-title">
         {project && <article>
           <div className="atlas-destination-top"><span>FIELD NOTES / {project.year}</span><button autoFocus onClick={leave}>← Back to the atlas</button></div>
           <div className="atlas-destination-grid">

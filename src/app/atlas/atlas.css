@@ -40,3 +40,43 @@ body:has(.atlas-experience){background:#182e2b}body:has(.atlas-experience)>.site
   .atlas-handwriting path { stroke-dasharray: none; }
   .atlas-typed-line { clip-path: none; }
 }
+
+/* Keep camera motion separate from the paper's unfolding transform. */
+.atlas-camera {
+  position: absolute;
+  inset: 0;
+  transform: translate(0, 0) scale(1);
+  transition: transform .65s cubic-bezier(.22,.75,.2,1);
+}
+.atlas-at-destination .atlas-camera {
+  transform: scale(1.65) translate(calc(var(--travel-x) * .72), calc(var(--travel-y) * .72));
+}
+.atlas-at-destination .atlas-map-details { pointer-events: none; }
+.atlas-at-destination .atlas-marker-label { opacity: .35; transition: opacity .25s; }
+.atlas-travel-skip {
+  position: absolute; z-index: 6; bottom: 30px; left: 50%; transform: translateX(-50%);
+  background: #203b35; color: var(--ivory); border: 1px solid #d8bd8270;
+  padding: 12px 20px; border-radius: 2px; font-size: 12px; white-space: nowrap;
+}
+body:has(.atlas-destination[open]) { overflow: hidden; }
+@media (max-width:760px) {
+  .atlas-at-destination .atlas-camera {
+    transform: scale(1.3) translate(calc(var(--travel-x) * .4), calc(var(--travel-y) * .25));
+  }
+  .atlas-marker { min-height: 48px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .atlas-at-destination .atlas-camera { transform: none; }
+}
+
+/* Reserve room below the handwritten title so the folded cover cannot obscure it. */
+.atlas-closed .atlas-paper {
+  top: 65%;
+  transform: translate(-50%, -50%) rotate(-7deg) scale(.42);
+}
+@media (max-width:760px) {
+  .atlas-closed .atlas-paper {
+    top: 67%;
+    transform: translate(-50%, -50%) rotate(-7deg) scale(.39);
+  }
+}
