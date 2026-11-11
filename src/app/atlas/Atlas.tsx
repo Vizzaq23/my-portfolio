@@ -21,10 +21,12 @@ export default function Atlas() {
   const [visited, setVisited] = useState<string[]>([]);
   const [sound, setSound] = useState(false);
   const [list, setList] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const focusAfterPhaseChange = useRef(false);
   const dialog = useRef<HTMLDialogElement>(null);
   const openButton = useRef<HTMLButtonElement>(null);
   const firstLocation = useRef<HTMLButtonElement>(null);
+  const skipOpening = useRef<HTMLButtonElement>(null);
+  const skipTravel = useRef<HTMLButtonElement>(null);
   const audioContext = useRef<AudioContext | null>(null);
   const project = projects.find(p => p.id === selected);
   const location = locations.find(p => p.id === selected);
@@ -43,9 +45,32 @@ export default function Atlas() {
     return () => {
       window.removeEventListener('hashchange', syncHash);
       window.removeEventListener('popstate', syncHash);
-      if (timer.current) clearTimeout(timer.current);
       void audioContext.current?.close();
+      audioContext.current = null;
     };
+  }, []);
+
+  useEffect(() => {
+    // Focus only after React has removed inert from the destination controls.
+    if (focusAfterPhaseChange.current) {
+      const target = phase === 'opening' ? skipOpening : phase === 'open' ? firstLocation : openButton;
+      target.current?.focus({ preventScroll: true });
+      if (phase !== 'opening') focusAfterPhaseChange.current = false;
+    }
+    if (phase !== 'opening') return;
+    const unfolding = window.setTimeout(() => setPhase('open'), 1850);
+    return () => window.clearTimeout(unfolding);
+  }, [phase]);
+
+  useEffect(() => {
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    function settleMotion() {
+      if (!preference.matches) return;
+      setPhase(previous => previous === 'opening' ? 'open' : previous);
+      setTravelling(false);
+    }
+    preference.addEventListener('change', settleMotion);
+    return () => preference.removeEventListener('change', settleMotion);
   }, []);
 
   useEffect(() => {
@@ -54,9 +79,17 @@ export default function Atlas() {
       return;
     }
     if (!travelling) {
-      if (dialog.current && !dialog.current.open) dialog.current.showModal();
+      if (dialog.current && !dialog.current.open) {
+        dialog.current.showModal();
+      }
+      if (dialog.current?.open) {
+        dialog.current.scrollTop = 0;
+        // An attempted journey is only explored once its case study is open.
+        setVisited(previous => previous.includes(project.id) ? previous : [...previous, project.id]);
+      }
       return;
     }
+    skipTravel.current?.focus({ preventScroll: true });
     const arrival = window.setTimeout(() => setTravelling(false), 380);
     return () => window.clearTimeout(arrival);
   }, [project, travelling]);
@@ -95,13 +128,12 @@ export default function Atlas() {
   }
 
   function reveal(skip = false) {
-    if (timer.current) clearTimeout(timer.current);
+    focusAfterPhaseChange.current = true;
     chime();
     if (skip || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setPhase('open'); timer.current = setTimeout(() => firstLocation.current?.focus(), 0);
+      setPhase('open');
     } else {
       setPhase('opening');
-      timer.current = setTimeout(() => { setPhase('open'); firstLocation.current?.focus(); }, 1850);
     }
   }
 
@@ -111,7 +143,6 @@ export default function Atlas() {
     chime();
     setTravelling(locations.some(place => place.id === id) && !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     setSelected(id);
-    setVisited(previous => previous.includes(id) ? previous : [...previous, id]);
     window.history.pushState(window.history.state, '', `#${id}`);
   }
 
@@ -179,12 +210,12 @@ export default function Atlas() {
           <button ref={openButton} className="atlas-primary" onClick={() => reveal()}>Unfold the map <span>↗</span></button>
           <button className="atlas-quiet" onClick={() => reveal(true)}>Skip the introduction</button>
         </div>
-        {travelling && <button className="atlas-travel-skip" onClick={() => setTravelling(false)}>Open {location?.name} now →</button>}
-        {phase === 'opening' && <button className="atlas-skip-motion" onClick={() => reveal(true)}>Skip animation →</button>}
+        {travelling && <button ref={skipTravel} className="atlas-travel-skip" onClick={() => setTravelling(false)}>Open {location?.name} now →</button>}
+        {phase === 'opening' && <button ref={skipOpening} className="atlas-skip-motion" onClick={() => reveal(true)}>Skip animation →</button>}
         <div className="atlas-map-toolbar" inert={phase !== 'open' || selected !== null} aria-hidden={phase !== 'open' || selected !== null}>
           <span><i /> {visited.length} destinations explored</span>
           <button onClick={() => setList(!list)} aria-expanded={list} aria-controls="atlas-project-index">{list ? 'Close' : 'Open'} project index <span>☷</span></button>
-          <button onClick={() => {setPhase('closed'); setList(false); timer.current = setTimeout(() => openButton.current?.focus(), 0);}}>Fold map ↙</button>
+          <button onClick={() => { focusAfterPhaseChange.current = true; setPhase('closed'); setList(false); }}>Fold map ↙</button>
         </div>
       </section>
 

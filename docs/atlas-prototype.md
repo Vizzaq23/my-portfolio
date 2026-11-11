@@ -56,3 +56,11 @@ Art direction requirement: match the restraint and deliberate timing of the refe
 - Vercel reports successful branch deployments through GitHub status checks. A direct browser attempt at the bot-provided preview URL redirected to Vercel login. No access settings were changed, and no alternate protected host was probed. The managed preview launcher defect remains unresolved. Desktop/mobile appearance, focus behavior, and animation timing remain browser-unverified.
 
 Preview entry from the Vercel bot: https://my-portfolio-git-codex-playable-atlas-p-759deb-quintin-b167b285.vercel.app/atlas (requires Vercel login in the current cloud browser).
+
+## Transition controls checkpoint — November 11, 09:00 UTC run
+
+- Unfolding now hands keyboard focus to the immediate skip control, then to the first destination after React removes `inert`. Folding restores focus after the cover controls become interactive. The unfolding timer is scoped to its phase and is cancelled on skip, navigation, or unmount.
+- Camera travel focuses its “Open now” control. A destination is counted as explored only when its case study opens; cancelling travel does not add it. Direct project links now count as visits, and each opened case study starts at its top.
+- Enabling reduced motion during an active unfolding or travel finishes that transition immediately. Audio cleanup clears the closed context reference.
+- Validation: TypeScript and targeted ESLint passed; production build passed with no new dependencies. Browser interaction and desktop/mobile animation QA remain unverified because of the previously recorded preview/access blockers. This checkpoint fixes source-observable transition issues; it does not establish visual quality approval.
+- Next useful work remains visual inspection of the existing opening and travel before adding more art or motion. Hands, envelope extraction, and project interiors are still incomplete. No homepage or project catalog changes.
