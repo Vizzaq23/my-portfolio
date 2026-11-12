@@ -41,3 +41,9 @@ The user rejected the separate platformer. The active intro no longer imports or
 ## Cloud start screen — 2026-11-12
 
 Intro now opens with a personal introduction card, exact HeroClouds SVG paths, homepage sky gradient, and existing Press Start 2P / IBM Plex Sans fonts. Start begins the guided walk; reduced-motion selection transfers to the room; direct Skip to portfolio remains available while models load. Room controls stay inert while start screen is visible. Browser verified desktop1366x768, mobile390x844, keyboard Start, reduced-motion transfer and direct homepage skip. Build/lint/types and JS syntax passed. Homepage untouched.
+
+## Breathing title refinement — 2026-11-12
+
+Personal title now leads with small greeting and prominent name. Individual decorative letter spans breathe over 4.8 seconds (2px rise, 2.5% scale, slight color lift); heading retains a single accessible name. Clouds drift slowly. Both OS preference and Reduced motion stop animation; the latter also removes the 750ms fade into the room. Press Start is primary, skip remains direct, copy shortened, frame lightened. Player art is derived from existing HeroIdleSprite upper-body/standing rows; small project-authored straw hat adds one One Piece detail.
+
+Build/lint/types and JS syntax passed. Browser1366x768/390x844 inspected, keyboard start reached plug prompt, reduced-motion computed animation/transform both none and direct room transition verified. Reload logs included intermittent MutationObserver non-Node errors without source attribution; no observed interruption to start controls or room flow. Source remains unresolved; do not claim an error-free console. Screenshot .playwright-mcp/breathing-start-screen.png.

@@ -51,8 +51,15 @@ $('lighting').onclick=()=>{previewLight=!previewLight;$('lighting').setAttribute
 let state='doorway',elapsed=0,total=0,last=performance.now(),paused=false;const durations={walk:3.5,notice:1.2,plug:2.2,rise:1,wake:1.4,enter:2.5};
 const reduced=$('motion');reduced.checked=matchMedia('(prefers-reduced-motion: reduce)').matches;
 $('start-motion').checked=reduced.checked;
-$('start-motion').onchange=()=>{reduced.checked=$('start-motion').checked;};
-$('start').onclick=()=>{$('start-screen').hidden=true;$('room-ui').inert=false;document.body.classList.remove('starting');setState('walk');$('skip').focus({preventScroll:true});};
+function syncStartMotion(){reduced.checked=$('start-motion').checked;document.body.classList.toggle('motion-reduced',reduced.checked);}
+$('start-motion').onchange=syncStartMotion;syncStartMotion();
+matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change',event=>{$('start-motion').checked=event.matches;syncStartMotion();});
+$('start').onclick=()=>{
+ $('start').disabled=true;document.body.classList.remove('starting');
+ const begin=()=>{$('start-screen').hidden=true;$('room-ui').inert=false;setState('walk');$('skip').focus({preventScroll:true});};
+ if(reduced.checked){begin();return;}
+ $('start-screen').classList.add('leaving');setTimeout(begin,750);
+};
 
 function setState(s){if(s==='walk')audio.sound('walk');if(s==='notice')audio.endWalk();if(s==='rise')audio.sound('click');if(s==='wake')audio.sound('static');if(s==='enter')audio.sound('chime');if(s==='doorway'||s==='done')audio.stop();state=s;elapsed=0;if(s==='done'){location.assign('/#top');return;}document.body.dataset.phase=s;const texts={doorway:'01 / At the doorway',walk:'02 / Walking toward the TV',notice:'03 / The cord is unplugged',ready:'Your turn · plug in the TV',plug:'04 / Reach · lift · insert',rise:'The power light catches your eye',wake:'05 / The room wakes up',enter:'06 / Into your world',done:'Motion study complete'};$('phase').textContent=texts[s];$('action').hidden=!['doorway','ready'].includes(s);$('action').disabled=false;$('action').textContent=s==='ready'?'Plug in · Enter / Click':'Approach TV';$('end').style.display=s==='done'?'block':'none';if((s==='ready'||s==='doorway')&&$('start-screen').hidden)$('action').focus({preventScroll:true});}
 function reset(){ $('study').value='walk';previewLight=false;$('lighting').setAttribute('aria-pressed','false');total=0;plug.position.copy(loose);hand.visible=false;glow.intensity=0;led.material.color.set('#302414');updateCable();setState('doorway');}
@@ -81,4 +88,4 @@ if(duration&&p>=1){const next={walk:'notice',notice:'ready',plug:'rise',rise:'wa
 }
 try{gripRig=await loadHeroAssets(scene,room,hand);$('asset-status').textContent='Blender models · CC0 textures · optional sound';document.body.dataset.assets='loaded';}
 catch(error){console.error('Hero asset load failed',error);$('asset-status').textContent='Asset loading failed · fallback geometry';document.body.dataset.assets='fallback';}
-reset();$('start').disabled=false;$('start').textContent='Start →';requestAnimationFrame(animate);
+reset();$('start').disabled=false;$('start').textContent='Press Start →';requestAnimationFrame(animate);
