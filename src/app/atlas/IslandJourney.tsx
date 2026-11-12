@@ -16,6 +16,8 @@ export default function IslandJourney() {
   const root = useRef<HTMLDivElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const entrance = useRef<HTMLAnchorElement>(null);
+  const doorway = useRef<HTMLAnchorElement>(null);
+  const returnTrigger = useRef<'doorway' | 'explore'>('explore');
   const returnView = useRef<View>('island');
   const returnScroll = useRef(0);
   const returnElement = useRef<HTMLElement | null>(null);
@@ -53,7 +55,7 @@ export default function IslandJourney() {
     previousView.current = view;
     if (returning) {
       const level = document.querySelector<HTMLButtonElement>(`.atlas-world .project-level[aria-pressed="true"]`);
-      const target = view === 'map' ? level : entrance.current;
+      const target = view === 'map' ? level : returnTrigger.current === 'doorway' ? doorway.current : entrance.current;
       // The prior screen is remounted, so use its corresponding new control.
       (returnElement.current?.isConnected ? returnElement.current : target)?.focus({ preventScroll: true });
       window.scrollTo({ top: returnScroll.current, behavior: 'instant' });
@@ -63,11 +65,12 @@ export default function IslandJourney() {
     }
   }, [view, selected]);
 
-  function navigate(next: View, index = selected) {
+  function navigate(next: View, index = selected, trigger: 'doorway' | 'explore' = 'explore') {
     if (next === 'project') {
       returnView.current = view;
       returnScroll.current = window.scrollY;
       returnElement.current = document.activeElement as HTMLElement;
+      returnTrigger.current = trigger;
     }
     needsFocus.current = true;
     history.pushState(null, '', `#${next}/${projects[index].id}`);
@@ -80,7 +83,7 @@ export default function IslandJourney() {
     {view === 'island' && <section className="atlas-island" aria-labelledby="atlas-title">
       <div className="atlas-landscape"><Image src="/atlas/pinball-island.png" alt="A red pinball arcade on a rounded green island, surrounded by the portfolio’s blue sea, paths and neighboring islands" fill sizes="100vw" priority /></div>
       <header className="atlas-island-title"><p>World 02 / Project map</p><h1 id="atlas-title" ref={heading} tabIndex={-1}>Choose your next level.</h1><p>Nine projects. A world of things I’ve built.</p></header>
-      <a className="atlas-door" href="#project/pinball" aria-label="Enter the Pinball arcade" onClick={event => { event.preventDefault(); navigate('project', pinballIndex); }}><span>Enter arcade <span aria-hidden="true">↗</span></span></a>
+      <a ref={doorway} className="atlas-door" href="#project/pinball" aria-label="Enter the Pinball arcade" onClick={event => { event.preventDefault(); navigate('project', pinballIndex, 'doorway'); }}><span>Enter arcade <span aria-hidden="true">↗</span></span></a>
       <div className="atlas-entry">
         <span className="atlas-level-coin" aria-hidden="true">07</span>
         <p className="atlas-eyebrow">Level 07 / Hardware & game systems</p><h2>Pinball</h2><p>Software meets physical hardware.</p>

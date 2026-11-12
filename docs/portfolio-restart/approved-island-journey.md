@@ -27,3 +27,11 @@ Preview: http://127.0.0.1:3017/atlas. Restart: `npm run build`, then `npm run st
 Screenshots: `.playwright-mcp/atlas-pinball-desktop.jpg`, `.playwright-mcp/atlas-pinball-mobile.jpg`. Artwork provenance: `public/atlas/ARTWORK.md`.
 
 No push, merge or production deployment. PR #7 remains the closed discarded prototype; this work is local on the restart branch. Next: user reviews the actual composition and entrance/return journey before expanding bespoke landmarks, character movement into the arcade, or interior art.
+
+## 2026-11-11 — exact entrance focus
+
+The island unmounts while reading a project, so its saved DOM node cannot restore focus after remount. Added a stable doorway/explore identity and separate doorway ref. The doorway explicitly supplies its identity; Explore retains the default. Map-level fallback is unchanged. No visual or content changes.
+
+Production build (including lint/types) passed. Browser checks passed: keyboard doorway entry/return, Explore entry/return, browser Back from each entrance, and Sunny HQ map selection/entry/return (selected level 3 regained focus). Screenshot: `.playwright-mcp/atlas-return-focus.png`.
+
+This is an independently implemented Codex fix. Live Sunny/Qwen council run `8775cd9e-8451-47c8-ba17-ba7fec04ed79` preserved reports and gave an appropriate high-level recommendation, but its concrete patch selected the same ref in both conditional branches; its reviewer missed this, and two suggested assertions used the doorway for Explore. That proposal was rejected, not applied or counted as a successful local implementation. Sunny remains advice-only.
