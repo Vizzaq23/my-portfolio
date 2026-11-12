@@ -33,3 +33,7 @@ The CRT now displays the same canvas used by the playable foreground. After the 
 All nine doors and the direct All projects menu use `/atlas/catalog`, a static Next route importing the authoritative `src/data/projects.ts`. Native dialogs show original descriptions, highlights, imagery, tags and links. Escape returns to the same world position; original project pages remain linked for demos and expanded case studies. Background game input stops while dialogs are open or the page loses focus. Touch buttons are available.
 
 Validation: production build/lint/types passed; browser keyboard movement, jump, door entry, Escape return, all-nine directory, replay and full normal intro-to-game passed. No browser console errors observed. This is a functional first playable pass, not final world artwork. Rich project interiors, bespoke building art, animation polish, and seamless aspect-ratio matching at the final camera/canvas cut remain unfinished.
+
+## Correction — current homepage on CRT
+
+The user rejected the separate platformer. The active intro no longer imports or mounts world.js or requests /atlas/catalog. Instead it projects a live, inert same-origin iframe of `/` onto the television face. TV remains dark until startup; after the camera approach, normal navigation opens `/#top`. Skip uses the same destination. The existing homepage and its content are unchanged. The earlier playable-pass notes above are historical, not the accepted direction.

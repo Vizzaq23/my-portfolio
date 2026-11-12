@@ -2,7 +2,7 @@ import * as T from './vendor/three.module.js';
 import {buildRoom} from './room.js';
 import {loadHeroAssets} from './hero-assets.js';
 import {RoomAudio} from './audio.js';
-import {createWorld} from './world.js';
+
 
 const $=id=>document.getElementById(id), scene=new T.Scene();
 scene.background=new T.Color('#070b13');scene.fog=new T.Fog('#101823',6,13);
@@ -25,21 +25,38 @@ let cable;function updateCable(){if(cable){scene.remove(cable);cable.geometry.di
 // Pixel screen is drawn as an emissive texture on a genuine 3D TV surface.
 const screenCanvas=document.createElement('canvas');screenCanvas.width=256;screenCanvas.height=180;const ctx=screenCanvas.getContext('2d'),screenTex=new T.CanvasTexture(screenCanvas);screenTex.magFilter=T.NearestFilter;screenTex.minFilter=T.NearestFilter;screenTex.colorSpace=T.SRGBColorSpace;
 const screenMat=new T.MeshBasicMaterial({map:screenTex});box(.51,.36,.005,.04,.98,-1.705,screenMat);
+
+// The real homepage is projected onto the CRT, not recreated as a different game.
+// It remains inert until navigation, preserving the original page and its controls.
+const homepage=document.createElement('iframe');
+homepage.src='/';homepage.title='Current portfolio on the television';
+homepage.tabIndex=-1;homepage.inert=true;homepage.setAttribute('aria-hidden','true');
+homepage.style.cssText='position:fixed;left:0;top:0;width:1280px;height:904px;border:0;pointer-events:none;transform-origin:0 0;display:none;background:#60a9dc;z-index:1';
+document.body.append(homepage);
+function projectHomepage(visible){
+ homepage.style.display=visible?'block':'none';if(!visible)return;
+ const corners=[[-.215,1.16,-1.701],[.295,1.16,-1.701],[.295,.8,-1.701],[-.215,.8,-1.701]].map(a=>{const p=new T.Vector3(...a).project(camera);return {x:(p.x+1)*innerWidth/2,y:(1-p.y)*innerHeight/2};});
+ const [a,b,c,d]=corners,dx=b.x-c.x,dy=b.y-c.y,ex=d.x-c.x,ey=d.y-c.y,sx=a.x-b.x+c.x-d.x,sy=a.y-b.y+c.y-d.y,det=dx*ey-ex*dy;
+ const g=(sx*ey-ex*sy)/det,h=(dx*sy-sx*dy)/det;
+ const w=1280,hh=904;
+ homepage.style.transform=`matrix3d(${(b.x-a.x+g*b.x)/w},${(b.y-a.y+g*b.y)/w},0,${g/w},${(d.x-a.x+h*d.x)/hh},${(d.y-a.y+h*d.y)/hh},0,${h/hh},0,0,1,0,${a.x},${a.y},0,1)`;
+}
+
 const glow=new T.PointLight('#ffce88',0,4,2);glow.position.set(.05,1.04,-1.35);scene.add(glow);
-function drawScreen(mode,t){ctx.fillStyle=mode==='world'?'#348dc9':'#090e17';ctx.fillRect(0,0,screenCanvas.width,screenCanvas.height);if(mode==='static'){for(let y=0;y<screenCanvas.height;y+=4)for(let x=0;x<screenCanvas.width;x+=4){let v=40+Math.floor(random()*90);ctx.fillStyle=`rgb(${v},${v},${v})`;ctx.fillRect(x,y,4,4);}}if(mode==='world')world.draw();screenTex.needsUpdate=true;}
+function drawScreen(mode,t){ctx.fillStyle=mode==='world'?'#348dc9':'#090e17';ctx.fillRect(0,0,screenCanvas.width,screenCanvas.height);if(mode==='static'){for(let y=0;y<screenCanvas.height;y+=4)for(let x=0;x<screenCanvas.width;x+=4){let v=40+Math.floor(random()*90);ctx.fillStyle=`rgb(${v},${v},${v})`;ctx.fillRect(x,y,4,4);}}screenTex.needsUpdate=true;}
 const initial=[0,1.68,3.6],near=[-.45,1.68,-.65],low=[-.9,.82,-1.35],front=[.04,1.4,-.7],final=[.04,.98,-1.62];
 const tv=[.04,1,-2],socket=[-1.08,.25,-2.1];const v=a=>new T.Vector3(...a),mix=(a,b,t)=>v(a).lerp(v(b),t),ease=t=>t*t*(3-2*t),clamp=t=>Math.max(0,Math.min(1,t));
 let previewLight=false;
 $('lighting').onclick=()=>{previewLight=!previewLight;$('lighting').setAttribute('aria-pressed',String(previewLight));};
 let state='doorway',elapsed=0,total=0,last=performance.now(),paused=false;const durations={walk:3.5,notice:1.2,plug:2.2,rise:1,wake:1.4,enter:2.5};
 const reduced=$('motion');reduced.checked=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const world=createWorld(screenCanvas,reduced);world.onReplay(reset);
-function setState(s){if(s==='walk')audio.sound('walk');if(s==='notice')audio.endWalk();if(s==='rise')audio.sound('click');if(s==='wake')audio.sound('static');if(s==='enter')audio.sound('chime');if(s==='doorway'||s==='done')audio.stop();state=s;elapsed=0;if(s==='done')world.activate();document.body.dataset.phase=s;const texts={doorway:'01 / At the doorway',walk:'02 / Walking toward the TV',notice:'03 / The cord is unplugged',ready:'Your turn · plug in the TV',plug:'04 / Reach · lift · insert',rise:'The power light catches your eye',wake:'05 / The room wakes up',enter:'06 / Into your world',done:'Motion study complete'};$('phase').textContent=texts[s];$('action').hidden=!['doorway','ready'].includes(s);$('action').disabled=false;$('action').textContent=s==='ready'?'Plug in · Enter / Click':'Approach TV';$('end').style.display=s==='done'?'block':'none';if(s==='ready'||s==='doorway')$('action').focus({preventScroll:true});}
-function reset(){world.deactivate(); $('study').value='walk';previewLight=false;$('lighting').setAttribute('aria-pressed','false');total=0;plug.position.copy(loose);hand.visible=false;glow.intensity=0;led.material.color.set('#302414');updateCable();setState('doorway');}
+
+function setState(s){if(s==='walk')audio.sound('walk');if(s==='notice')audio.endWalk();if(s==='rise')audio.sound('click');if(s==='wake')audio.sound('static');if(s==='enter')audio.sound('chime');if(s==='doorway'||s==='done')audio.stop();state=s;elapsed=0;if(s==='done'){location.assign('/#top');return;}document.body.dataset.phase=s;const texts={doorway:'01 / At the doorway',walk:'02 / Walking toward the TV',notice:'03 / The cord is unplugged',ready:'Your turn · plug in the TV',plug:'04 / Reach · lift · insert',rise:'The power light catches your eye',wake:'05 / The room wakes up',enter:'06 / Into your world',done:'Motion study complete'};$('phase').textContent=texts[s];$('action').hidden=!['doorway','ready'].includes(s);$('action').disabled=false;$('action').textContent=s==='ready'?'Plug in · Enter / Click':'Approach TV';$('end').style.display=s==='done'?'block':'none';if(s==='ready'||s==='doorway')$('action').focus({preventScroll:true});}
+function reset(){ $('study').value='walk';previewLight=false;$('lighting').setAttribute('aria-pressed','false');total=0;plug.position.copy(loose);hand.visible=false;glow.intensity=0;led.material.color.set('#302414');updateCable();setState('doorway');}
 $('study').onchange=()=>{const choice=$('study').value;reset();$('study').value=choice;if(choice!=='walk'){$('action').hidden=true;$('phase').textContent=choice==='corner'?'TV + Chopper · asset study':'Articulated hand · grip study';}if(choice==='grip'){plug.position.copy(inserted);updateCable();}};
 $('action').onclick=()=>{if(state==='doorway')setState('walk');else if(state==='ready')setState('plug');};$('replay').onclick=reset;$('skip').onclick=()=>{total=11.8;plug.position.copy(inserted);hand.visible=false;updateCable();setState('done');};
 document.addEventListener('visibilitychange',()=>{paused=document.hidden;last=performance.now();if(paused)audio.stop();else if(state==='walk')audio.sound('walk');});
-function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000,.05);last=now;if(paused)return;if(state==='done'){world.update(dt);return;}const duration=durations[state];if(duration){elapsed+=dt;total+=dt;}
+function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000,.05);last=now;if(paused)return;if(state==='done')return;const duration=durations[state];if(duration){elapsed+=dt;total+=dt;}
 let p=duration?clamp(elapsed/duration):0,e=ease(p),pos=v(initial),target=v(tv),mode='off';
 if(state==='walk'){pos=mix(initial,near,reduced.checked?1:e);if(!reduced.checked)pos.y+=Math.sin(p*Math.PI*8)*.014*Math.sin(p*Math.PI);}
 if(state==='notice'){pos=mix(near,low,reduced.checked?1:e);target=mix(tv,socket,reduced.checked?1:e);}
@@ -55,7 +72,7 @@ if(state==='doorway'&&$('study').value==='grip'){pos=v(low);target=v(socket);han
 $('lighting').disabled=state!=='doorway';
 glow.intensity=mode==='off'?0:mode==='static'?.3:1.15;
 if(state==='doorway')led.material.color.set(previewLight?'#ffc568':'#302414');
-drawScreen(mode,now/1000);camera.position.copy(pos);camera.lookAt(target);renderer.render(scene,camera);
+drawScreen(mode,now/1000);camera.position.copy(pos);camera.lookAt(target);renderer.render(scene,camera);projectHomepage(mode==='world');
 $('time').textContent=`${Math.min(total,11.8).toFixed(1)} / 11.8 seconds`;$('progress').style.width=`${Math.min(total/11.8,1)*100}%`;
 if(duration&&p>=1){const next={walk:'notice',notice:'ready',plug:'rise',rise:'wake',wake:'enter',enter:'done'};setState(next[state]);}
 }
