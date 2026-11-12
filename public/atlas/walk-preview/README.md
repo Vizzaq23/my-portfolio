@@ -25,3 +25,11 @@ Validation: all three GLBs passed header, embedded-resource, buffer-boundary, ve
 Three.js 0.170.0 vendored from https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js with upstream MIT license in vendor/THREE-LICENSE.txt. No runtime CDN dependency. API reference: https://threejs.org/docs/.
 
 Validation 2026-11-11: node syntax check, TypeScript no-emit, production build/lint/types passed. Browser tested full keyboard flow to 11.8s, mouse plug flow, corrected loose-plug framing, replay, reduced-motion checkbox and mid-sequence skip. No browser errors observed. Narrow and 1366x768 views inspected. Full reduced-motion journey, physical devices, screen readers and audio are not validated.
+
+## Playable handoff — 2026-11-12
+
+The CRT now displays the same canvas used by the playable foreground. After the intro (or Skip intro), keyboard focus moves to the character controller. Arrow keys/A/D move; Space jumps with variable height, 100ms coyote time and 120ms buffering; E opens a nearby door. Physics uses a fixed 120Hz step. Ground is continuous: exploration has no death penalty. One-way ledges provide optional jumps.
+
+All nine doors and the direct All projects menu use `/atlas/catalog`, a static Next route importing the authoritative `src/data/projects.ts`. Native dialogs show original descriptions, highlights, imagery, tags and links. Escape returns to the same world position; original project pages remain linked for demos and expanded case studies. Background game input stops while dialogs are open or the page loses focus. Touch buttons are available.
+
+Validation: production build/lint/types passed; browser keyboard movement, jump, door entry, Escape return, all-nine directory, replay and full normal intro-to-game passed. No browser console errors observed. This is a functional first playable pass, not final world artwork. Rich project interiors, bespoke building art, animation polish, and seamless aspect-ratio matching at the final camera/canvas cut remain unfinished.
