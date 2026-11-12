@@ -37,3 +37,7 @@ Validation: production build/lint/types passed; browser keyboard movement, jump,
 ## Correction — current homepage on CRT
 
 The user rejected the separate platformer. The active intro no longer imports or mounts world.js or requests /atlas/catalog. Instead it projects a live, inert same-origin iframe of `/` onto the television face. TV remains dark until startup; after the camera approach, normal navigation opens `/#top`. Skip uses the same destination. The existing homepage and its content are unchanged. The earlier playable-pass notes above are historical, not the accepted direction.
+
+## Cloud start screen — 2026-11-12
+
+Intro now opens with a personal introduction card, exact HeroClouds SVG paths, homepage sky gradient, and existing Press Start 2P / IBM Plex Sans fonts. Start begins the guided walk; reduced-motion selection transfers to the room; direct Skip to portfolio remains available while models load. Room controls stay inert while start screen is visible. Browser verified desktop1366x768, mobile390x844, keyboard Start, reduced-motion transfer and direct homepage skip. Build/lint/types and JS syntax passed. Homepage untouched.
