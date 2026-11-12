@@ -51,3 +51,7 @@ Build/lint/types and JS syntax passed. Browser1366x768/390x844 inspected, keyboa
 ## Open-sky composition — 2026-11-12
 
 User accepted trying a more restrained title. Removed boxed panel, small runner/hat and footer slogan. Name sits directly on sky in dark navy pixel type; supporting copy/controls use Plex. Three composed clouds, one navy Press Start, quieter skip, bottom settings row. Entire name breathes together over6s at0.8% scale/1.5px rise; reduced motion stops it. Existing room/actual-homepage handoff unchanged. Desktop1366x768 and390x844 checked; corrected horizontal scrolling from offscreen clouds. Keyboard Start/reduced-motion launch passed. Build/lint/types passed. Screenshot .playwright-mcp/open-sky-start-screen.png.
+
+## Atmospheric title scene — 2026-11-12
+
+User requested fuller game scenery, richer lighting/color and cooler typography. Added authored SVG stepped hill layers, reflective water, foreground ledges/flowers and distant flag, existing runner silhouette, warm pixel sun and subtle light rays. Cream/gold title extrusion preserves whole-title breathing. Gold Start has selection-arrow hover/focus treatment and explicit accessible name; particles/clouds respect reduced motion. Homepage and room sequence unchanged. Build/lint/types passed; desktop1366x768/mobile390x844 inspected, keyboard Start/reduced-motion transfer and particle animation:none verified. Screenshot .playwright-mcp/atmospheric-title.png. This is a visual candidate awaiting user judgment.
