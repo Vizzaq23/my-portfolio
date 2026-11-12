@@ -1,6 +1,12 @@
 /* Home keeps a distinct retro platform-game identity within the professional site. */
-#top { background: #75b9eb; }
-.retro-overworld { position: absolute; left: 0; right: 0; bottom: 64px; width: 100%; height: 270px; pointer-events: none; image-rendering: pixelated; }
+#top.hero-cursor-zone {
+  background:
+    radial-gradient(ellipse at 82% 12%, #fff2bd38, transparent 35%),
+    linear-gradient(180deg, #458fce 0%, #75bce9 48%, #b4dfeb 84%, #c5e8dc 100%);
+}
+.retro-overworld { position: absolute; left: 50%; bottom: 64px; width: max(100%, 960px); height: clamp(280px, 24vw, 430px); transform: translateX(-50%); pointer-events: none; image-rendering: pixelated; }
+#top .retro-cloud-far { opacity: .48; }
+#top .retro-cloud-near { filter: drop-shadow(0 5px 0 #3d83b51a); }
 #top .hero-copy { border: 3px solid #d5be7e; border-radius: 0; background: #123147; box-shadow: 6px 6px 0 #173e55, inset 3px 3px 0 #31556b; }
 #top .hero-copy h1 { color: #f6d36c; font-family: var(--font-pixel),monospace; font-size: clamp(30px,3vw,40px); font-weight: 400; line-height: 1.5; letter-spacing: -.045em; text-shadow: 3px 3px 0 #061e31; }
 #top .hero-title-dot { color: #f6d36c; }
@@ -47,6 +53,6 @@
   #top .hero-proof { border-left: 0; border-top-style: dashed; }
   #top .hero-actions .dev-button { font: 700 15px/1.4 var(--font-heading),sans-serif; padding: 10px 9px; gap: 8px; }
   #top .world-clouds { top: auto; bottom: 300px; }
-  .retro-overworld { height: 210px; }
+  .retro-overworld { height: 250px; }
   #top .level-castle { width: 116px; }
 }

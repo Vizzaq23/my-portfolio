@@ -11,7 +11,7 @@ function hillPath({ x, width, height }: Hill) {
   return path + `H${x + width}V208Z`;
 }
 
-/** A limited, code-drawn pixel landscape; no raster artwork or lighting effects. */
+/** Stepped landscape layers stay fully visible at wide viewport sizes. */
 export default function RetroOverworld() {
   const distant = [
     { x: -40, width: 164, height: 128 }, { x: 124, width: 156, height: 92 },
@@ -27,11 +27,12 @@ export default function RetroOverworld() {
     { x: 490, width: 112, height: 38 }, { x: 680, width: 108, height: 46 },
   ];
   return (
-    <svg className="retro-overworld" viewBox="0 0 768 208" preserveAspectRatio="xMidYMax slice" shapeRendering="crispEdges" aria-hidden="true">
-      {distant.map((hill) => <path key={hill.x} d={hillPath(hill)} fill="#79b9b7" />)}
+    <svg className="retro-overworld" viewBox="0 0 768 208" preserveAspectRatio="none" shapeRendering="crispEdges" aria-hidden="true">
+      {distant.map((hill) => <path key={hill.x} d={hillPath({ ...hill, x: hill.x - 30, width: hill.width + 76, height: hill.height + 38 })} fill="#94cbd0" />)}
+      {distant.map((hill) => <path key={hill.x} d={hillPath(hill)} fill="#6daf9d" />)}
       {hills.map((hill) => <g key={hill.x}>
-        <path d={hillPath(hill)} fill="#4c9963" />
-        <path d={hillPath({ x: hill.x + 8, width: hill.width * .6, height: hill.height - 8 })} fill="#6eb16a" />
+        <path d={hillPath(hill)} fill="#438a64" />
+        <path d={hillPath({ x: hill.x + 8, width: hill.width * .6, height: hill.height - 8 })} fill="#79b56d" />
       </g>)}
       {bushes.map((hill) => <path key={hill.x} d={hillPath(hill)} fill="#286c4f" />)}
       <path d="M0 204h768v4H0Z" fill="#9bd06f" />
