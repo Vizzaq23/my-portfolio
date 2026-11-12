@@ -1,5 +1,7 @@
 import * as T from './vendor/three.module.js';
 import {buildRoom} from './room.js';
+import {loadHeroAssets} from './hero-assets.js';
+import {RoomAudio} from './audio.js';
 
 const $=id=>document.getElementById(id), scene=new T.Scene();
 scene.background=new T.Color('#070b13');scene.fog=new T.Fog('#101823',6,13);
@@ -9,7 +11,10 @@ try {renderer=new T.WebGLRenderer({antialias:false,powerPreference:'high-perform
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.setPixelRatio(1);$('view').append(renderer.domElement);
 function resize(){renderer.setSize(Math.min(innerWidth,960),Math.min(innerWidth,960)*innerHeight/innerWidth,false);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();}resize();addEventListener('resize',resize);
 let seed=91;function random(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;}
-const {box,ball,wood,cream,black,skin,navy,led}=buildRoom(scene);
+const room=buildRoom(scene);
+const {box,ball,cream,black,skin,navy,led}=room;
+const audio=new RoomAudio();let gripRig;
+$('sound').onclick=async()=>{if(audio.enabled){audio.disable();}else{try{await audio.enable();}catch{$('sound').textContent='Sound unavailable';return;}}$('sound').setAttribute('aria-pressed',String(audio.enabled));$('sound').textContent=audio.enabled?'Sound on':'Sound off';};
 // Outlet on back wall left of cabinet. Plug is loose until interaction.
 const outlet=new T.Vector3(-1.12,.38,-2.39);box(.11,.17,.025,...outlet.toArray(),cream);for(const x of [-1.145,-1.105])box(.009,.035,.008,x,.4,-2.37,black);
 const plug=new T.Group();scene.add(plug);box(.065,.055,.08,0,0,0,black,plug);for(const x of [-.018,.018])box(.009,.025,.025,x,0,-.05,cream,plug);
@@ -27,29 +32,31 @@ let previewLight=false;
 $('lighting').onclick=()=>{previewLight=!previewLight;$('lighting').setAttribute('aria-pressed',String(previewLight));};
 let state='doorway',elapsed=0,total=0,last=performance.now(),paused=false;const durations={walk:3.5,notice:1.2,plug:2.2,rise:1,wake:1.4,enter:2.5};
 const reduced=$('motion');reduced.checked=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function setState(s){state=s;elapsed=0;document.body.dataset.phase=s;const texts={doorway:'01 / At the doorway',walk:'02 / Walking toward the TV',notice:'03 / The cord is unplugged',ready:'Your turn · plug in the TV',plug:'04 / Reach · lift · insert',rise:'The power light catches your eye',wake:'05 / The room wakes up',enter:'06 / Into your world',done:'Motion study complete'};$('phase').textContent=texts[s];$('action').hidden=!['doorway','ready'].includes(s);$('action').disabled=false;$('action').textContent=s==='ready'?'Plug in · Enter / Click':'Approach TV';$('end').style.display=s==='done'?'block':'none';if(s==='ready'||s==='doorway')$('action').focus({preventScroll:true});}
-function reset(){previewLight=false;$('lighting').setAttribute('aria-pressed','false');total=0;plug.position.copy(loose);hand.visible=false;glow.intensity=0;led.material.color.set('#302414');updateCable();setState('doorway');}
+function setState(s){if(s==='walk')audio.sound('walk');if(s==='notice')audio.endWalk();if(s==='rise')audio.sound('click');if(s==='wake')audio.sound('static');if(s==='enter')audio.sound('chime');if(s==='doorway'||s==='done')audio.stop();state=s;elapsed=0;document.body.dataset.phase=s;const texts={doorway:'01 / At the doorway',walk:'02 / Walking toward the TV',notice:'03 / The cord is unplugged',ready:'Your turn · plug in the TV',plug:'04 / Reach · lift · insert',rise:'The power light catches your eye',wake:'05 / The room wakes up',enter:'06 / Into your world',done:'Motion study complete'};$('phase').textContent=texts[s];$('action').hidden=!['doorway','ready'].includes(s);$('action').disabled=false;$('action').textContent=s==='ready'?'Plug in · Enter / Click':'Approach TV';$('end').style.display=s==='done'?'block':'none';if(s==='ready'||s==='doorway')$('action').focus({preventScroll:true});}
+function reset(){ $('study').value='walk';previewLight=false;$('lighting').setAttribute('aria-pressed','false');total=0;plug.position.copy(loose);hand.visible=false;glow.intensity=0;led.material.color.set('#302414');updateCable();setState('doorway');}
+$('study').onchange=()=>{const choice=$('study').value;reset();$('study').value=choice;if(choice!=='walk'){$('action').hidden=true;$('phase').textContent=choice==='corner'?'TV + Chopper · asset study':'Articulated hand · grip study';}if(choice==='grip'){plug.position.copy(inserted);updateCable();}};
 $('action').onclick=()=>{if(state==='doorway')setState('walk');else if(state==='ready')setState('plug');};$('replay').onclick=reset;$('skip').onclick=()=>{total=11.8;plug.position.copy(inserted);hand.visible=false;updateCable();setState('done');};
-document.addEventListener('visibilitychange',()=>{paused=document.hidden;last=performance.now();});
+document.addEventListener('visibilitychange',()=>{paused=document.hidden;last=performance.now();if(paused)audio.stop();else if(state==='walk')audio.sound('walk');});
 function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000,.05);last=now;if(paused)return;const duration=durations[state];if(duration){elapsed+=dt;total+=dt;}
 let p=duration?clamp(elapsed/duration):0,e=ease(p),pos=v(initial),target=v(tv),mode='off';
 if(state==='walk'){pos=mix(initial,near,reduced.checked?1:e);if(!reduced.checked)pos.y+=Math.sin(p*Math.PI*8)*.014*Math.sin(p*Math.PI);}
 if(state==='notice'){pos=mix(near,low,reduced.checked?1:e);target=mix(tv,socket,reduced.checked?1:e);}
 if(['ready','plug'].includes(state)){pos=v(low);target=v(socket);}
-if(state==='plug'){hand.visible=!reduced.checked;const reach=clamp(p/.3),lift=ease(clamp((p-.3)/.48)),insert=ease(clamp((p-.78)/.22));const held=mix(loose.toArray(),[-1.12,.4,-2.17],lift);held.lerp(inserted,insert);plug.position.copy(held);hand.position.copy(held).add(new T.Vector3(.02,-.01,.02+(1-ease(reach))*.45));updateCable();}
+if(state==='plug'){hand.visible=!reduced.checked;const reach=clamp(p/.3),lift=ease(clamp((p-.3)/.48)),insert=ease(clamp((p-.78)/.22));const held=mix(loose.toArray(),[-1.12,.4,-2.17],lift);held.lerp(inserted,insert);plug.position.copy(held);hand.position.copy(held).add(new T.Vector3(.02,.015,.02+(1-ease(reach))*.45));gripRig?.pose(ease(clamp((p-.12)/.18)));updateCable();}
 if(state==='rise'){pos=mix(low,front,reduced.checked?1:e);target=mix(socket,tv,reduced.checked?1:e);hand.visible=!reduced.checked&&p<.35;hand.position.z+=dt*.3;led.material.color.set('#ffc568');}
 if(state==='wake'){pos=v(front);mode=p<.38?'static':'world';}
 if(state==='enter'||state==='done'){pos=state==='done'?v(final):mix(front,final,reduced.checked?1:e);target=v([.04,.97,-2]);mode='world';}
 if(['doorway','walk','notice','ready'].includes(state))hand.visible=false;
 if(state==='doorway'&&previewLight)mode='world';
+if(state==='doorway'&&$('study').value==='corner'){pos=v([.1,1.24,-.78]);target=v([.16,1,-2]);mode='world';}
+if(state==='doorway'&&$('study').value==='grip'){pos=v(low);target=v(socket);hand.visible=true;hand.position.copy(inserted).add(new T.Vector3(.02,.015,.02));gripRig?.pose(1);}
 $('lighting').disabled=state!=='doorway';
-glow.intensity=mode==='off'?0:mode==='static'?.5:2.8;
+glow.intensity=mode==='off'?0:mode==='static'?.3:1.15;
 if(state==='doorway')led.material.color.set(previewLight?'#ffc568':'#302414');
 drawScreen(mode,now/1000);camera.position.copy(pos);camera.lookAt(target);renderer.render(scene,camera);
 $('time').textContent=`${Math.min(total,11.8).toFixed(1)} / 11.8 seconds`;$('progress').style.width=`${Math.min(total/11.8,1)*100}%`;
 if(duration&&p>=1){const next={walk:'notice',notice:'ready',plug:'rise',rise:'wake',wake:'enter',enter:'done'};setState(next[state]);}
 }
+try{gripRig=await loadHeroAssets(scene,room,hand);$('asset-status').textContent='Blender models · CC0 textures · optional sound';document.body.dataset.assets='loaded';}
+catch(error){console.error('Hero asset load failed',error);$('asset-status').textContent='Asset loading failed · fallback geometry';document.body.dataset.assets='fallback';}
 reset();requestAnimationFrame(animate);
-
-
-

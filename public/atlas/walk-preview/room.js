@@ -63,6 +63,7 @@ export function buildRoom(scene){
   for(const x of [-.58,.58]){box(.5,.35,.035,x,.35,-1.72,wood);box(.43,.27,.015,x,.35,-1.695,wood);box(.065,.018,.025,x,.39,-1.67,gold);}
   for(let i=0;i<2;i++)box(.44,.06,.25,0,.2+i*.075,-1.88,i?navy:cream);
   // CRT case with chamfered bezel, rear vents, speaker grille, knobs and feet.
+  const crtStart=scene.children.length;
   bevel(.71,.58,.45,.08,.94,-2.02,navy,.055);bevel(.62,.46,.055,.04,.98,-1.78,black,.04);bevel(.56,.4,.035,.04,.98,-1.746,cream,.035);bevel(.53,.38,.018,.04,.98,-1.724,black,.03);
   for(let i=0;i<8;i++)box(.075,.006,.006,.29,.71+i*.008,-1.775,black);
   for(let i=0;i<2;i++)rod([-.11+i*.09,.704,-1.78],[-.11+i*.09,.704,-1.755],.022,cream);
@@ -70,6 +71,7 @@ export function buildRoom(scene){
   for(const x of [-.17,.29])box(.08,.035,.19,x,.64,-2,black);
   const led=ball(.008,-.24,.704,-1.77,new T.MeshBasicMaterial({color:'#302414'}));
   const label=art(g=>{g.fillStyle='#273343';g.fillRect(0,0,128,128);g.fillStyle='#c1b99b';g.font='17px monospace';g.fillText('VOYAGER',7,70);});panel(.15,.032,-.04,.745,-1.775,label);
+  const crtFallback=scene.children.slice(crtStart).filter(o=>o!==led);
   bevel(.37,.09,.26,-.57,.68,-1.98,navy,.025);box(.22,.008,.09,-.57,.733,-2.02,black);bevel(.15,.13,.025,-.57,.78,-2.02,cream,.01);
   bevel(.23,.04,.11,-.59,.67,-1.73,cream,.025);box(.055,.007,.018,-.65,.695,-1.73,black);box(.018,.007,.055,-.65,.695,-1.73,black);for(const x of [-.55,-.51])ball(.01,x,.695,-1.73,pink);
   const controllerCord=new T.CatmullRomCurve3([new T.Vector3(-.6,.67,-1.8),new T.Vector3(-.7,.47,-1.64),new T.Vector3(-.8,.34,-1.75),new T.Vector3(-.72,.66,-1.95)]);scene.add(new T.Mesh(new T.TubeGeometry(controllerCord,18,.005,5,false),black));
@@ -86,6 +88,7 @@ export function buildRoom(scene){
   const plantPot=new T.Mesh(new T.CylinderGeometry(.085,.06,.12,8),wood);plantPot.position.set(-2.16,2.11,1.42);scene.add(plantPot);
   const leaf=material('fabric','#486c50');for(let i=0;i<5;i++){const stem=ball(.06,-2.14+Math.sin(i*2)*.06,2.23+(i%3)*.05,1.42+Math.cos(i*2)*.05,leaf);stem.scale.set(.6,1.2,.5);stem.rotation.z=i*.8;}
   // Chopper plush: seated proportions, muzzle, hat cross, ear/antler branches and stitched seams.
+  const plushStart=scene.children.length;
   const body=ball(.115,.67,.77,-1.98,fur);body.scale.set(.9,1.1,.8);
   for(const sign of [-1,1]){const foot=ball(.059,.67+sign*.08,.68,-1.9,fur);foot.scale.set(1,.7,1.25);const arm=ball(.046,.67+sign*.11,.79,-1.96,fur);arm.scale.set(.7,1.5,.7);ball(.049,.67+sign*.115,.99,-1.98,fur);}
   ball(.126,.67,.98,-1.98,skin);const muzzle=ball(.066,.67,.95,-1.865,cream);muzzle.scale.set(1,.65,.35);
@@ -95,11 +98,12 @@ export function buildRoom(scene){
   for(const angle of [-Math.PI/4,Math.PI/4]){const cross=box(.027,.085,.008,.67,1.13,-1.858,cream);cross.rotation.z=angle;}
   for(const sign of [-1,1]){const x=.67+sign*.145;rod([x,1.1,-1.98],[x+sign*.035,1.25,-1.98],.017,fur);rod([x+sign*.035,1.23,-1.98],[x+sign*.09,1.26,-1.98],.014,fur);rod([x+sign*.035,1.22,-1.98],[x+sign*.02,1.29,-1.98],.012,fur);}
   // Books, small ship model, straw hat and custom printed nautical poster.
+  const plushFallback=scene.children.slice(plushStart);
   for(let y of [.16,.65,1.14])box(.8,.045,.3,1.7,y,-2.18,wood);for(const x of [1.29,2.11])box(.045,1.16,.3,x,.6,-2.18,wood);
   for(let i=0;i<8;i++){const x=1.4+i*.075;box(.06,.28,.17,x,.82,-2.15,i%3?cream:navy);for(const y of [.73,.88])box(.045,.018,.003,x,y,-2.063,pink);}
   box(.3,.18,.2,1.85,.28,-2.15,wood);box(.04,.035,.01,1.85,.29,-2.04,gold);
   bevel(.49,.12,.18,1.7,1.26,-2.15,wood,.04);rod([1.7,1.3,-2.15],[1.7,1.69,-2.15],.01,wood);box(.25,.27,.012,1.76,1.51,-2.14,cream);ball(.027,1.49,1.35,-2.13,cream);
   const hat=new T.Mesh(new T.CylinderGeometry(.22,.22,.025,16),gold);hat.rotation.x=Math.PI/2;hat.position.set(-.65,1.95,-2.4);hat.castShadow=true;scene.add(hat);const crown=ball(.13,-.65,1.95,-2.36,gold);crown.scale.z=.55;const band=new T.Mesh(new T.TorusGeometry(.125,.015,4,16),pink);band.position.set(-.65,1.95,-2.34);scene.add(band);
   const poster=art((g,w,h)=>{g.fillStyle='#c0aa82';g.fillRect(0,0,w,h);g.strokeStyle='#584633';g.lineWidth=3;g.strokeRect(6,6,w-12,h-12);g.fillStyle='#463c33';g.font='bold 20px serif';g.textAlign='center';g.fillText('WANTED',w/2,29);g.fillStyle='#796951';g.fillRect(15,38,w-30,85);g.fillStyle='#c8aa76';g.beginPath();g.arc(64,82,24,0,7);g.fill();g.fillStyle='#322f2c';g.fillRect(49,76,6,5);g.fillRect(74,76,6,5);g.fillStyle='#ceb579';g.fillRect(29,61,70,7);g.fillRect(43,47,42,17);g.fillStyle='#783d35';g.fillRect(43,58,42,6);g.strokeStyle='#514132';g.beginPath();g.arc(64,86,14,0,Math.PI);g.stroke();g.fillStyle='#463c33';g.font='12px serif';g.fillText('THE NEXT ADVENTURE',64,143);g.font='9px monospace';g.fillText('EAST BLUE · GRAND LINE',64,159);},128,176);const posterMesh=panel(.44,.61,.85,1.94,-2.425,poster);posterMesh.rotation.z=-.045;
-  return {box,ball,rod,wood,cream,black,skin,navy,led};
+  return {box,ball,rod,wood,cream,black,skin,navy,led,wall,boards,crtFallback,plushFallback};
 }

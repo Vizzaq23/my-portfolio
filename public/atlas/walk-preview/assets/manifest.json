@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "files": [
+    {
+      "file": "chopper.glb",
+      "sha256": "c184f762c98cd586f0d4929636aa614ae364cfe5c8ef606a5e0f88b2b8e155df",
+      "bytes": 313608
+    },
+    {
+      "file": "crt.glb",
+      "sha256": "fe4807921287f4fba8314292f17ebd09ac8923c3dfa87fb997b67518b476bb0b",
+      "bytes": 150592
+    },
+    {
+      "file": "footsteps-wood.mp3",
+      "sha256": "4352ddbcff58c15a6fdeaf6f49c66805f1b836bf68ed8798447defa65704efff",
+      "bytes": 40381
+    },
+    {
+      "file": "hand.glb",
+      "sha256": "27e061439941d3d7c2f68afb246d802d87d111d0ab7be83f9c2e94b706b85627",
+      "bytes": 135252
+    },
+    {
+      "file": "model-stats.json",
+      "sha256": "5919c4cbcf218408a0b27da8136adf18882347991e1b7de7d340f2458a8c7d8f",
+      "bytes": 265
+    },
+    {
+      "file": "plastered_wall.jpg",
+      "sha256": "73312ebb6eabc8e0a55addd8a82a8924bcd1e717b9488a887cc77f14b6ea554e",
+      "bytes": 617080
+    },
+    {
+      "file": "SOURCES.md",
+      "sha256": "a807f0368c5e1895e61fa6bf3db17a6e2709070e43974e30bd638ec4f819a70d",
+      "bytes": 2928
+    },
+    {
+      "file": "wood_planks.jpg",
+      "sha256": "3b0669f683e4bf10f5a55a381cfa9669a7b8dfd921901829daa3b35acc2bbdec",
+      "bytes": 609525
+    }
+  ]
+}

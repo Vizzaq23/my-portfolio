@@ -1,0 +1,17 @@
+{
+  "chopper": {
+    "objects": 53,
+    "vertices": 5740,
+    "file": "chopper.glb"
+  },
+  "crt": {
+    "objects": 42,
+    "vertices": 1368,
+    "file": "crt.glb"
+  },
+  "hand": {
+    "objects": 26,
+    "vertices": 2302,
+    "file": "hand.glb"
+  }
+}
