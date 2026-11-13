@@ -1,8 +1,10 @@
-/* Art-driven motion study. Cropped image warps approximate cloth/foliage;
-   these are not separated production sprites or a fluid simulation. */
+/* Independent transparent foliage sprites and articulated, top-pinned paper.
+   Spring integration runs at a fixed timestep, independent of display FPS. */
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d', { alpha: false });
 const art = new Image();
+const original = new Image();
+const foliage = new Image();
 const W = canvas.width, H = canvas.height;
 const base = document.createElement('canvas');
 base.width = W; base.height = H;
@@ -12,7 +14,38 @@ const pause = document.querySelector('#pause');
 const gust = document.querySelector('#gust');
 const slider = document.querySelector('#wind');
 let paused = media.matches, loaded = false, time = 0, last = 0, burst = 0;
-let bend = 0, velocity = 0;
+const branches = Array.from({length: 10}, (_, i) => ({
+  x: i < 6 ? -12 + i * 47 : 696 + (i - 6) * 49,
+  y: -48 - (i * 13 % 20),
+  angle: 0, speed: 0, phase: i * 1.73,
+  size: 82 + i * 17 % 24,
+  rest: (i < 6 ? -.48 : .48) + Math.sin(i * 3) * .28,
+}));
+const paper = Array.from({length: 12}, () => ({angle:0, speed:0}));
+let accumulator = 0;
+function spring(body, target, stiffness, damping, dt) {
+  body.speed += ((target - body.angle) * stiffness - body.speed * damping) * dt;
+  body.angle += body.speed * dt;
+}
+function breeze(x, phase = 0) {
+  const strength = Number(slider.value) / 100;
+  return strength * (.45 + .28 * Math.sin(time * .71 - x * .003)
+    + .18 * Math.sin(time * 1.39 + phase)) + burst * Math.max(0, 1 - x / 1400);
+}
+function simulate(dt) {
+  time += dt; burst = Math.max(0, burst - dt * .65);
+  for (const branch of branches) {
+    const target = breeze(branch.x, branch.phase) * .16
+      + Number(slider.value) / 100 * Math.sin(time * 2.2 + branch.phase) * .025;
+    spring(branch, target, 9 + branch.size * .08, 3.2, dt);
+  }
+  paper.forEach((part, i) => {
+    // Top attachment stays still; flexible lower segments catch more air.
+    const target = i === 0 ? 0 : breeze(30, i * .18) * .045
+      + Number(slider.value) / 100 * Math.sin(time * 2.6 - i * .45) * .025;
+    spring(part, target, 24 - i, 3.8, dt);
+  });
+}
 function controls() {
   pause.textContent = paused ? 'Play motion' : 'Pause motion';
   pause.setAttribute('aria-pressed', String(paused));
@@ -22,31 +55,33 @@ pause.onclick = () => { paused = !paused; controls(); };
 gust.onclick = () => { burst = 2.2; };
 media.addEventListener('change', () => { paused = media.matches; controls(); });
 controls();
-// Source coordinates below use the original 1672 × 941 art canvas.
-function warp(x, y, w, h, strength, phase = 0) {
-  x /= 2; y /= 2; w /= 2; h /= 2;
-  ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
-  for (let row = 0; row < h; row++) {
-    const weight = Math.sin(Math.PI * row / h);
-    const offset = Math.round(Math.sin(time * 1.8 + row * .05 + phase) * strength * weight);
-    ctx.drawImage(base, x - 4, y + row, w + 8, 1, x - 4 + offset, y + row, w + 8, 1);
+function drawPaper(shadow = false) {
+  ctx.save(); ctx.translate(3, 252);
+  if (shadow) { ctx.translate(2, 2); ctx.globalAlpha = .24; }
+  const segment = 75 / paper.length;
+  for (let i = 0; i < paper.length; i++) {
+    ctx.rotate(-paper[i].angle);
+    if (shadow) { ctx.fillStyle = '#080e20'; ctx.fillRect(0, 0, 50, segment + .2); }
+    else ctx.drawImage(original, 6, 504 + i * 150 / paper.length,
+      100, 150 / paper.length, 0, 0, 50, segment + .2);
+    ctx.translate(0, segment);
   }
   ctx.restore();
+  if (!shadow) { ctx.fillStyle = '#263447'; ctx.fillRect(5, 252, 2, 2); ctx.fillRect(49, 252, 2, 2); }
+}
+function drawCanopy() {
+  for (const branch of branches) {
+    ctx.save(); ctx.translate(branch.x, branch.y);
+    ctx.rotate(branch.rest + branch.angle);
+    const w = branch.size, h = w * 1.4;
+    ctx.drawImage(foliage, -w * .47, -h * .025, w, h);
+    ctx.restore();
+  }
 }
 function draw() {
   ctx.imageSmoothingEnabled = false;
   ctx.drawImage(base, 0, 0);
-  const wind = Number(slider.value) / 100;
-  // Wind is shared; the damped spring adds lag to the cloth and leaves.
-  warp(0, 0, 530, 160, bend * 2.4);
-  warp(1215, 0, 455, 135, bend * 2.1, 1);
-  warp(7, 506, 96, 139, bend * 2.6, -.5);
-  warp(249, 304, 137, 84, bend * 1.8, .5);
-  warp(0, 770, 1672, 32, bend * .85);
-  // Narrow water-only bands avoid the player, blocks, pipe and land.
-  for (const [x,y,w,h] of [[510,610,125,157],[757,666,487,105],[775,610,158,54]]) {
-    warp(x,y,w,h,.65 + wind * .6, 2);
-  }
+  drawPaper(true); drawPaper(); drawCanopy();
   ctx.save(); ctx.globalCompositeOperation = 'screen';
   // Crisp reflection fragments, with a stable deterministic distribution.
   for (let i = 0; i < 58; i++) {
@@ -75,21 +110,22 @@ function draw() {
 function tick(now) {
   const dt = Math.min((now - last) / 1000 || 0, .04); last = now;
   if (loaded && !paused && !document.hidden) {
-    time += dt; burst = Math.max(0, burst - dt * .65);
-    const target = Number(slider.value) / 100 * (.65 + .35 * Math.sin(time * .55)) + burst;
-    velocity += ((target - bend) * 9 - velocity * 4) * dt;
-    bend += velocity * dt;
+    accumulator += dt;
+    while (accumulator >= 1 / 120) { simulate(1 / 120); accumulator -= 1 / 120; }
     draw();
   }
   requestAnimationFrame(tick);
 }
-art.onload = () => {
+Promise.all([art, original, foliage].map(image => new Promise((resolve, reject) => {
+  image.onload = resolve; image.onerror = reject;
+}))).then(() => {
   b.imageSmoothingEnabled = false; b.drawImage(art, 0, 0, W, H);
   loaded = true; draw(); canvas.dataset.ready = 'true';
-};
-art.onerror = () => {
+}).catch(() => {
   const error = document.querySelector('#error'); error.hidden = false;
   error.textContent = 'The scene could not load. Refresh to retry, or use the Portfolio link.';
-};
-art.src = 'night.png';
+});
+art.src = 'background.png';
+original.src = 'night.png';
+foliage.src = 'foliage.png';
 requestAnimationFrame(tick);
