@@ -93,11 +93,31 @@ function draw() {
   }
   // A lighthouse fan narrows as it turns away from the viewer.
   const lx = 574, ly = 229;
-  const reach = Math.sin(time * .36) * 164;
-  const beam = ctx.createLinearGradient(lx, ly, lx + reach, ly - 12);
-  beam.addColorStop(0, '#ffe2a13d'); beam.addColorStop(1, '#ffe2a100');
+  const rotation = time * Math.PI * 2 / 12 - .9;
+  const reach = Math.sin(rotation) * 258;
+  const facing = Math.max(0, Math.cos(rotation));
+  const intensity = .12 + .32 * facing;
+  const beam = ctx.createLinearGradient(lx, ly, lx + reach, ly + 9);
+  beam.addColorStop(0, `rgba(255,225,156,${intensity})`);
+  beam.addColorStop(.5, `rgba(255,225,156,${intensity * .38})`);
+  beam.addColorStop(1, '#ffe2a100');
   ctx.fillStyle = beam; ctx.beginPath(); ctx.moveTo(lx,ly);
-  ctx.lineTo(lx + reach, ly - 19); ctx.lineTo(lx + reach, ly + 2); ctx.fill();
+  ctx.lineTo(lx + reach, ly - 27); ctx.lineTo(lx + reach, ly + 35); ctx.fill();
+  // The rotating lens brightens gently when its beam faces the viewer.
+  const flare = Math.pow(facing, 12);
+  const halo = ctx.createRadialGradient(lx, ly, 1, lx, ly, 9 + flare * 9);
+  halo.addColorStop(0, `rgba(255,239,187,${.3 + flare * .45})`);
+  halo.addColorStop(1, '#ffe6a100');
+  ctx.fillStyle = halo; ctx.fillRect(lx - 18, ly - 18, 36, 36);
+  ctx.fillStyle = `rgba(255,246,206,${.35 + flare * .6})`;
+  ctx.fillRect(lx - 2 + Math.round(Math.sin(rotation)), ly - 2, 3, 3);
+  // Pixel glints on open water follow the same rotation, avoiding foreground props.
+  for (let i = 0; i < 14; i++) {
+    const y = 340 + i * 3;
+    const x = 504 + Math.sin(rotation) * (26 + i * 3);
+    ctx.fillStyle = `rgba(255,223,153,${facing * .22 * (1 - i / 18)})`;
+    ctx.fillRect(Math.round(x), y, 3 + i % 4, 1);
+  }
   for (const [x,y,r] of [[73,169,35],[108,242,50]]) {
     const light = ctx.createRadialGradient(x,y,0,x,y,r);
     const pulse = .075 + Math.sin(time * 2.1) * .012 + Math.sin(time * 5.3) * .008;
