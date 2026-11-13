@@ -5,9 +5,26 @@ const revealButtons = [...document.querySelectorAll('[data-reveal]')];
 const revealStatus = document.querySelector('#reveal-status');
 const skipReveal = document.querySelector('#skip-reveal');
 const reducedReveal = matchMedia('(prefers-reduced-motion: reduce)');
+const embeddedTitle = new URLSearchParams(location.search).has('tv');
+let tvStarted = !embeddedTitle;
+let tvReduced = false;
+if (embeddedTitle) {
+  document.body.classList.add('tv-mode');
+  document.querySelectorAll('a[href="/#top"]').forEach(link => { link.target = '_top'; });
+  document.querySelector('#room-replay').hidden = true;
+  document.querySelector('#room-replay').onclick = () => parent.postMessage({type:'replay-room'}, location.origin);
+}
+addEventListener('message', event => {
+  if (!embeddedTitle || event.origin !== location.origin || event.source !== parent) return;
+  if (event.data?.type === 'tv-start') {
+    tvReduced = Boolean(event.data.reduced); tvStarted = true; selectReveal(4);
+  }
+  if (event.data?.type === 'tv-reset') { tvStarted = false; revealClock = 0; document.querySelector('#room-replay').hidden = true; }
+  if (event.data?.type === 'tv-interactive') document.querySelector('#room-replay').hidden = false;
+});
 function selectReveal(mode) {
   revealMode = mode; revealClock = 0;
-  revealDuration = reducedReveal.matches ? .25 : [2.2, 2.4, 2.8, 2.6, 2.9][mode];
+  revealDuration = reducedReveal.matches || tvReduced ? .25 : [2.2, 2.4, 2.8, 2.6, 2.9][mode];
   revealButtons.forEach((button, i) => button.setAttribute('aria-pressed', String(i === mode)));
   revealStatus.textContent = `${mode + 1}. ${revealNames[mode]}${reducedReveal.matches ? ' — reduced-motion fade' : ''}`;
   skipReveal.disabled = false;
@@ -22,13 +39,14 @@ function revealMotionScale() {
   return revealMode === 3 ? Math.min(1, revealClock / revealDuration) ** 2 : 1;
 }
 function paintReveal(context, width, height, dt) {
+  if (!tvStarted) { context.fillStyle = '#060a15'; context.fillRect(0, 0, width, height); return; }
   revealClock = Math.min(revealDuration, revealClock + dt);
   let p = revealClock / revealDuration;
   context.canvas.dataset.reveal = String(revealMode);
   context.canvas.dataset.revealProgress = p.toFixed(3);
   if (p >= 1) { skipReveal.disabled = true; return; }
   context.save(); context.fillStyle = '#060a15';
-  if (revealMode === 4 && !reducedReveal.matches) {
+  if (revealMode === 4 && !reducedReveal.matches && !tvReduced) {
     // The phosphor line opens for 650ms; tiles then grow from its center.
     if (revealClock < .65) {
       context.fillRect(0, 0, width, height);
@@ -41,7 +59,7 @@ function paintReveal(context, width, height, dt) {
     }
     p = (revealClock - .65) / (revealDuration - .65);
   }
-  if (reducedReveal.matches || revealMode === 3) {
+  if (reducedReveal.matches || tvReduced || revealMode === 3) {
     // A restrained exposure fade; ambient motion ramps up with it.
     context.globalAlpha = (1 - p) ** 1.6;
     context.fillRect(0, 0, width, height);
@@ -79,7 +97,7 @@ function paintReveal(context, width, height, dt) {
       }
     }
   }
-  if (revealMode === 4 && !reducedReveal.matches && revealClock < .95) {
+  if (revealMode === 4 && !reducedReveal.matches && !tvReduced && revealClock < .95) {
     // Retain a fading line beneath the growing pixel field, avoiding a hard cut.
     context.fillStyle = `rgba(158,199,188,${(.95 - revealClock) / .3 * .7})`;
     context.fillRect(Math.round(width * .11), Math.floor(height / 2), Math.round(width * .78), 2);
@@ -87,3 +105,4 @@ function paintReveal(context, width, height, dt) {
   context.restore();
 }
 selectReveal(4);
+

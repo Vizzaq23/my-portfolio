@@ -26,14 +26,17 @@ let cable;function updateCable(){if(cable){scene.remove(cable);cable.geometry.di
 const screenCanvas=document.createElement('canvas');screenCanvas.width=256;screenCanvas.height=180;const ctx=screenCanvas.getContext('2d'),screenTex=new T.CanvasTexture(screenCanvas);screenTex.magFilter=T.NearestFilter;screenTex.minFilter=T.NearestFilter;screenTex.colorSpace=T.SRGBColorSpace;
 const screenMat=new T.MeshBasicMaterial({map:screenTex});box(.51,.36,.005,.04,.98,-1.705,screenMat);
 
-// The real homepage is projected onto the CRT, not recreated as a different game.
-// It remains inert until navigation, preserving the original page and its controls.
+// The approved animated title is projected onto the CRT; the homepage remains untouched.
+// It stays inert during the room sequence, then becomes the interactive title without reloading.
 const homepage=document.createElement('iframe');
-homepage.src='/';homepage.title='Current portfolio on the television';
+homepage.src='/atlas/night-preview/index.html?tv=1';homepage.title='Quintin game title screen';
 homepage.tabIndex=-1;homepage.inert=true;homepage.setAttribute('aria-hidden','true');
 homepage.style.cssText='position:fixed;left:0;top:0;width:1280px;height:904px;border:0;pointer-events:none;transform-origin:0 0;display:none;background:#60a9dc;z-index:1';
 document.body.append(homepage);
+let tvReady=false,tvBooted=false;
+addEventListener('message',event=>{if(event.origin!==location.origin||event.source!==homepage.contentWindow)return;if(event.data?.type==='tv-ready')tvReady=true;if(event.data?.type==='replay-room'){reset();setState('walk');}});
 function projectHomepage(visible){
+ if(state==='title')return;
  homepage.style.display=visible?'block':'none';if(!visible)return;
  const corners=[[-.215,1.16,-1.701],[.295,1.16,-1.701],[.295,.8,-1.701],[-.215,.8,-1.701]].map(a=>{const p=new T.Vector3(...a).project(camera);return {x:(p.x+1)*innerWidth/2,y:(1-p.y)*innerHeight/2};});
  const [a,b,c,d]=corners,dx=b.x-c.x,dy=b.y-c.y,ex=d.x-c.x,ey=d.y-c.y,sx=a.x-b.x+c.x-d.x,sy=a.y-b.y+c.y-d.y,det=dx*ey-ex*dy;
@@ -48,7 +51,7 @@ const initial=[0,1.68,3.6],near=[-.45,1.68,-.65],low=[-.9,.82,-1.35],front=[.04,
 const tv=[.04,1,-2],socket=[-1.08,.25,-2.1];const v=a=>new T.Vector3(...a),mix=(a,b,t)=>v(a).lerp(v(b),t),ease=t=>t*t*(3-2*t),clamp=t=>Math.max(0,Math.min(1,t));
 let previewLight=false;
 $('lighting').onclick=()=>{previewLight=!previewLight;$('lighting').setAttribute('aria-pressed',String(previewLight));};
-let state='doorway',elapsed=0,total=0,last=performance.now(),paused=false;const durations={walk:3.5,notice:1.2,plug:2.2,rise:1,wake:1.4,enter:2.5};
+let state='doorway',elapsed=0,total=0,last=performance.now(),paused=false;const durations={walk:3.5,notice:1.2,plug:2.2,rise:1,wake:3.6,enter:2.5};
 const reduced=$('motion');reduced.checked=matchMedia('(prefers-reduced-motion: reduce)').matches;
 $('start-motion').checked=reduced.checked;
 function syncStartMotion(){reduced.checked=$('start-motion').checked;document.body.classList.toggle('motion-reduced',reduced.checked);}
@@ -61,19 +64,19 @@ $('start').onclick=()=>{
  $('start-screen').classList.add('leaving');setTimeout(begin,750);
 };
 
-function setState(s){if(s==='walk')audio.sound('walk');if(s==='notice')audio.endWalk();if(s==='rise')audio.sound('click');if(s==='wake')audio.sound('static');if(s==='enter')audio.sound('chime');if(s==='doorway'||s==='done')audio.stop();state=s;elapsed=0;if(s==='done'){location.assign('/#top');return;}document.body.dataset.phase=s;const texts={doorway:'01 / At the doorway',walk:'02 / Walking toward the TV',notice:'03 / The cord is unplugged',ready:'Your turn · plug in the TV',plug:'04 / Reach · lift · insert',rise:'The power light catches your eye',wake:'05 / The room wakes up',enter:'06 / Into your world',done:'Motion study complete'};$('phase').textContent=texts[s];$('action').hidden=!['doorway','ready'].includes(s);$('action').disabled=false;$('action').textContent=s==='ready'?'Plug in · Enter / Click':'Approach TV';$('end').style.display=s==='done'?'block':'none';if((s==='ready'||s==='doorway')&&$('start-screen').hidden)$('action').focus({preventScroll:true});}
-function reset(){ $('study').value='walk';previewLight=false;$('lighting').setAttribute('aria-pressed','false');total=0;plug.position.copy(loose);hand.visible=false;glow.intensity=0;led.material.color.set('#302414');updateCable();setState('doorway');}
+function setState(s){if(s==='walk')audio.sound('walk');if(s==='notice')audio.endWalk();if(s==='rise')audio.sound('click');if(s==='wake')audio.sound('static');if(s==='enter')audio.sound('chime');if(s==='doorway'||s==='done')audio.stop();state=s;elapsed=0;if(s==='done'){location.assign('/#top');return;}if(s==='title'){audio.stop();document.body.dataset.phase='title';document.getElementById("room-ui").hidden=true;homepage.style.cssText='position:fixed;inset:0;width:100vw;height:100vh;border:0;z-index:3;background:#080f20';homepage.inert=false;homepage.removeAttribute('aria-hidden');homepage.tabIndex=0;homepage.contentWindow.postMessage({type:'tv-interactive'},location.origin);homepage.contentDocument?.querySelector('.hotspot')?.focus();return;}document.body.dataset.phase=s;const texts={doorway:'01 / At the doorway',walk:'02 / Walking toward the TV',notice:'03 / The cord is unplugged',ready:'Your turn · plug in the TV',plug:'04 / Reach · lift · insert',rise:'The power light catches your eye',wake:'05 / The room wakes up',enter:'06 / Into your world',done:'Motion study complete'};$('phase').textContent=texts[s];$('action').hidden=!['doorway','ready'].includes(s);$('action').disabled=false;$('action').textContent=s==='ready'?'Plug in · Enter / Click':'Approach TV';$('end').style.display=s==='done'?'block':'none';if((s==='ready'||s==='doorway')&&$('start-screen').hidden)$('action').focus({preventScroll:true});}
+function reset(){tvBooted=false;document.getElementById("room-ui").hidden=false;homepage.inert=true;homepage.tabIndex=-1;homepage.setAttribute('aria-hidden','true');homepage.style.cssText='position:fixed;left:0;top:0;width:1280px;height:904px;border:0;pointer-events:none;transform-origin:0 0;display:none;background:#060a15;z-index:1';homepage.contentWindow.postMessage({type:'tv-reset'},location.origin); $('study').value='walk';previewLight=false;$('lighting').setAttribute('aria-pressed','false');total=0;plug.position.copy(loose);hand.visible=false;glow.intensity=0;led.material.color.set('#302414');updateCable();setState('doorway');}
 $('study').onchange=()=>{const choice=$('study').value;reset();$('study').value=choice;if(choice!=='walk'){$('action').hidden=true;$('phase').textContent=choice==='corner'?'TV + Chopper · asset study':'Articulated hand · grip study';}if(choice==='grip'){plug.position.copy(inserted);updateCable();}};
-$('action').onclick=()=>{if(state==='doorway')setState('walk');else if(state==='ready')setState('plug');};$('replay').onclick=reset;$('skip').onclick=()=>{total=11.8;plug.position.copy(inserted);hand.visible=false;updateCable();setState('done');};
+$('action').onclick=()=>{if(state==='doorway')setState('walk');else if(state==='ready')setState('plug');};$('replay').onclick=reset;$('skip').onclick=()=>{total=14.0;plug.position.copy(inserted);hand.visible=false;updateCable();setState('done');};
 document.addEventListener('visibilitychange',()=>{paused=document.hidden;last=performance.now();if(paused)audio.stop();else if(state==='walk')audio.sound('walk');});
-function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000,.05);last=now;if(paused)return;if(state==='done')return;const duration=durations[state];if(duration){elapsed+=dt;total+=dt;}
+function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000,.05);last=now;if(paused)return;if(state==='done'||state==='title')return;const duration=durations[state];if(duration){elapsed+=dt;total+=dt;}
 let p=duration?clamp(elapsed/duration):0,e=ease(p),pos=v(initial),target=v(tv),mode='off';
 if(state==='walk'){pos=mix(initial,near,reduced.checked?1:e);if(!reduced.checked)pos.y+=Math.sin(p*Math.PI*8)*.014*Math.sin(p*Math.PI);}
 if(state==='notice'){pos=mix(near,low,reduced.checked?1:e);target=mix(tv,socket,reduced.checked?1:e);}
 if(['ready','plug'].includes(state)){pos=v(low);target=v(socket);}
 if(state==='plug'){hand.visible=!reduced.checked;const reach=clamp(p/.3),lift=ease(clamp((p-.3)/.48)),insert=ease(clamp((p-.78)/.22));const held=mix(loose.toArray(),[-1.12,.4,-2.17],lift);held.lerp(inserted,insert);plug.position.copy(held);hand.position.copy(held).add(new T.Vector3(.02,.015,.02+(1-ease(reach))*.45));gripRig?.pose(ease(clamp((p-.12)/.18)));updateCable();}
 if(state==='rise'){pos=mix(low,front,reduced.checked?1:e);target=mix(socket,tv,reduced.checked?1:e);hand.visible=!reduced.checked&&p<.35;hand.position.z+=dt*.3;led.material.color.set('#ffc568');}
-if(state==='wake'){pos=v(front);mode=p<.38?'static':'world';}
+if(state==='wake'){pos=v(front);mode=elapsed<.6?'static':'world';if(mode==='world'&&!tvBooted&&tvReady){homepage.contentWindow.postMessage({type:'tv-start',reduced:reduced.checked},location.origin);tvBooted=true;elapsed=.6;p=.6/durations.wake;}if(!tvReady&&elapsed>durations.wake-.1)elapsed=durations.wake-.1;}
 if(state==='enter'||state==='done'){pos=state==='done'?v(final):mix(front,final,reduced.checked?1:e);target=v([.04,.97,-2]);mode='world';}
 if(['doorway','walk','notice','ready'].includes(state))hand.visible=false;
 if(state==='doorway'&&previewLight)mode='world';
@@ -83,9 +86,12 @@ $('lighting').disabled=state!=='doorway';
 glow.intensity=mode==='off'?0:mode==='static'?.3:1.15;
 if(state==='doorway')led.material.color.set(previewLight?'#ffc568':'#302414');
 drawScreen(mode,now/1000);camera.position.copy(pos);camera.lookAt(target);renderer.render(scene,camera);projectHomepage(mode==='world');
-$('time').textContent=`${Math.min(total,11.8).toFixed(1)} / 11.8 seconds`;$('progress').style.width=`${Math.min(total/11.8,1)*100}%`;
-if(duration&&p>=1){const next={walk:'notice',notice:'ready',plug:'rise',rise:'wake',wake:'enter',enter:'done'};setState(next[state]);}
+$('time').textContent=`${Math.min(total,14.0).toFixed(1)} / 14.0 seconds`;$('progress').style.width=`${Math.min(total/14.0,1)*100}%`;
+if(duration&&p>=1&&(state!=='wake'||(tvReady&&tvBooted))){const next={walk:'notice',notice:'ready',plug:'rise',rise:'wake',wake:'enter',enter:'title'};setState(next[state]);}
 }
 try{gripRig=await loadHeroAssets(scene,room,hand);$('asset-status').textContent='Blender models · CC0 textures · optional sound';document.body.dataset.assets='loaded';}
 catch(error){console.error('Hero asset load failed',error);$('asset-status').textContent='Asset loading failed · fallback geometry';document.body.dataset.assets='fallback';}
-reset();$('start').disabled=false;$('start').textContent='Press Start →';requestAnimationFrame(animate);
+document.body.classList.remove('starting');$('start-screen').hidden=true;$('room-ui').inert=false;reset();setState('walk');requestAnimationFrame(animate);
+
+
+

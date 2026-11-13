@@ -131,7 +131,7 @@ function draw(revealDt = 0) {
 function tick(now) {
   const dt = Math.min((now - last) / 1000 || 0, .04); last = now;
   if (loaded && !document.hidden) {
-    accumulator += paused ? 0 : dt * revealMotionScale();
+    accumulator += paused || !tvStarted || tvReduced ? 0 : dt * revealMotionScale();
     while (accumulator >= 1 / 120) { simulate(1 / 120); accumulator -= 1 / 120; }
     draw(dt);
   }
@@ -142,6 +142,7 @@ Promise.all([art, original, foliage].map(image => new Promise((resolve, reject) 
 }))).then(() => {
   b.imageSmoothingEnabled = false; b.drawImage(art, 0, 0, W, H);
   loaded = true; draw(); canvas.dataset.ready = 'true';
+  if (embeddedTitle) parent.postMessage({type:'tv-ready'}, location.origin);
 }).catch(() => {
   const error = document.querySelector('#error'); error.hidden = false;
   error.textContent = 'The scene could not load. Refresh to retry, or use the Portfolio link.';
