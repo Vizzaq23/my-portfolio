@@ -13,3 +13,5 @@ This is an articulated spring model, not a full cloth/fluid simulation. Backgrou
 Verified: JavaScript syntax, TypeScript check, Next production build, advancing scene time, stable pause, reduced-motion startup, and no horizontal overflow at 390px. Local preview server: port 3019.
 
 Layered revision verification: syntax/types/build passed; browser verified loading all layers, advancing time, gust response and pause/resume. Reduced-motion logic and responsive layout retained from first pass.
+
+Startup comparison: reveal.js provides four selectable treatments: CRT aperture, center-out pixel tiles, scenery/title/menu staging, and exposure fade with ambient-motion ramp. Each completes in 2.2–2.8 seconds, with Replay and immediate Skip. Reduced-motion uses a 250ms fade. Ambient Pause does not prevent an explicitly selected reveal from completing. All four completion states, Replay/Skip, browser console and narrow layout verified; build passed. These are title-only previews, not yet integrated into the 3D TV sequence.

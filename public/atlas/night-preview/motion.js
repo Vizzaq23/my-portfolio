@@ -78,7 +78,7 @@ function drawCanopy() {
     ctx.restore();
   }
 }
-function draw() {
+function draw(revealDt = 0) {
   ctx.imageSmoothingEnabled = false;
   ctx.drawImage(base, 0, 0);
   drawPaper(true); drawPaper(); drawCanopy();
@@ -126,13 +126,14 @@ function draw() {
   }
   ctx.restore();
   canvas.dataset.time = time.toFixed(2);
+  paintReveal(ctx, W, H, revealDt);
 }
 function tick(now) {
   const dt = Math.min((now - last) / 1000 || 0, .04); last = now;
-  if (loaded && !paused && !document.hidden) {
-    accumulator += dt;
+  if (loaded && !document.hidden) {
+    accumulator += paused ? 0 : dt * revealMotionScale();
     while (accumulator >= 1 / 120) { simulate(1 / 120); accumulator -= 1 / 120; }
-    draw();
+    draw(dt);
   }
   requestAnimationFrame(tick);
 }
