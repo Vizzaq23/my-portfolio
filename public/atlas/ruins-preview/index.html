@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Quiet Relay · Quintin Vizza</title><link rel="stylesheet" href="scene.css"></head>
+<body>
+<main>
+  <header><a class="brand" href="/#top" aria-label="Quintin Vizza portfolio">QV<span>QUINTIN VIZZA</span></a><a href="/#top">Open portfolio ↗</a></header>
+  <section class="stage" tabindex="0" aria-label="Interactive pixel ruins. Use left and right arrows or A and D to walk. No jumping required.">
+    <canvas id="sky" width="840" height="470" aria-hidden="true"></canvas>
+    <canvas id="architecture" width="840" height="470" aria-hidden="true"></canvas>
+    <canvas id="water" width="840" height="470" aria-hidden="true"></canvas>
+    <canvas id="light" width="840" height="470" aria-hidden="true"></canvas>
+    <canvas id="life" width="840" height="470" aria-hidden="true"></canvas>
+    <div class="caption"><span>ENVIRONMENT STUDY / 01</span><h1>The Quiet Relay</h1><p>Something here is still awake.</p></div>
+  </section>
+  <footer><div class="movement"><button id="left" aria-label="Walk left">←</button><button id="right" aria-label="Walk right">→</button><span>Walk <kbd>A</kbd> <kbd>D</kbd></span></div><div class="settings"><button id="pause" aria-pressed="false">Pause motion</button><button id="layers" aria-expanded="false" aria-controls="layer-panel">Explore layers</button></div></footer>
+  <aside id="layer-panel" hidden><p>Independent, editable layers</p><div id="layer-options"></div><small>Artwork is drawn from tile data, sprite pixels, and shapes. No flattened concept image.</small></aside>
+  <p class="note">WORKING ART PROTOTYPE <span>Water currents · reflected light · dormant technology</span></p>
+</main><script type="module" src="scene.js"></script>
+</body></html>
