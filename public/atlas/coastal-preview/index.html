@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Quintin Vizza · Coastal asset preview</title><link rel="stylesheet" href="style.css"></head><body><main>
+<header><span>QV <small>COASTAL WORLD / ASSET BUILD 01</small></span><a href="/atlas/night-preview/index.html">Original start screen ↗</a></header>
+<section id="stage" tabindex="0" aria-label="Coastal platformer. Select Start, then use arrows or A and D to move, Space to jump, Escape for title.">
+<canvas id="scene" width="640" height="360" aria-label="Moonlit coastal workshop, lighthouse and platform scene"></canvas>
+<div id="title"><h1>QUINTIN VIZZA</h1><p>SOFTWARE ENGINEER</p><button id="start"><span aria-hidden="true">◆</span> START</button><a href="/#top">Skip to portfolio</a></div>
+<button id="return" hidden>Esc · Title screen</button><span id="scene-label">MOONLIT COAST</span>
+</section>
+<footer><div class="controls"><button data-input="left" aria-label="Move left">←</button><button data-input="right" aria-label="Move right">→</button><button data-input="jump" aria-label="Jump">Jump</button><span>Arrows / A D · Space</span></div><div class="controls"><button id="pause" aria-pressed="false">Pause ambience</button><button id="studio" aria-expanded="false" aria-controls="workbench">Asset workbench</button></div></footer>
+<section id="workbench" hidden><div class="workbench-head"><div><h2>Built from pieces.</h2><p>Individual sprites, collision bodies, and dynamic lighting.</p></div><button id="export">Download sprite sheet</button></div><div class="options"><label><input id="lighting" type="checkbox" checked> Dynamic lights</label><label><input id="colliders" type="checkbox"> Show collisions</label><label>Lantern strength <input id="strength" type="range" min="0" max="150" value="100"></label><button id="gust">Send a gust</button></div><div id="assets"></div></section>
+<p id="status" aria-live="polite">Editable art prototype · Original room and start screen preserved.</p>
+</main><script type="module" src="scene.mjs"></script></body></html>

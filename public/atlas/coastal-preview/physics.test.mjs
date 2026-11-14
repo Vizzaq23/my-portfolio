@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {makePlayer,tick,STEP,visibility,spring} from './physics.mjs';
+const floor={x:0,y:302,w:640,h:58};
+const advance=(p,n,input={},solids=[floor])=>{for(let i=0;i<n;i++)tick(p,{left:false,right:false,...input},solids)};
+test('gravity lands exactly on ground and stays stable',()=>{const p=makePlayer({x:200,y:120});advance(p,240);assert.equal(p.y,258);assert.equal(p.vy,0);assert.equal(p.grounded,true)});
+test('solid sides stop horizontal motion and ceilings stop ascent',()=>{const wall={x:220,y:200,w:20,h:102};const p=makePlayer({x:180,y:258});advance(p,120,{right:true},[floor,wall]);assert.equal(p.x,204);assert.equal(p.vx,0);const q=makePlayer({x:200,y:258});advance(q,2);tick(q,{jumpPressed:true},[floor,{x:190,y:230,w:60,h:10}]);advance(q,8,{},[floor,{x:190,y:230,w:60,h:10}]);assert.ok(q.y>=240)});
+test('held jump reaches ledge height, release makes a shorter jump',()=>{const run=release=>{const p=makePlayer({x:250,y:258});advance(p,2);tick(p,{jumpPressed:true},[floor]);let min=p.y;for(let i=0;i<100;i++){tick(p,{jumpReleased:release&&i===4},[floor]);min=Math.min(min,p.y)}return 258-min};assert.ok(run(false)>72);assert.ok(run(true)<run(false)*.7)});
+test('buffered jump fires on landing without an extra press',()=>{const p=makePlayer({x:250,y:253});p.vy=100;tick(p,{jumpPressed:true},[floor]);advance(p,8);assert.ok(p.vy<0)});
+test('light rays stop at an occluder',()=>{const hits=visibility({x:0,y:0,radius:100},[{x:20,y:-100,w:10,h:200}]);assert.ok(hits.filter(p=>p[0]>0).every(p=>p[0]<=20.001))});
+test('wind spring settles without numerical drift',()=>{const s={angle:.4,velocity:0};for(let i=0;i<2400;i++)spring(s,0,STEP);assert.ok(Math.abs(s.angle)<.0001)});
