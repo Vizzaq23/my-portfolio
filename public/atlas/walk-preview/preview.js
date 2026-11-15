@@ -129,7 +129,7 @@ $('action').onclick=()=>{if(state==='doorway')setState('walk');else if(state==='
 document.addEventListener('visibilitychange',()=>{paused=document.hidden;last=performance.now();if(paused)audio.stop();else if(state==='walk')audio.sound('walk');});
 function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000,.05);last=now;if(paused)return;if(state==='done'||state==='title')return;const duration=durations[state];if(duration){elapsed+=dt;total+=dt;}
 let p=duration?clamp(elapsed/duration):0,e=ease(p),pos=v(initial),target=v(tv),mode='off';
-if(state==='walk'){pos=mix(initial,near,reduced.checked?1:e);if(!reduced.checked)pos.y+=Math.sin(p*Math.PI*8)*.014*Math.sin(p*Math.PI);}
+if(state==='walk'){audio.tickWalk(elapsed);pos=mix(initial,near,reduced.checked?1:e);if(!reduced.checked)pos.y+=Math.sin(p*Math.PI*8)*.014*Math.sin(p*Math.PI);}
 if(state==='notice'){pos=mix(near,low,reduced.checked?1:e);target=mix(tv,socket,reduced.checked?1:e);}
 if(['ready','plug'].includes(state)){pos=v(low);target=v(socket);}
 if(state==='plug'){
