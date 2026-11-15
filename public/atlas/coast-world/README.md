@@ -72,3 +72,5 @@ November 14: character-v2.png is a photo-guided pixel-art redraw (imagegen exec-
 ## Simplified sprite and planted idle
 
 November 14: character-v3.png simplifies the character into larger pixel clusters; the first wide torso was rejected and replaced with a slimmer silhouette (imagegen exec-78cecb1a-02d5-45e1-bb56-9bf9c70fe2ab). character-idle.mjs keeps the lower third fixed and raises the upper body0-2 pixels over4.6 seconds. Two160ms eyelid closures occur at unequal intervals in an11.7-second cycle; eye coordinates are registered to this specific sprite. Shared scene time respects pause, and reduced motion explicitly draws the neutral open-eye pose. Pixel comparison verified identical shoe regions across breathing/blink poses. Full connected intro and live blink observed. This is an idle pose, not locomotion.
+
+November14 proportion adjustment: render the head at82% around its neck anchor, leaving body/legs/shoes unchanged. Eyelids share the head transform, preserving blink registration; upper-body breathing still uses the same waist anchor. Source sprite unchanged.
