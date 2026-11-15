@@ -30,3 +30,7 @@ Pause ambience and OS reduced-motion freeze water, foliage, boat bob and lightho
 Environment source: OpenAI imagegen `exec-ac31d6aa-81eb-4aa4-bb47-488d4b956ea3.png`; coast source `exec-44cb4669-1630-47b1-af05-a14bedbca9eb.png`, November 14 2026. Prompts requested a neutral-shaded transparent atlas matching the approved workshop and a separate low-detail coastal landscape without sky/water/celestial bodies. These are generated art assets, not hand-pixeled originals.
 
 SunCalc is vendored unchanged from the npm registry package `suncalc@2.1.4`, package SHA1 `1ccebeb64e1a61a6c88c7e38fd0beceeaecf19c9`; `index.js` renamed `vendor/suncalc.mjs` for native module use. Its BSD-2-Clause license and upstream documentation are retained in `vendor/`. Source: https://github.com/mourner/suncalc . No dependency or lockfile changes and no runtime CDN requirement.
+
+## Title comparison
+
+type-study.html compares Beacon (custom SVG pixel lettering), Storybook (serif), and Cartridge (stacked pixel type) over one identical paused canvas capture. Full-size links use title=beacon, title=storybook, or title=cartridge with mode=night and still=1. Omitting title preserves the original title. These are review options, not a selected replacement; full-size Start continues to the homepage.
