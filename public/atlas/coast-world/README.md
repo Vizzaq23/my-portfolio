@@ -46,3 +46,7 @@ Reference alignment (November 14): restored the substantial left workshop, centr
 ## Pixel rendering and React controls
 
 The runtime pixel-art module resamples each sized sprite to a two-world-unit grid, suppresses low-contrast speckles, maps to a compact indigo/teal/terracotta/amber palette, and caches the result. Source assets remain unchanged; this is a rendering treatment, not newly hand-drawn sprite art. The /atlas/play React wrapper adds a Radix dialog with Motion entrance, lighting presets, ambient pause and replay. Commands are restricted to the same-origin parent and forwarded through the room to the scene.
+
+## Workshop and foliage redraw review
+
+redraw-review.html compares the previous artwork with new workshop-v2.png and foliage-v2.png. Both are imagegen redraws guided by the user reference (November14), not filters over the old sprites. Workshop generation exec-17b9727a-bc07-4b75-9486-9c0f68126314; foliage generation exec-5efda3e7-8e80-4150-9bad-ad1201a95cac, alpha-cleanup edit exec-8259e84a-48c9-42b3-a658-e0b26a0d3c5e. Original files retained. Foliage uses four independently trimmed frames; workshop is one cutout with baked decorations and source lighting, so internal prop motion needs later separation. New sprites bypass the prior palette filter. art=previous retains old artwork for review. Character soles and shop base use GROUND_Y=818; workshop x=-8 places its masonry at the left edge without losing the wanted poster. guides=1 displays the contact line. Cartridge and other environment assets are unchanged in this pass.
