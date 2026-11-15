@@ -22,10 +22,44 @@ export function drawWater(c,width,state,time,lighting) {
   c.globalAlpha=1;
   if(!lighting)return;
   const skyColor=blend([143,207,193],[185,224,211],day);
-  reflectionClusters(c,864,skyColor,.72,time,250,4);
+  reflectionClusters(c,864,skyColor,.18+day*.3,time,250,4);
   if(state.sunVisible)reflectionClusters(c,state.sunX,blend([245,239,195],[255,193,117],twilight),.8,time,150+twilight*80,31);
-  if(state.moonVisible)reflectionClusters(c,state.moonX,[214,234,203],(1-day)*(.36+state.phase.fraction*.42),time,110,68);
+  moonReflection(c,state,time);
   reflectionClusters(c,1150,[235,178,93],(1-day)*.3,time,24,91);
+}
+
+export function moonReflection(c,state,time){
+  // A rough-water glitter path, not a second moon painted on the surface.
+  if(!state.moonVisible||state.daylight>=.65)return;
+  const power=(1-state.daylight/.65)*Math.sqrt(Math.max(0,state.phase.fraction));
+  if(power<=0)return;
+  c.save();c.beginPath();c.rect(0,598,1672,220);c.clip();
+  for(let row=0;row<48;row++){
+    const depth=row/47;
+    // Perspective compresses the far ripples and widens the near-water footprint.
+    const y=600+Math.pow(depth,1.65)*211;
+    const spread=12+Math.pow(depth,1.3)*200;
+    const bend=Math.sin(time*.43-depth*8)*(.8+depth*5);
+    const center=state.moonX+bend;
+    const wave=.5+.5*Math.sin(time*.85-depth*18);
+    c.fillStyle='#83bac6';c.globalAlpha=power*.055*(.6+wave*.4);
+    pixel(c,center-spread*.7,y,spread*1.4,2);
+    for(let part=0;part<5;part++){
+      const seed=row*19+part*71;
+      const offset=(hash(seed+7)*2-1)*spread;
+      const core=Math.exp(-Math.pow(offset/(spread*.55),2));
+      const crest=Math.max(0,Math.sin(time*(.65+hash(seed+9)*.22)-depth*19+hash(seed+2)*6));
+      const exposure=core*(.23+crest*.77)*(1-depth*.2);
+      if(exposure<.045)continue;
+      const length=(3+depth*16)*( .5+hash(seed+12));
+      c.globalAlpha=power*exposure*.85;
+      c.fillStyle=core>.7&&crest>.65?'#e1efda':'#9bcbd0';
+      pixel(c,center+offset-length/2,y,length,depth>.65?4:2);
+      // A few sharp silver crests sit inside the wider, dimmer blue reflection.
+      if(core>.75&&crest>.8){c.globalAlpha=power*.9;c.fillStyle='#f2f3df';pixel(c,center+offset,y,Math.max(2,length*.35),2)}
+    }
+  }
+  c.restore();
 }
 
 function reflectionClusters(c,center,color,strength,time,width,seed) {
