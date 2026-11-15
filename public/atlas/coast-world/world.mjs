@@ -1,3 +1,4 @@
+import {drawWater} from './water.mjs';
 import {pixelSprite} from './pixel-art.mjs';
 import {titleReady,paintStartup,ambienceAllowed} from './tv.mjs';
 import {skyState,previewDate,formatTime} from './solar.mjs';
@@ -8,7 +9,7 @@ const make=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h
 const load=src=>new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(new Error(`Could not load ${src}`));img.src=src});
 const rect=(c,x,y,w,h,color)=>{c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),w,h)};
 const clamp=v=>Math.max(0,Math.min(1,v));const mix=(a,b,t)=>a.map((v,i)=>Math.round(v+(b[i]-v)*clamp(t)));const rgb=a=>`rgb(${a.join(',')})`;
-const GROUND_Y=818;const redraw=query.get('art')!=='previous';let redrawnWorkshop,redrawnFoliage,workshopFlag;
+const GROUND_Y=818;const redraw=query.get('art')!=='previous';let redrawnWorkshop,redrawnFoliage,workshopFlag,cloudSprites;
 const groups={coast:true,water:true,workshop:true,platforms:true,character:true,foliage:true,lighting:true};
 let mode=['live','dawn','day','sunset','night'].includes(query.get('mode'))?query.get('mode'):'live',paused=query.get('still')==='1'||matchMedia('(prefers-reduced-motion: reduce)').matches,time=0,last=0,lastPaint=0,lastClock=0,state,assets,workshop,coast;
 const pointer={x:0,y:0,targetX:0,targetY:0};
@@ -27,22 +28,16 @@ function buildWorkshop(){const c=workshopBuffer.getContext('2d');for(const [sy,h
 function sprite(c,index,x,y,w,h){c.imageSmoothingEnabled=false;c.drawImage(pixelSprite(assets[index],w,h),Math.round(x/2)*2,Math.round(y/2)*2,w,h)}
 function sky(){const {daylight:d,twilight:tw,night}=state;const top=mix([15,17,49],[75,142,176],d),horizon=mix(mix([21,63,88],[164,203,202],d),[229,133,96],tw*.8);const g=ctx.createLinearGradient(0,0,0,650);g.addColorStop(0,rgb(top));g.addColorStop(.65,rgb(mix(top,horizon,.55)));g.addColorStop(1,rgb(horizon));ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
  ctx.globalAlpha=night*.8;for(let i=0;i<45;i++){const x=(i*193+521)%W,y=(i*79+33)%420;rect(ctx,x,y,i%7===0?3:2,2,'#dbe8d8')}ctx.globalAlpha=1;
- // Clouds are small authored shapes; moving them never distorts the terrain.
- ctx.fillStyle=rgb(mix([65,66,104],[212,221,214],d));for(const [x,y,s]of [[420,178,1],[1230,228,1.5],[740,428,.65],[1510,122,.6]]){const xx=x+Math.sin(time*.018+x)*6+pointer.x*3;ctx.beginPath();const p=[[0,22],[18,22],[18,13],[34,13],[34,4],[70,4],[70,13],[88,13],[88,20],[120,20],[134,28],[0,28]];p.forEach(([a,b],i)=>i?ctx.lineTo(xx+a*s,y+b*s):ctx.moveTo(xx+a*s,y+b*s));ctx.fill()}
+ // Four separate painted cloud sprites; their silhouettes drift without distortion.
+ const clouds=[[0,250,150,230,66,.2],[1,1290,145,345,104,1.1],[2,410,355,220,40,2.5],[3,1250,305,365,78,4]];
+ for(const [index,x,y,w,h,phase]of clouds){ctx.save();ctx.globalAlpha=index===2?.62:.9;ctx.filter=`brightness(${.9+d*.4})`;const drift=Math.sin(time*.025+phase)*14+pointer.x*3;ctx.drawImage(cloudSprites[index],Math.round(x+drift),y,w,h);ctx.restore()}
 }
+
 function disc(x,y,r,color){ctx.fillStyle=color;ctx.beginPath();for(let a=0;a<Math.PI*2;a+=Math.PI/32){const xx=Math.round((x+Math.cos(a)*r)/2)*2,yy=Math.round((y+Math.sin(a)*r)/2)*2;ctx.lineTo(xx,yy)}ctx.closePath();ctx.fill()}
 function celestial(){if(state.sunVisible){const glow=ctx.createRadialGradient(state.sunX,state.sunY,4,state.sunX,state.sunY,150);glow.addColorStop(0,'#ffdb9160');glow.addColorStop(1,'#ffdb9100');ctx.fillStyle=glow;ctx.fillRect(state.sunX-150,state.sunY-150,300,300);disc(state.sunX,state.sunY,24,state.twilight>.5?'#ffcf89':'#fff0bd')}
  if(state.moonVisible&&state.daylight<.65){const moon=make(72,72),m=moon.getContext('2d');const k=2*state.phase.fraction-1;for(let y=-26;y<=26;y+=2){const chord=Math.sqrt(27*27-y*y),width=chord*(1+k),x=state.phase.waxing?-k*chord:-chord;rect(m,36+x,36+y,Math.max(0,Math.round(width)),2,'#e1e6c4')}ctx.globalAlpha=1-state.daylight;ctx.drawImage(moon,state.moonX-36,state.moonY-36);ctx.globalAlpha=1}
 }
-function reflection(x,color,intensity,span){if(!groups.lighting)return;for(let j=0;j<30;j++){const y=611+j*6;const widening=span*(.25+j/35);const drift=Math.sin(time*.65+j*1.7)*widening*.16+Math.sin(time*.23+j)*2;ctx.globalAlpha=intensity*(.8-j/60);rect(ctx,x-widening/2+drift,y,widening*(.2+.2*Math.sin(j*9.1)+.35),j%4===0?3:2,color);if(j%3===0)rect(ctx,x+widening*.4+drift+8,y+2,8+j/3,1,color)}ctx.globalAlpha=1}
-function ocean(){const d=state.daylight,tw=state.twilight;const waterTop=mix(mix([9,52,66],[54,122,147],d),[117,85,103],tw*.65);const g=ctx.createLinearGradient(0,600,0,810);g.addColorStop(0,rgb(waterTop));g.addColorStop(1,rgb(mix([7,30,43],[31,84,113],d)));ctx.fillStyle=g;ctx.fillRect(0,598,W,220);
- for(let i=0;i<55;i++){const x=440+(i*83)%1220+Math.sin(time*.3+i)*7,y=616+(i*17)%170;ctx.globalAlpha=.12+(i%3)*.04;rect(ctx,x,y,16+(i%5)*14,2,rgb(mix([67,130,145],[189,225,222],d)))}ctx.globalAlpha=1;
- if(state.sunVisible)reflection(state.sunX,state.twilight>.5?'#ffd294':'#f4efc3',.55+state.twilight*.2,120+state.twilight*90);
- if(state.moonVisible)reflection(state.moonX,'#c8e4d3',(1-d)*(.22+state.phase.fraction*.4),100);
- if(groups.coast)reflection(1150,'#edb56d',(1-d)*.24,32);
- // Broad, faint sky reflection remains when the astronomical moon is below the horizon.
- reflection(880,'#bce4c6',(1-d)*.54,270);
-}
+function ocean(){drawWater(ctx,W,state,time,groups.lighting)}
 function shadeLayer(source,target,day,tw){const c=target.getContext('2d');c.clearRect(0,0,target.width,target.height);c.drawImage(source,0,0);if(!groups.lighting)return target;c.globalCompositeOperation='source-atop';c.fillStyle=`rgba(14,23,62,${.15*(1-day)})`;c.fillRect(0,0,W,H);if(tw>.05){const g=c.createLinearGradient(state.sunX,150,W-state.sunX,900);g.addColorStop(0,`rgba(255,173,92,${tw*.22})`);g.addColorStop(1,'rgba(129,84,131,0)');c.fillStyle=g;c.fillRect(0,0,W,H)}c.globalCompositeOperation='source-over';return target}
 function props(){fg.clearRect(0,0,W,H);
  if(groups.workshop){if(redraw)fg.drawImage(redrawnWorkshop,-8,GROUND_Y-756,540,756);else fg.drawImage(pixelSprite(workshopBuffer,555,745),-40,64,555,745);workshopWind();}
@@ -75,6 +70,6 @@ document.querySelectorAll('[data-mode]').forEach(button=>button.onclick=()=>{mod
 document.querySelectorAll('[data-mode]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.mode===mode)));
 document.getElementById('inspect').onclick=()=>{const panel=document.getElementById('layers');panel.hidden=!panel.hidden;document.getElementById('inspect').setAttribute('aria-expanded',String(!panel.hidden))};for(const name of Object.keys(groups)){const label=document.createElement('label'),input=document.createElement('input');input.type='checkbox';input.checked=true;input.onchange=()=>{groups[name]=input.checked;if(assets)render()};label.append(input,name[0].toUpperCase()+name.slice(1));document.getElementById('layer-controls').append(label)}
 function resizeWorld(){if(document.body.classList.contains('tv-mode')){H=Math.max(600,Math.round(W*innerHeight/innerWidth));canvas.height=H;if(assets)render()}}addEventListener('resize',resizeWorld);resizeWorld();
-try{const all=await Promise.all([load('environment.png'),load('coast.png'),load('../workshop-study/building.png'),load('../workshop-study/props.png'),load('../workshop-study/interior.png'),fetch('../workshop-study/placements.json').then(r=>{if(!r.ok)throw Error('Workshop layout unavailable');return r.json()}),load('workshop-shell-v3.png'),load('foliage-v2.png'),load('workshop-flag-v3.png')]);redrawnWorkshop=trimAtlas(all[6],1,1)[0];workshopFlag=trimAtlas(all[8],1,1)[0];redrawnFoliage=trimAtlas(all[7],2,2);assets=trimAtlas(all[0],3,3);coast=all[1];workshop=all[2];workshopSprites=[...trimAtlas(all[3],3,3),...trimAtlas(all[4],3,1)];placement=all[5];buildWorkshop();updateClock(new Date());render();await document.fonts.ready;titleReady();requestAnimationFrame(frame)}catch(error){document.getElementById('timing').textContent=error.message;document.querySelectorAll('button').forEach(b=>b.disabled=true)}
+try{const all=await Promise.all([load('environment.png'),load('coast.png'),load('../workshop-study/building.png'),load('../workshop-study/props.png'),load('../workshop-study/interior.png'),fetch('../workshop-study/placements.json').then(r=>{if(!r.ok)throw Error('Workshop layout unavailable');return r.json()}),load('workshop-shell-v3.png'),load('foliage-v2.png'),load('workshop-flag-v3.png'),load('clouds-v2.png')]);cloudSprites=[[0,0,600,512],[600,0,936,512],[0,512,500,512],[500,512,1036,512]].map(([x,y,w,h])=>{const cell=make(w,h),c=cell.getContext('2d');c.drawImage(all[9],x,y,w,h,0,0,w,h);return trimAtlas(cell,1,1)[0]});redrawnWorkshop=trimAtlas(all[6],1,1)[0];workshopFlag=trimAtlas(all[8],1,1)[0];redrawnFoliage=trimAtlas(all[7],2,2);assets=trimAtlas(all[0],3,3);coast=all[1];workshop=all[2];workshopSprites=[...trimAtlas(all[3],3,3),...trimAtlas(all[4],3,1)];placement=all[5];buildWorkshop();updateClock(new Date());render();await document.fonts.ready;titleReady();requestAnimationFrame(frame)}catch(error){document.getElementById('timing').textContent=error.message;document.querySelectorAll('button').forEach(b=>b.disabled=true)}
 
 addEventListener('message',event=>{if(event.origin!==location.origin||event.source!==parent||event.data?.type!=='scene-settings')return;const settings=event.data;if(['live','dawn','day','sunset','night'].includes(settings.mode)){mode=settings.mode;document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));updateClock(new Date())}if(typeof settings.paused==='boolean'){paused=settings.paused;syncPause()}if(assets)render()});
