@@ -1,3 +1,4 @@
+import {Cable} from './cable.js';
 import {plugPose,releasePose} from './plug-motion.js';
 import * as T from './vendor/three.module.js';
 import {buildRoom} from './room.js';
@@ -36,7 +37,7 @@ const metal=new T.MeshStandardMaterial({color:'#8b9398',metalness:.65,roughness:
 for(const y of [.32,.44]){const screw=ball(.006,-1.12,y,-2.373,metal);screw.scale.z=.3;box(.007,.0015,.002,-1.12,y,-2.37,black);}
 for(let i=0;i<5;i++)box(.038-i*.003,.033-i*.002,.006,0,0,.047+i*.008,black,plug);
 const hand=new T.Group();scene.add(hand);box(.085,.045,.11,0,0,.07,skin,hand);box(.075,.065,.24,.015,-.015,.23,navy,hand);for(let i=0;i<4;i++)box(.017,.026,.06,-.03+i*.02,-.017,.005,skin,hand);box(.025,.04,.06,.05,-.01,.055,skin,hand);hand.visible=false;
-let cable;function updateCable(){if(cable){scene.remove(cable);cable.geometry.dispose();}const p=plug.position;const curve=new T.CatmullRomCurve3([new T.Vector3(-.34,.66,-2.12),new T.Vector3(-.87,.06,-1.96),new T.Vector3(p.x+.12,.035,p.z+.16),new T.Vector3(p.x,p.y,p.z+.05)]);cable=new T.Mesh(new T.TubeGeometry(curve,24,.009,5,false),black);scene.add(cable);}updateCable();
+const cable=new Cable(scene,black,plug);function updateCable(){cable.reset();}
 // Pixel screen is drawn as an emissive texture on a genuine 3D TV surface.
 const screenCanvas=document.createElement('canvas');screenCanvas.width=256;screenCanvas.height=180;const ctx=screenCanvas.getContext('2d'),screenTex=new T.CanvasTexture(screenCanvas);screenTex.magFilter=T.NearestFilter;screenTex.minFilter=T.NearestFilter;screenTex.colorSpace=T.SRGBColorSpace;
 const screenMat=new T.MeshBasicMaterial({map:screenTex});box(.51,.36,.005,.04,.98,-1.705,screenMat);
@@ -105,7 +106,7 @@ if(state==='plug'){
  hand.rotation.copy(plug.rotation);
  const gripOffset=new T.Vector3(.012,.012,.025).applyQuaternion(plug.quaternion);
  hand.position.copy(plug.position).add(gripOffset).add(v(pose.approach));
- gripRig?.pose(pose.grip);updateCable();
+ gripRig?.pose(pose.grip);
  document.body.dataset.grip=pose.grip.toFixed(3);
 }
 if(state==='rise'){
@@ -123,7 +124,7 @@ $('lighting').disabled=state!=='doorway';
 glow.intensity=mode==='off'?0:mode==='static'?.3:1.15;
 warmBounce.intensity+=( (mode==='world'?1.25:0)-warmBounce.intensity)*(1-Math.exp(-dt*3));
 if(state==='doorway')led.material.color.set(previewLight?'#ffc568':'#302414');
-drawScreen(mode,now/1000);camera.position.copy(pos);camera.lookAt(target);renderer.render(scene,camera);projectHomepage(mode==='world');
+cable.update(dt,reduced.checked);drawScreen(mode,now/1000);camera.position.copy(pos);camera.lookAt(target);renderer.render(scene,camera);projectHomepage(mode==='world');
 $('time').textContent=`${Math.min(total,15.0).toFixed(1)} / 15.0 seconds`;$('progress').style.width=`${Math.min(total/15.0,1)*100}%`;
 if(duration&&p>=1&&(state!=='wake'||(tvReady&&tvBooted))){const next={walk:'notice',notice:'ready',plug:'rise',rise:'wake',wake:'enter',enter:'title'};setState(next[state]);}
 }
