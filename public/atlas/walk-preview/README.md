@@ -90,3 +90,7 @@ Two synthesized filtered-noise layers add soft surf swells and slower wind gusts
 ## Recorded coastal ambience — 2026-11-15
 
 Replaced generated noise with four CC0 jasinski beach-wave excerpts crossfaded together and a32s Thimras wind recording excerpt. Sources and conversion documented in assets/SOURCES.md. Runtime loop seam blends, stereo retained, wind lowpassed900Hz and surf2400Hz, rumble removed, reduced gains and3.5s fade. Decodes are cached; cancellation prevents loading audio from restarting after mute/replay. Existing Cartridge and animation code unchanged. Build/typecheck passed before final audio asset substitution; final full browser journey and title mute/unmute passed. Naturalness remains subject to listening review.
+
+## Shared gust rhythm — 2026-11-15
+
+Coastal world now owns one slow gust envelope shared by flag, hanging vines and canopy sway. Individual flutter phases remain distinct. Same-origin/source-checked messages at10Hz modulate a separate wind gain with180ms smoothing, preserving the startup fade and recorded texture. Ocean unaffected. Paused/reduced-motion scenery settles wind gain to0; mute/replay disposes that gain with sources. Browser full intro passed; sampled visual gust0.9908→0.7498 matched mapped audio0.9922→0.7874; Pause ambient motion yielded0. Build/typecheck passed. All other animations and Cartridge preserved.

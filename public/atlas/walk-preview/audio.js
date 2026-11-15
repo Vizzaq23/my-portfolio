@@ -12,7 +12,12 @@ export class RoomAudio {
    document.body.dataset.audio='decoded';
   }catch{document.body.dataset.audio='synth-fallback';}}
  }
- stop(){for(const node of this.nodes){try{node.stop();}catch{}}this.nodes.clear();this.stepIndex=-1;this.ambient=false;document.body.dataset.ambience='off';}
+ stop(){for(const node of this.nodes){try{node.stop();}catch{}}this.nodes.clear();this.windGain=null;this.stepIndex=-1;this.ambient=false;document.body.dataset.ambience='off';}
+ setWind(strength,active){
+  this.windLevel=active?.15+.85*Math.max(0,Math.min(1,strength)):0;
+  if(this.windGain)this.windGain.gain.setTargetAtTime(this.windLevel,this.context.currentTime,.18);
+  document.body.dataset.windLevel=this.windLevel.toFixed(4);
+ }
  async startAmbience(){
   if(!this.enabled||this.ambient)return;
   const ticket={};this.ambient=ticket;
@@ -45,8 +50,10 @@ export class RoomAudio {
    low.type='lowpass';low.frequency.value=index?900:2400;low.Q.value=.5;
    high.type='highpass';high.frequency.value=index?110:65;high.Q.value=.5;
    gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(index?.045:.13,t+3.5);
-   source.connect(high);high.connect(low);low.connect(gain);gain.connect(this.master);
-   source.start(t);this.track(source,[high,low,gain]);
+   source.connect(high);high.connect(low);low.connect(gain);
+   const chain=[high,low,gain];
+   if(index){const gust=c.createGain();gust.gain.value=this.windLevel??0;gain.connect(gust);gust.connect(this.master);this.windGain=gust;chain.push(gust);}else gain.connect(this.master);
+   source.start(t);this.track(source,chain);
   });
   document.body.dataset.ambience='recorded-ocean-wind';
  }
