@@ -9,3 +9,13 @@ body.tv-mode{overflow:hidden;background:#060a15}
 #room-replay{left:16px}#skip-reveal{right:16px}
 
 .tv-mode .title[data-typography=cartridge]{top:12%;left:30%;width:64%}.tv-mode .title[data-typography=cartridge] h1{font-size:2.7cqw}.tv-mode .title[data-typography=cartridge] h1 span:last-child{font-size:3.5cqw}
+
+/* The TV iframe retains a 1280px surface; aspect ratio identifies portrait. */
+@media(max-aspect-ratio:3/4){
+ .tv-mode .title[data-typography=cartridge]{top:18%;left:7%;width:86%}
+ .tv-mode .title[data-typography=cartridge] h1{font-size:5.4cqw;line-height:1.65}
+ .tv-mode .title[data-typography=cartridge] h1 span:last-child{font-size:7cqw;letter-spacing:1cqw}
+ .tv-mode .title[data-typography=cartridge] p{font-size:1.65cqw;letter-spacing:.35cqw;margin:3cqw 0 5cqw}
+ .tv-mode .title[data-typography=cartridge] .start{font-size:3.4cqw;padding:2.5cqw 4cqw;min-height:11.3cqw}
+ .tv-mode .title[data-typography=cartridge] .skip{font-size:1.8cqw;margin-top:2cqw;padding:3cqw;min-height:11.3cqw}
+}

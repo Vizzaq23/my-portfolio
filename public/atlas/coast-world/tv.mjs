@@ -32,7 +32,7 @@ if (embedded) {
       paintStartup(0);
     }
     if (event.data?.type === 'tv-interactive') {
-      interactive = true; stage.inert = false; replay.hidden = false;
+      interactive = true; stage.inert = false; replay.hidden = Boolean(event.data.externalControls);
       skip.hidden = elapsed >= 2.9;
       document.querySelector('.start').focus({preventScroll:true});
     }
