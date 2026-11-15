@@ -72,6 +72,38 @@ function projectHomepage(visible){
 }
 
 const glow=new T.PointLight('#ffce88',0,4,2);glow.position.set(.05,1.04,-1.35);scene.add(glow);
+const lightSample=document.createElement('canvas');lightSample.width=16;lightSample.height=9;
+const lightContext=lightSample.getContext('2d',{willReadFrequently:true});
+let sampleAt=0,screenEnergy=0;
+function screenLighting(mode,dt,now){
+ // Two shallow voltage dips, confined to startup; reduced motion uses a steady fade.
+ const dip=(at,width)=>Math.exp(-Math.pow((elapsed-at)/width,2));
+ const flicker=state==='wake'&&!reduced.checked?1-.23*dip(.20,.055)-.15*dip(.43,.07):1;
+ screenMat.color.setScalar(flicker);
+ homepage.style.filter=state==='wake'?`brightness(${flicker})`:'none';
+ if(mode==='off'){screenEnergy=0;sampleAt=0;}
+ else if(mode==='static'){
+   screenEnergy=(reduced.checked?Math.min(1,elapsed/.6):flicker)*.38;
+   glow.color.set('#b8d6ef');
+ }else if(now-sampleAt>100){
+   sampleAt=now;
+   const doc=homepage.contentDocument,world=doc?.querySelector('#world'),reveal=doc?.querySelector('#tv-reveal');
+   if(world){
+     lightContext.clearRect(0,0,16,9);lightContext.drawImage(world,0,0,16,9);
+     if(reveal&&!reveal.hidden)lightContext.drawImage(reveal,0,0,16,9);
+     const data=lightContext.getImageData(0,0,16,9).data;let r=0,g=0,b=0;
+     for(let i=0;i<data.length;i+=4){r+=data[i];g+=data[i+1];b+=data[i+2];}
+     r/=144*255;g/=144*255;b/=144*255;
+     screenEnergy=Math.min(1.35,(r*.2126+g*.7152+b*.0722)*4);
+     const maximum=Math.max(r,g,b,.01);glow.color.setRGB(r/maximum,g/maximum,b/maximum,T.SRGBColorSpace);
+   }
+ }
+ const follow=1-Math.exp(-dt*(mode==='static'?26:5));
+ glow.intensity+=(screenEnergy*2-glow.intensity)*follow;
+ warmBounce.intensity+=((mode==='world'?screenEnergy*.95:0)-warmBounce.intensity)*(1-Math.exp(-dt*3));
+ document.body.dataset.screenLight=glow.intensity.toFixed(3);
+ document.body.dataset.screenFlicker=flicker.toFixed(3);
+}
 function drawScreen(mode,t){ctx.fillStyle=mode==='world'?'#348dc9':'#090e17';ctx.fillRect(0,0,screenCanvas.width,screenCanvas.height);if(mode==='static'){for(let y=0;y<screenCanvas.height;y+=4)for(let x=0;x<screenCanvas.width;x+=4){let v=40+Math.floor(random()*90);ctx.fillStyle=`rgb(${v},${v},${v})`;ctx.fillRect(x,y,4,4);}}screenTex.needsUpdate=true;}
 const initial=[0,1.68,3.6],near=[-.45,1.68,-.65],low=[-.9,.82,-1.35],front=[.04,1.4,-.7],final=[.04,.98,-1.62];
 const tv=[.04,1,-2],socket=[-1.08,.25,-2.1];const v=a=>new T.Vector3(...a),mix=(a,b,t)=>v(a).lerp(v(b),t),ease=t=>t*t*(3-2*t),clamp=t=>Math.max(0,Math.min(1,t));
@@ -121,8 +153,7 @@ if(state==='doorway'&&previewLight)mode='world';
 if(state==='doorway'&&$('study').value==='corner'){pos=v([.1,1.24,-.78]);target=v([.16,1,-2]);mode='world';}
 if(state==='doorway'&&$('study').value==='grip'){pos=v(low);target=v(socket);hand.visible=true;hand.position.copy(inserted).add(new T.Vector3(.02,.015,.02));gripRig?.pose(1);}
 $('lighting').disabled=state!=='doorway';
-glow.intensity=mode==='off'?0:mode==='static'?.3:1.15;
-warmBounce.intensity+=( (mode==='world'?1.25:0)-warmBounce.intensity)*(1-Math.exp(-dt*3));
+screenLighting(mode,dt,now);
 if(state==='doorway')led.material.color.set(previewLight?'#ffc568':'#302414');
 cable.update(dt,reduced.checked);drawScreen(mode,now/1000);camera.position.copy(pos);camera.lookAt(target);renderer.render(scene,camera);projectHomepage(mode==='world');
 $('time').textContent=`${Math.min(total,15.0).toFixed(1)} / 15.0 seconds`;$('progress').style.width=`${Math.min(total/15.0,1)*100}%`;
