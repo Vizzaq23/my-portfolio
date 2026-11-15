@@ -4,8 +4,9 @@ const blend=(a,b,t)=>a.map((v,i)=>Math.round(v+(b[i]-v)*t));
 const rgb=c=>`rgb(${c.join(',')})`;
 const pixel=(c,x,y,w,h)=>c.fillRect(Math.round(x/2)*2,Math.round(y/2)*2,Math.max(2,Math.round(w/2)*2),h);
 
-export function drawWater(c,width,state,time,lighting) {
+export function drawWater(c,width,state,time,lighting,swell=.35) {
   const day=state.daylight,twilight=state.twilight;
+  const surge=Math.max(0,Math.min(1,swell));
   const top=blend(blend([9,55,70],[45,115,139],day),[111,75,102],twilight*.55);
   const bottom=blend([5,28,42],[24,72,98],day);
   const gradient=c.createLinearGradient(0,598,0,818);
@@ -14,10 +15,11 @@ export function drawWater(c,width,state,time,lighting) {
   // Broad quiet currents establish depth without drawing a ladder of lines.
   for(let i=0;i<95;i++){
     const depth=hash(i+74),x=360+hash(i+3)*(width-360),y=608+depth*196;
-    const drift=Math.sin(time*.24+i*.8)*(2+depth*5);
+    const drift=Math.sin(time*.24+i*.8)*(2+depth*5)*( .85+surge*.35);
     c.fillStyle=i%4===0?'#071e30':rgb(blend([30,98,111],[114,178,181],day));
     c.globalAlpha=i%4===0?.28:.12+hash(i+40)*.17;
-    pixel(c,x+drift,y,8+hash(i+14)*44*(.35+depth),2);
+    c.globalAlpha*=.88+surge*.24;
+    pixel(c,x+drift,y+(surge-.35)*depth*3,8+hash(i+14)*44*(.35+depth),2);
   }
   c.globalAlpha=1;
   if(!lighting)return;

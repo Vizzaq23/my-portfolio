@@ -94,3 +94,7 @@ Replaced generated noise with four CC0 jasinski beach-wave excerpts crossfaded t
 ## Shared gust rhythm — 2026-11-15
 
 Coastal world now owns one slow gust envelope shared by flag, hanging vines and canopy sway. Individual flutter phases remain distinct. Same-origin/source-checked messages at10Hz modulate a separate wind gain with180ms smoothing, preserving the startup fade and recorded texture. Ocean unaffected. Paused/reduced-motion scenery settles wind gain to0; mute/replay disposes that gain with sources. Browser full intro passed; sampled visual gust0.9908→0.7498 matched mapped audio0.9922→0.7874; Pause ambient motion yielded0. Build/typecheck passed. All other animations and Cartridge preserved.
+
+## Surf-driven water — 2026-11-15
+
+An analyser reads the filtered ocean recording before its quiet master gain. RMS energy at10Hz returns to the coastal scene through same-origin/source-checked messages, with300ms visual smoothing. Water currents gain subtle drift, up to roughly2px displacement, and restrained crest brightness as actual waves swell/recede. Moon/sun reflections, wind, Cartridge and intro choreography preserved. Muted audio uses a quiet procedural fallback; paused/reduced motion holds the water still. Full browser intro reached Cartridge; sampled audio values exactly matched received water targets, pause held swell stable, mute/resume restored appropriate targets. Build/typecheck passed. This is audio-reactive pixel water, not fluid physics.
