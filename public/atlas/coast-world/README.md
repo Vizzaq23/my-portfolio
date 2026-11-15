@@ -64,3 +64,7 @@ November 14: clouds-v2.png is a generated transparent four-cloud atlas (imagegen
 ## Distant coast and beacon
 
 November 14: coast-v2.png is a reference-guided redraw (imagegen exec-d4081a20-ce7a-4580-8f80-aaf1345eda6f): deep teal mountain bands, violet cliff facets, smaller warm-window village and bridge. It bypasses the older palette-remapping filter to preserve its colors. Original coast.png retained. Mountains/village remain one transparent distant layer with shared parallax, not independently editable mountain tiles. lighthouse.mjs constructs a separate small two-unit pixel tower in code. BEACON anchors its lantern and existing animated glow/beam at (1150,469); base meets the grassy plateau. All existing ambient timing, pause, reduced motion, Cartridge and React Start are preserved.
+
+## Character likeness and ground contact
+
+November 14: character-v2.png is a photo-guided pixel-art redraw (imagegen exec-86c272f3-d7d7-4d5d-bd95-23947f4d6fea), with sandy swept hair, short beard, black Chopper shirt, necklace and purple shorts. Alpha-trimmed before proportional nearest-neighbor sizing to180 world units tall; original palette retained, no prior palette remapping. It is a single idle sprite, not a walk cycle. Shoes are bottom-anchored to GROUND_Y818; pipe now also uses GROUND_Y minus its130 height, correcting the previous23-unit gap. Grounded objects remain outside parallax. Cartridge and all existing ambient/React animations unchanged.
