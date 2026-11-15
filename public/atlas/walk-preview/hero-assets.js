@@ -15,8 +15,15 @@ export async function loadHeroAssets(scene,room,hand){
     map.wrapS=map.wrapT=T.RepeatWrapping;map.repeat.set(...repeat);texture.dispose();return map;
   }
   const timber=pixelMap(wood,512,[1,1]),plasterMap=pixelMap(plaster,512,[3,2]);
-  for(const m of [room.wood,...room.boards]){m.map=timber;m.color.set('#aca394');m.needsUpdate=true;}
-  room.wall.map=plasterMap;room.wall.color.set('#465f60');room.wall.needsUpdate=true;
+  // Reuse source detail as shallow linear-data relief; avoid inflating silhouettes.
+  const timberRelief=timber.clone();timberRelief.colorSpace=T.NoColorSpace;
+  const plasterRelief=plasterMap.clone();plasterRelief.colorSpace=T.NoColorSpace;
+  const woodMaterials=[...new Set([room.wood,...room.boards])];
+  woodMaterials.forEach((m,i)=>{m.map=timber;m.color.set(['#aca394','#a39a8b','#b3a99a','#9c9589'][i]);m.roughness=.76+i*.025;m.bumpMap=timberRelief;m.bumpScale=.003;m.needsUpdate=true;});
+  room.wall.map=plasterMap;room.wall.color.set('#465f60');room.wall.roughness=.98;room.wall.bumpMap=plasterRelief;room.wall.bumpScale=.006;room.wall.needsUpdate=true;
+  const tuned=new Set();
+  crt.scene.traverse(o=>{if(!o.isMesh)return;for(const m of Array.isArray(o.material)?o.material:[o.material]){if(tuned.has(m))continue;tuned.add(m);if(m.name==='aged ivory plastic')m.roughness=.48;if(m.name==='navy shell')m.roughness=.57;if(m.name==='dark metal'){m.roughness=.4;m.metalness=.45;}m.needsUpdate=true;}});
+  plush.scene.traverse(o=>{if(!o.isMesh)return;for(const m of Array.isArray(o.material)?o.material:[o.material]){m.roughness=m.name==='blue nose'?.48:.98;m.metalness=0;}});
   for(const model of [crt.scene,plush.scene,grip.scene])model.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});
   crt.scene.position.set(.08,.94,-2.02);plush.scene.position.set(.67,.64,-1.98);
   scene.add(crt.scene,plush.scene);

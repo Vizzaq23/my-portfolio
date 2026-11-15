@@ -22,6 +22,25 @@ function painted(kind,base,w=128,h=128){
   const tex=new T.CanvasTexture(c);tex.colorSpace=T.SRGBColorSpace;tex.magFilter=T.NearestFilter;tex.minFilter=T.LinearMipmapLinearFilter;return {tex,g,c};
 }
 function material(kind,color){return new T.MeshStandardMaterial({map:painted(kind,color).tex,roughness:.94,metalness:0});}
+// Small static occlusion accents complement the moving moon/TV lighting.
+// One shared texture: no extra shadow maps or screen-space postprocessing.
+function contactShadows(scene){
+  const canvas=document.createElement('canvas');canvas.width=canvas.height=64;
+  const c=canvas.getContext('2d'),g=c.createRadialGradient(32,32,4,32,32,32);
+  g.addColorStop(0,'rgba(4,7,12,.65)');g.addColorStop(.45,'rgba(4,7,12,.35)');g.addColorStop(1,'rgba(4,7,12,0)');
+  c.fillStyle=g;c.fillRect(0,0,64,64);
+  const map=new T.CanvasTexture(canvas);
+  const base=new T.MeshBasicMaterial({map,transparent:true,depthWrite:false,opacity:.55,toneMapped:false,polygonOffset:true,polygonOffsetFactor:-1,polygonOffsetUnits:-1});
+  const patch=(x,y,z,w,d,opacity)=>{const mat=base.clone();mat.opacity=opacity;const mesh=new T.Mesh(new T.PlaneGeometry(w,d),mat);mesh.name='Contact occlusion';mesh.rotation.x=-Math.PI/2;mesh.position.set(x,y,z);mesh.renderOrder=1;scene.add(mesh);};
+  patch(0,.009,-2.02,2.12,.94,.7); // cabinet on floor
+  patch(-1.65,.01,-.3,1.5,2.3,.5); // bed
+  patch(-1.95,.011,-1.85,.65,.66,.5); // bedside table
+  for(const z of [-.12,1.12])for(const x of [1.75,2.22])patch(x,.012,z,.25,.25,.6);
+  patch(.08,.627,-2.02,.84,.49,.58); // CRT on cabinet
+  patch(-.57,.628,-1.98,.47,.32,.5); // console
+  patch(.67,.629,-1.98,.4,.34,.48); // plush
+  patch(-.59,.63,-1.75,.29,.2,.4); // controller
+}
 function art(draw,w=128,h=128){const {tex,g,c}=painted('fabric','#b5a17b',w,h);draw(g,w,h);tex.needsUpdate=true;return new T.MeshStandardMaterial({map:tex,roughness:1});}
 
 export function buildRoom(scene){
@@ -72,8 +91,10 @@ export function buildRoom(scene){
   const led=ball(.008,-.24,.704,-1.77,new T.MeshBasicMaterial({color:'#302414'}));
   const label=art(g=>{g.fillStyle='#273343';g.fillRect(0,0,128,128);g.fillStyle='#c1b99b';g.font='17px monospace';g.fillText('VOYAGER',7,70);});panel(.15,.032,-.04,.745,-1.775,label);
   const crtFallback=scene.children.slice(crtStart).filter(o=>o!==led);
-  bevel(.37,.09,.26,-.57,.68,-1.98,navy,.025);box(.22,.008,.09,-.57,.733,-2.02,black);bevel(.15,.13,.025,-.57,.78,-2.02,cream,.01);
-  bevel(.23,.04,.11,-.59,.67,-1.73,cream,.025);box(.055,.007,.018,-.65,.695,-1.73,black);box(.018,.007,.055,-.65,.695,-1.73,black);for(const x of [-.55,-.51])ball(.01,x,.695,-1.73,pink);
+  const consolePlastic=new T.MeshStandardMaterial({color:'#263c62',roughness:.6});
+  const ivoryPlastic=new T.MeshStandardMaterial({color:'#b9b7a5',roughness:.5});
+  bevel(.37,.09,.26,-.57,.68,-1.98,consolePlastic,.025);box(.22,.008,.09,-.57,.733,-2.02,black);bevel(.15,.13,.025,-.57,.78,-2.02,ivoryPlastic,.01);
+  bevel(.23,.04,.11,-.59,.67,-1.73,ivoryPlastic,.025);box(.055,.007,.018,-.65,.695,-1.73,black);box(.018,.007,.055,-.65,.695,-1.73,black);for(const x of [-.55,-.51])ball(.01,x,.695,-1.73,pink);
   const controllerCord=new T.CatmullRomCurve3([new T.Vector3(-.6,.67,-1.8),new T.Vector3(-.7,.47,-1.64),new T.Vector3(-.8,.34,-1.75),new T.Vector3(-.72,.66,-1.95)]);scene.add(new T.Mesh(new T.TubeGeometry(controllerCord,18,.005,5,false),black));
   // A work desk and small engineering objects balance the room's right side.
   box(.62,.055,1.4,1.99,.78,.5,wood);for(const z of [-.12,1.12])for(const x of [1.75,2.22])box(.055,.76,.055,x,.38,z,wood);
@@ -105,5 +126,8 @@ export function buildRoom(scene){
   bevel(.49,.12,.18,1.7,1.26,-2.15,wood,.04);rod([1.7,1.3,-2.15],[1.7,1.69,-2.15],.01,wood);box(.25,.27,.012,1.76,1.51,-2.14,cream);ball(.027,1.49,1.35,-2.13,cream);
   const hat=new T.Mesh(new T.CylinderGeometry(.22,.22,.025,16),gold);hat.rotation.x=Math.PI/2;hat.position.set(-.65,1.95,-2.4);hat.castShadow=true;scene.add(hat);const crown=ball(.13,-.65,1.95,-2.36,gold);crown.scale.z=.55;const band=new T.Mesh(new T.TorusGeometry(.125,.015,4,16),pink);band.position.set(-.65,1.95,-2.34);scene.add(band);
   const poster=art((g,w,h)=>{g.fillStyle='#c0aa82';g.fillRect(0,0,w,h);g.strokeStyle='#584633';g.lineWidth=3;g.strokeRect(6,6,w-12,h-12);g.fillStyle='#463c33';g.font='bold 20px serif';g.textAlign='center';g.fillText('WANTED',w/2,29);g.fillStyle='#796951';g.fillRect(15,38,w-30,85);g.fillStyle='#c8aa76';g.beginPath();g.arc(64,82,24,0,7);g.fill();g.fillStyle='#322f2c';g.fillRect(49,76,6,5);g.fillRect(74,76,6,5);g.fillStyle='#ceb579';g.fillRect(29,61,70,7);g.fillRect(43,47,42,17);g.fillStyle='#783d35';g.fillRect(43,58,42,6);g.strokeStyle='#514132';g.beginPath();g.arc(64,86,14,0,Math.PI);g.stroke();g.fillStyle='#463c33';g.font='12px serif';g.fillText('THE NEXT ADVENTURE',64,143);g.font='9px monospace';g.fillText('EAST BLUE · GRAND LINE',64,159);},128,176);const posterMesh=panel(.44,.61,.85,1.94,-2.425,poster);posterMesh.rotation.z=-.045;
+  contactShadows(scene);
+  gold.roughness=.48;gold.metalness=.35;
+  navy.roughness=.78;black.roughness=.86;
   return {box,ball,rod,wood,cream,black,skin,navy,led,wall,boards,crtFallback,plushFallback};
 }
