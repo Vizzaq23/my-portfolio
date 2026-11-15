@@ -1,5 +1,7 @@
 // Same-origin bridge for the existing room's TV lifecycle.
-export const embedded = new URLSearchParams(location.search).has('tv');
+const parameters = new URLSearchParams(location.search);
+export const embedded = parameters.has('tv');
+if (embedded || parameters.has('screen')) document.body.classList.add('tv-mode');
 let started = false, interactive = false, reduced = false, elapsed = 0;
 let overlay, context, stage, replay, skip;
 if (embedded) {
