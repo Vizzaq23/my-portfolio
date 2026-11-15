@@ -39,7 +39,7 @@ function sizeSurface(){homepage.style.width='1280px';homepage.style.height=surfa
 function titleBounds(){return [{x:0,y:0},{x:innerWidth,y:0},{x:innerWidth,y:innerHeight},{x:0,y:innerHeight}];}
 function fitTitle(){const [a,b]=titleBounds();homepage.style.transform=`translate(${a.x}px,${a.y}px) scale(${(b.x-a.x)/1280})`;}
 addEventListener('resize',()=>{sizeSurface();if(state==='title')fitTitle();});
-addEventListener('message',event=>{if(event.origin!==location.origin||event.source!==homepage.contentWindow)return;if(event.data?.type==='tv-ready')tvReady=true;if(event.data?.type==='replay-room'){reset();setState('walk');}});
+addEventListener('message',event=>{if(event.origin!==location.origin||event.source!==homepage.contentWindow)return;if(event.data?.type==='tv-ready'){tvReady=true;if(parent!==window)parent.postMessage({type:'scene-ready'},location.origin);}if(event.data?.type==='replay-room'){reset();setState('walk');}});
 function projectHomepage(visible){
  if(state==='title')return;
  homepage.style.display=visible?'block':'none';if(!visible)return;
@@ -99,9 +99,7 @@ drawScreen(mode,now/1000);camera.position.copy(pos);camera.lookAt(target);render
 $('time').textContent=`${Math.min(total,14.0).toFixed(1)} / 14.0 seconds`;$('progress').style.width=`${Math.min(total/14.0,1)*100}%`;
 if(duration&&p>=1&&(state!=='wake'||(tvReady&&tvBooted))){const next={walk:'notice',notice:'ready',plug:'rise',rise:'wake',wake:'enter',enter:'title'};setState(next[state]);}
 }
+addEventListener('message',event=>{if(event.origin!==location.origin||event.source!==parent)return;if(event.data?.type==='scene-settings')homepage.contentWindow.postMessage(event.data,location.origin);if(event.data?.type==='replay-intro'){reset();setState('walk')}});
 try{gripRig=await loadHeroAssets(scene,room,hand);$('asset-status').textContent='Blender models · CC0 textures · optional sound';document.body.dataset.assets='loaded';}
 catch(error){console.error('Hero asset load failed',error);$('asset-status').textContent='Asset loading failed · fallback geometry';document.body.dataset.assets='fallback';}
 document.body.classList.remove('starting');$('start-screen').hidden=true;$('room-ui').inert=false;reset();setState('walk');requestAnimationFrame(animate);
-
-
-

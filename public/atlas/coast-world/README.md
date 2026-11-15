@@ -42,3 +42,7 @@ Cartridge is the approved default. walk-preview embeds this scene with tv=1. The
 The full-screen scene adds sky height for the viewport instead of stretching or cropping the artwork. Workshop, character, lighthouse, blocks, and pipe are smaller to open up the coast. Foreground leaves stay anchored to the top edge; platforms stay at the bottom.
 
 Reference alignment (November 14): restored the substantial left workshop, central character and stepped right platforms using separate layers; raised distant cliffs, warmed workshop illumination, and added faint broad sky reflections independent of moon visibility. The original image is a composition reference, not used as a flat backdrop. Use screen=1 for a full-viewport standalone title without the TV waiting state.
+
+## Pixel rendering and React controls
+
+The runtime pixel-art module resamples each sized sprite to a two-world-unit grid, suppresses low-contrast speckles, maps to a compact indigo/teal/terracotta/amber palette, and caches the result. Source assets remain unchanged; this is a rendering treatment, not newly hand-drawn sprite art. The /atlas/play React wrapper adds a Radix dialog with Motion entrance, lighting presets, ambient pause and replay. Commands are restricted to the same-origin parent and forwarded through the room to the scene.
