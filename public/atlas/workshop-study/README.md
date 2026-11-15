@@ -8,7 +8,9 @@ The user approved the right-hand workshop from the cleanup comparison, rejecting
 - `building.png`: independently generated empty workshop shell with roof, wall, sill and interior. It retains baked highlights and shading.
 - `props.png`: nine-cell transparent atlas: lantern, pirate flag, poster, left/right shutters, ivy, computer, plush, hat.
 - `interior.png`: pendant, books and mug in three additional transparent cells.
-- `assembly.js`: named frame extraction via alpha bounds, explicit placements, independent visibility/position/scale, lossless selected PNG export, placement JSON export. The ivy frame is reused twice. Building + thirteen prop instances = fourteen layers.
+- `assembly.js`: named frame extraction via alpha bounds, explicit placements, independent visibility/position/scale, lossless selected PNG export, placement JSON export. The ivy frame is reused three times. Building + fourteen prop instances = fifteen layers.
+
+The fidelity pass normalizes the reference to the assembly's roof-to-foundation height, increases the opening height using three explicit architectural draw bands, and aligns shutters, sign, poster, monitor and props. Source PNGs are untouched. A switchable warm-light pass is composited behind the props so it does not wash out their outlines. `placements.json` includes the draw bands and light state. This is still an approximation: individual prop shapes, ivy density and interior material differ from the reference. The light pass is a static art-direction overlay rather than a physically based lighting system.
 
 Sprite pixels remain raster; layout is editable. This is a static composition checkpoint before physics, animation, or relighting. Removing all baked lighting, matching consistent native pixel density and repairing any generated edge artifacts remain production work. No provider claims or licensing guarantees are made for branded character artwork.
 
