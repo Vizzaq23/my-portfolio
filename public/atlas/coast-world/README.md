@@ -68,3 +68,7 @@ November 14: coast-v2.png is a reference-guided redraw (imagegen exec-d4081a20-c
 ## Character likeness and ground contact
 
 November 14: character-v2.png is a photo-guided pixel-art redraw (imagegen exec-86c272f3-d7d7-4d5d-bd95-23947f4d6fea), with sandy swept hair, short beard, black Chopper shirt, necklace and purple shorts. Alpha-trimmed before proportional nearest-neighbor sizing to180 world units tall; original palette retained, no prior palette remapping. It is a single idle sprite, not a walk cycle. Shoes are bottom-anchored to GROUND_Y818; pipe now also uses GROUND_Y minus its130 height, correcting the previous23-unit gap. Grounded objects remain outside parallax. Cartridge and all existing ambient/React animations unchanged.
+
+## Simplified sprite and planted idle
+
+November 14: character-v3.png simplifies the character into larger pixel clusters; the first wide torso was rejected and replaced with a slimmer silhouette (imagegen exec-78cecb1a-02d5-45e1-bb56-9bf9c70fe2ab). character-idle.mjs keeps the lower third fixed and raises the upper body0-2 pixels over4.6 seconds. Two160ms eyelid closures occur at unequal intervals in an11.7-second cycle; eye coordinates are registered to this specific sprite. Shared scene time respects pause, and reduced motion explicitly draws the neutral open-eye pose. Pixel comparison verified identical shoe regions across breathing/blink poses. Full connected intro and live blink observed. This is an idle pose, not locomotion.
