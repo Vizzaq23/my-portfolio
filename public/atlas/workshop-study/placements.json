@@ -1,0 +1,222 @@
+{
+  "source": "props.png",
+  "frames": {
+    "Lantern": {
+      "x": 90,
+      "y": 67,
+      "w": 282,
+      "h": 303
+    },
+    "Pirate flag": {
+      "x": 455,
+      "y": 110,
+      "w": 348,
+      "h": 234
+    },
+    "Wanted poster": {
+      "x": 897,
+      "y": 41,
+      "w": 271,
+      "h": 358
+    },
+    "Left shutter": {
+      "x": 143,
+      "y": 440,
+      "w": 156,
+      "h": 372
+    },
+    "Right shutter": {
+      "x": 536,
+      "y": 440,
+      "w": 165,
+      "h": 370
+    },
+    "Ivy": {
+      "x": 895,
+      "y": 435,
+      "w": 258,
+      "h": 380
+    },
+    "Computer": {
+      "x": 71,
+      "y": 903,
+      "w": 288,
+      "h": 282
+    },
+    "Chopper plush": {
+      "x": 455,
+      "y": 883,
+      "w": 335,
+      "h": 315
+    },
+    "Straw hat": {
+      "x": 933,
+      "y": 849,
+      "w": 206,
+      "h": 355
+    },
+    "Pendant": {
+      "image": "interior.png",
+      "x": 161,
+      "y": 86,
+      "w": 404,
+      "h": 510
+    },
+    "Books": {
+      "image": "interior.png",
+      "x": 857,
+      "y": 205,
+      "w": 459,
+      "h": 324
+    },
+    "Mug": {
+      "image": "interior.png",
+      "x": 1661,
+      "y": 242,
+      "w": 327,
+      "h": 287
+    }
+  },
+  "layers": [
+    {
+      "name": "Building",
+      "frame": -1,
+      "x": 0,
+      "y": 0,
+      "w": 1000,
+      "h": 1000,
+      "scale": 100,
+      "visible": true
+    },
+    {
+      "name": "Left shutter",
+      "frame": 3,
+      "x": 220,
+      "y": 464,
+      "w": 88,
+      "h": 275,
+      "scale": 100,
+      "visible": true
+    },
+    {
+      "name": "Right shutter",
+      "frame": 4,
+      "x": 693,
+      "y": 464,
+      "w": 90,
+      "h": 275,
+      "scale": 100,
+      "visible": true
+    },
+    {
+      "name": "Pendant",
+      "frame": 9,
+      "x": 337,
+      "y": 475,
+      "w": 122,
+      "h": 116,
+      "scale": 100,
+      "visible": true
+    },
+    {
+      "name": "Books",
+      "frame": 10,
+      "x": 583,
+      "y": 514,
+      "w": 91,
+      "h": 53,
+      "scale": 100,
+      "visible": true
+    },
+    {
+      "name": "Computer",
+      "frame": 6,
+      "x": 328,
+      "y": 605,
+      "w": 153,
+      "h": 131,
+      "scale": 100,
+      "visible": true
+    },
+    {
+      "name": "Mug",
+      "frame": 11,
+      "x": 308,
+      "y": 699,
+      "w": 44,
+      "h": 36,
+      "scale": 100,
+      "visible": true
+    },
+    {
+      "name": "Chopper plush",
+      "frame": 7,
+      "x": 548,
+      "y": 620,
+      "w": 135,
+      "h": 122,
+      "scale": 100,
+      "visible": true
+    },
+    {
+      "name": "Pirate flag",
+      "frame": 1,
+      "x": 438,
+      "y": 331,
+      "w": 235,
+      "h": 150,
+      "scale": 100,
+      "visible": true
+    },
+    {
+      "name": "Lantern",
+      "frame": 0,
+      "x": 230,
+      "y": 273,
+      "w": 130,
+      "h": 145,
+      "scale": 100,
+      "visible": true
+    },
+    {
+      "name": "Wanted poster",
+      "frame": 2,
+      "x": 152,
+      "y": 602,
+      "w": 122,
+      "h": 158,
+      "scale": 100,
+      "visible": true
+    },
+    {
+      "name": "Straw hat",
+      "frame": 8,
+      "x": 787,
+      "y": 490,
+      "w": 86,
+      "h": 145,
+      "scale": 100,
+      "visible": true
+    },
+    {
+      "name": "Upper ivy",
+      "frame": 5,
+      "x": 142,
+      "y": 99,
+      "w": 156,
+      "h": 245,
+      "scale": 100,
+      "visible": true
+    },
+    {
+      "name": "Lower ivy",
+      "frame": 5,
+      "x": 759,
+      "y": 737,
+      "w": 120,
+      "h": 173,
+      "scale": 100,
+      "visible": true
+    }
+  ]
+}
