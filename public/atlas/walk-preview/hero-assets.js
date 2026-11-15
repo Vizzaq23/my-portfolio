@@ -21,7 +21,11 @@ export async function loadHeroAssets(scene,room,hand){
   scene.add(crt.scene,plush.scene);
   for(const o of [...room.crtFallback,...room.plushFallback]){scene.remove(o);o.geometry?.dispose();}
   for(const o of [...hand.children]){hand.remove(o);o.geometry?.dispose();}hand.add(grip.scene);
-  const fingers=[];grip.scene.traverse(o=>{if(/^Finger_/.test(o.name)||/^FingerTip_/.test(o.name))fingers.push({o,q:o.quaternion.clone(),tip:o.name.startsWith('FingerTip')});});
+  // Continue the sleeve beyond the close-up camera instead of exposing a floating stump.
+  const sleeveMaterial=grip.scene.getObjectByName('forearm')?.material||room.navy;
+  const sleeve=new T.Mesh(new T.CylinderGeometry(.042,.055,.85,8),sleeveMaterial);
+  sleeve.rotation.x=Math.PI/2;sleeve.position.set(0,-.014,.77);sleeve.castShadow=true;sleeve.receiveShadow=true;hand.add(sleeve);
+  const fingers=[];grip.scene.traverse(o=>{if(/^Finger_/.test(o.name)||/^FingerTip_/.test(o.name))fingers.push({o,q:o.quaternion.clone(),tip:o.name.startsWith('FingerTip'),index:Number(o.name.match(/\d+/)?.[0]||0)});});
   const thumb=grip.scene.getObjectByName('Thumb'),thumbQ=thumb?.quaternion.clone();
-  return {pose(amount){for(const {o,q,tip}of fingers)o.quaternion.copy(q).multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(1,0,0),-amount*(tip?.9:.7)));if(thumb)thumb.quaternion.copy(thumbQ).multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,0,1),-.5*amount));}};
+  return {pose(amount){for(const {o,q,tip,index}of fingers){const curl=Math.max(0,Math.min(1,(amount-index*.035)/(1-index*.035)));o.quaternion.copy(q).multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(1,0,0),-curl*(tip?.85:.65)))};if(thumb)thumb.quaternion.copy(thumbQ).multiply(new T.Quaternion().setFromAxisAngle(new T.Vector3(0,0,1),-.5*amount));}};
 }

@@ -1,3 +1,4 @@
+import {plugPose,releasePose} from './plug-motion.js';
 import * as T from './vendor/three.module.js';
 import {buildRoom} from './room.js';
 import {loadHeroAssets} from './hero-assets.js';
@@ -75,7 +76,7 @@ const initial=[0,1.68,3.6],near=[-.45,1.68,-.65],low=[-.9,.82,-1.35],front=[.04,
 const tv=[.04,1,-2],socket=[-1.08,.25,-2.1];const v=a=>new T.Vector3(...a),mix=(a,b,t)=>v(a).lerp(v(b),t),ease=t=>t*t*(3-2*t),clamp=t=>Math.max(0,Math.min(1,t));
 let previewLight=false;
 $('lighting').onclick=()=>{previewLight=!previewLight;$('lighting').setAttribute('aria-pressed',String(previewLight));};
-let state='doorway',elapsed=0,total=0,last=performance.now(),paused=false;const durations={walk:3.5,notice:1.2,plug:2.2,rise:1,wake:3.6,enter:2.5};
+let state='doorway',elapsed=0,total=0,last=performance.now(),paused=false;const durations={walk:3.5,notice:1.2,plug:3.2,rise:1,wake:3.6,enter:2.5};
 const reduced=$('motion');reduced.checked=matchMedia('(prefers-reduced-motion: reduce)').matches;
 $('start-motion').checked=reduced.checked;
 function syncStartMotion(){reduced.checked=$('start-motion').checked;document.body.classList.toggle('motion-reduced',reduced.checked);}
@@ -89,18 +90,30 @@ $('start').onclick=()=>{
 };
 
 function setState(s){if(s==='walk')audio.sound('walk');if(s==='notice')audio.endWalk();if(s==='rise')audio.sound('click');if(s==='wake')audio.sound('static');if(s==='enter')audio.sound('chime');if(s==='doorway'||s==='done')audio.stop();state=s;elapsed=0;if(s==='done'){location.assign('/#top');return;}if(s==='title'){audio.stop();document.body.dataset.phase='title';document.getElementById("room-ui").hidden=true;homepage.style.cssText='position:fixed;left:0;top:0;width:1280px;height:720px;transform-origin:0 0;border:0;z-index:3;background:#060a15';sizeSurface();fitTitle();$('view').style.visibility='hidden';homepage.inert=false;homepage.removeAttribute('aria-hidden');homepage.tabIndex=0;homepage.contentWindow.postMessage({type:'tv-interactive'},location.origin);homepage.contentDocument?.querySelector('.start')?.focus();return;}document.body.dataset.phase=s;const texts={doorway:'01 / At the doorway',walk:'02 / Walking toward the TV',notice:'03 / The cord is unplugged',ready:'Your turn · plug in the TV',plug:'04 / Reach · lift · insert',rise:'The power light catches your eye',wake:'05 / The room wakes up',enter:'06 / Into your world',done:'Motion study complete'};$('phase').textContent=texts[s];$('action').hidden=!['doorway','ready'].includes(s);$('action').disabled=false;$('action').textContent=s==='ready'?'Plug in · Enter / Click':'Approach TV';$('end').style.display=s==='done'?'block':'none';if((s==='ready'||s==='doorway')&&$('start-screen').hidden)$('action').focus({preventScroll:true});}
-function reset(){tvBooted=false;$('view').style.opacity='1';$('view').style.visibility='visible';document.getElementById("room-ui").hidden=false;homepage.inert=true;homepage.tabIndex=-1;homepage.setAttribute('aria-hidden','true');homepage.style.cssText='position:fixed;left:0;top:0;width:1280px;height:720px;border:0;pointer-events:none;transform-origin:0 0;display:none;background:#060a15;z-index:1';sizeSurface();homepage.contentWindow.postMessage({type:'tv-reset'},location.origin); $('study').value='walk';previewLight=false;$('lighting').setAttribute('aria-pressed','false');total=0;plug.position.copy(loose);hand.visible=false;glow.intensity=0;warmBounce.intensity=0;led.material.color.set('#302414');updateCable();setState('doorway');}
+function reset(){tvBooted=false;$('view').style.opacity='1';$('view').style.visibility='visible';document.getElementById("room-ui").hidden=false;homepage.inert=true;homepage.tabIndex=-1;homepage.setAttribute('aria-hidden','true');homepage.style.cssText='position:fixed;left:0;top:0;width:1280px;height:720px;border:0;pointer-events:none;transform-origin:0 0;display:none;background:#060a15;z-index:1';sizeSurface();homepage.contentWindow.postMessage({type:'tv-reset'},location.origin); $('study').value='walk';previewLight=false;$('lighting').setAttribute('aria-pressed','false');total=0;plug.position.copy(loose);plug.rotation.set(0,0,0);hand.rotation.set(0,0,0);gripRig?.pose(0);hand.visible=false;glow.intensity=0;warmBounce.intensity=0;led.material.color.set('#302414');updateCable();setState('doorway');}
 $('study').onchange=()=>{const choice=$('study').value;reset();$('study').value=choice;if(choice!=='walk'){$('action').hidden=true;$('phase').textContent=choice==='corner'?'TV + Chopper · asset study':'Articulated hand · grip study';}if(choice==='grip'){plug.position.copy(inserted);updateCable();}};
-$('action').onclick=()=>{if(state==='doorway')setState('walk');else if(state==='ready')setState('plug');};$('replay').onclick=reset;$('skip').onclick=()=>{total=14.0;plug.position.copy(inserted);hand.visible=false;updateCable();setState('done');};
+$('action').onclick=()=>{if(state==='doorway')setState('walk');else if(state==='ready')setState('plug');};$('replay').onclick=reset;$('skip').onclick=()=>{total=15.0;plug.position.copy(inserted);hand.visible=false;updateCable();setState('done');};
 document.addEventListener('visibilitychange',()=>{paused=document.hidden;last=performance.now();if(paused)audio.stop();else if(state==='walk')audio.sound('walk');});
 function animate(now){requestAnimationFrame(animate);const dt=Math.min((now-last)/1000,.05);last=now;if(paused)return;if(state==='done'||state==='title')return;const duration=durations[state];if(duration){elapsed+=dt;total+=dt;}
 let p=duration?clamp(elapsed/duration):0,e=ease(p),pos=v(initial),target=v(tv),mode='off';
 if(state==='walk'){pos=mix(initial,near,reduced.checked?1:e);if(!reduced.checked)pos.y+=Math.sin(p*Math.PI*8)*.014*Math.sin(p*Math.PI);}
 if(state==='notice'){pos=mix(near,low,reduced.checked?1:e);target=mix(tv,socket,reduced.checked?1:e);}
 if(['ready','plug'].includes(state)){pos=v(low);target=v(socket);}
-if(state==='plug'){hand.visible=!reduced.checked;const reach=clamp(p/.3),lift=ease(clamp((p-.3)/.48)),insert=ease(clamp((p-.78)/.22));const held=mix(loose.toArray(),[-1.12,.4,-2.17],lift);held.lerp(inserted,insert);plug.position.copy(held);hand.position.copy(held).add(new T.Vector3(.02,.015,.02+(1-ease(reach))*.45));gripRig?.pose(ease(clamp((p-.12)/.18)));updateCable();}
-if(state==='rise'){pos=mix(low,front,reduced.checked?1:e);target=mix(socket,tv,reduced.checked?1:e);hand.visible=!reduced.checked&&p<.35;hand.position.z+=dt*.3;led.material.color.set('#ffc568');}
-if(state==='wake'){pos=v(front);mode=elapsed<.6?'static':'world';if(mode==='world'&&!tvBooted&&tvReady){homepage.contentWindow.postMessage({type:'tv-start',reduced:reduced.checked},location.origin);tvBooted=true;elapsed=.6;p=.6/durations.wake;}if(!tvReady&&elapsed>durations.wake-.1)elapsed=durations.wake-.1;}
+if(state==='plug'){
+ const pose=plugPose(p);hand.visible=!reduced.checked;
+ plug.position.fromArray(pose.position);plug.rotation.set(...pose.rotation);
+ hand.rotation.copy(plug.rotation);
+ const gripOffset=new T.Vector3(.012,.012,.025).applyQuaternion(plug.quaternion);
+ hand.position.copy(plug.position).add(gripOffset).add(v(pose.approach));
+ gripRig?.pose(pose.grip);updateCable();
+ document.body.dataset.grip=pose.grip.toFixed(3);
+}
+if(state==='rise'){
+ pos=mix(low,front,reduced.checked?1:e);target=mix(socket,tv,reduced.checked?1:e);
+ const release=releasePose(p);hand.visible=!reduced.checked&&release.visible;
+ hand.position.copy(inserted).add(new T.Vector3(.012,.012,.025)).add(v(release.offset));
+ hand.rotation.set(...release.rotation);gripRig?.pose(release.grip);led.material.color.set('#ffc568');
+}if(state==='wake'){pos=v(front);mode=elapsed<.6?'static':'world';if(mode==='world'&&!tvBooted&&tvReady){homepage.contentWindow.postMessage({type:'tv-start',reduced:reduced.checked},location.origin);tvBooted=true;elapsed=.6;p=.6/durations.wake;}if(!tvReady&&elapsed>durations.wake-.1)elapsed=durations.wake-.1;}
 if(state==='enter'||state==='done'){const distance=Math.min(.255/(Math.tan(camera.fov*Math.PI/360)*camera.aspect),.18/Math.tan(camera.fov*Math.PI/360));const landing=[.04,.98,-1.701+distance];pos=state==='done'?v(landing):mix(front,landing,reduced.checked?1:e);target=v([.04,.98,-2]);mode='world';$('view').style.opacity=String(1-ease(clamp((p-.7)/.3)));}
 if(['doorway','walk','notice','ready'].includes(state))hand.visible=false;
 if(state==='doorway'&&previewLight)mode='world';
@@ -111,7 +124,7 @@ glow.intensity=mode==='off'?0:mode==='static'?.3:1.15;
 warmBounce.intensity+=( (mode==='world'?1.25:0)-warmBounce.intensity)*(1-Math.exp(-dt*3));
 if(state==='doorway')led.material.color.set(previewLight?'#ffc568':'#302414');
 drawScreen(mode,now/1000);camera.position.copy(pos);camera.lookAt(target);renderer.render(scene,camera);projectHomepage(mode==='world');
-$('time').textContent=`${Math.min(total,14.0).toFixed(1)} / 14.0 seconds`;$('progress').style.width=`${Math.min(total/14.0,1)*100}%`;
+$('time').textContent=`${Math.min(total,15.0).toFixed(1)} / 15.0 seconds`;$('progress').style.width=`${Math.min(total/15.0,1)*100}%`;
 if(duration&&p>=1&&(state!=='wake'||(tvReady&&tvBooted))){const next={walk:'notice',notice:'ready',plug:'rise',rise:'wake',wake:'enter',enter:'title'};setState(next[state]);}
 }
 addEventListener('message',event=>{if(event.origin!==location.origin||event.source!==parent)return;if(event.data?.type==='scene-settings')homepage.contentWindow.postMessage(event.data,location.origin);if(event.data?.type==='replay-intro'){reset();setState('walk')}});
