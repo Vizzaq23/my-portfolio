@@ -33,4 +33,10 @@ SunCalc is vendored unchanged from the npm registry package `suncalc@2.1.4`, pac
 
 ## Title comparison
 
-type-study.html compares Beacon (custom SVG pixel lettering), Storybook (serif), and Cartridge (stacked pixel type) over one identical paused canvas capture. Full-size links use title=beacon, title=storybook, or title=cartridge with mode=night and still=1. Omitting title preserves the original title. These are review options, not a selected replacement; full-size Start continues to the homepage.
+type-study.html compares Beacon (custom SVG pixel lettering), Storybook (serif), and Cartridge (stacked pixel type) over one identical paused canvas capture. Full-size links use title=beacon, title=storybook, or title=cartridge with mode=night and still=1. Omitting title uses the selected Cartridge treatment; full-size Start continues to the homepage.
+
+## Selected title and room connection
+
+Cartridge is the approved default. walk-preview embeds this scene with tv=1. The same-origin bridge waits for artwork and fonts, keeps the TV dark until tv-start, then reveals the canvas and DOM title beneath a thin CRT line and center-out pixel mask. Reduced motion uses a brief fade. Replay resets the mask and room. A surface with a stable 1280px width and the browser aspect ratio is projected into the TV and interpolated to the full viewport rectangle, avoiding a layout change at handoff. Start and Skip navigate the top-level homepage. Other typography variants remain available for comparison.
+
+The full-screen scene adds sky height for the viewport instead of stretching or cropping the artwork. Workshop, character, lighthouse, blocks, and pipe are smaller to open up the coast. Foreground leaves stay anchored to the top edge; platforms stay at the bottom.
