@@ -60,3 +60,7 @@ Pointer parallax eases the distant coast by at most4 world units horizontally an
 ## Reference clouds and water
 
 November 14: clouds-v2.png is a generated transparent four-cloud atlas (imagegen exec-8a54e678-5c40-46c4-bbbf-4ca9d244d5b7), cropped into separate lavender silhouettes. Slow independent drift preserves each shape. water.mjs replaces uniform stripes with seeded short pixel clusters, dark currents, and gently varying reflections. Solar/lunar positions and sunset color remain driven by solar.mjs. This is stylized animated water, not fluid simulation. Both layers share ambient pause/reduced-motion timing; Cartridge, workshop sprites, wind, and React Start remain unchanged.
+
+## Distant coast and beacon
+
+November 14: coast-v2.png is a reference-guided redraw (imagegen exec-d4081a20-ce7a-4580-8f80-aaf1345eda6f): deep teal mountain bands, violet cliff facets, smaller warm-window village and bridge. It bypasses the older palette-remapping filter to preserve its colors. Original coast.png retained. Mountains/village remain one transparent distant layer with shared parallax, not independently editable mountain tiles. lighthouse.mjs constructs a separate small two-unit pixel tower in code. BEACON anchors its lantern and existing animated glow/beam at (1150,469); base meets the grassy plateau. All existing ambient timing, pause, reduced motion, Cartridge and React Start are preserved.
