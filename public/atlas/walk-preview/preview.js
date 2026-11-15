@@ -8,18 +8,32 @@ const $=id=>document.getElementById(id), scene=new T.Scene();
 scene.background=new T.Color('#070b13');scene.fog=new T.Fog('#101823',6,13);
 const camera=new T.PerspectiveCamera(62,innerWidth/innerHeight,.015,30);
 let renderer;
-try {renderer=new T.WebGLRenderer({antialias:false,powerPreference:'high-performance'});}catch{ $('phase').textContent='3D is unavailable. You can still view the portfolio.';throw new Error('WebGL unavailable'); }
+try {renderer=new T.WebGLRenderer({antialias:true,powerPreference:'high-performance'});}catch{ $('phase').textContent='3D is unavailable. You can still view the portfolio.';throw new Error('WebGL unavailable'); }
 renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;renderer.outputColorSpace=T.SRGBColorSpace;renderer.setPixelRatio(1);$('view').append(renderer.domElement);
-function resize(){renderer.setSize(Math.min(innerWidth,960),Math.min(innerWidth,960)*innerHeight/innerWidth,false);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();}resize();addEventListener('resize',resize);
+renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.3;
+function resize(){const scale=Math.min(devicePixelRatio||1,1.5,Math.sqrt(2304000/(innerWidth*innerHeight)));renderer.setSize(Math.round(innerWidth*scale),Math.round(innerHeight*scale),false);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();}resize();addEventListener('resize',resize);
 let seed=91;function random(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296;}
 const room=buildRoom(scene);
 const {box,ball,cream,black,skin,navy,led}=room;
+// Window bounce reveals the hero props without switching on the dark CRT.
+const windowBounce=new T.SpotLight('#a7c6ea',5,5,1,.85,2);
+windowBounce.position.set(-1.7,2.05,-.75);windowBounce.target.position.set(.2,.85,-2);
+scene.add(windowBounce,windowBounce.target);
+const warmBounce=new T.PointLight('#ffc58b',0,3,2);warmBounce.position.set(.15,1.3,-1.45);scene.add(warmBounce);
+// Small cartridge label and molded console vents become readable on approach.
+const labelMat=new T.MeshStandardMaterial({color:'#b89f76',roughness:.85});
+box(.105,.065,.002,-.57,.79,-2.005,labelMat);
+for(let i=0;i<5;i++)box(.003,.018,.002,-.65+i*.012,.68,-1.848,black);
 const audio=new RoomAudio();let gripRig;
 $('sound').onclick=async()=>{if(audio.enabled){audio.disable();}else{try{await audio.enable();}catch{$('sound').textContent='Sound unavailable';return;}}$('sound').setAttribute('aria-pressed',String(audio.enabled));$('sound').textContent=audio.enabled?'Sound on':'Sound off';};
 // Outlet on back wall left of cabinet. Plug is loose until interaction.
 const outlet=new T.Vector3(-1.12,.38,-2.39);box(.11,.17,.025,...outlet.toArray(),cream);for(const x of [-1.145,-1.105])box(.009,.035,.008,x,.4,-2.37,black);
 const plug=new T.Group();scene.add(plug);box(.065,.055,.08,0,0,0,black,plug);for(const x of [-.018,.018])box(.009,.025,.025,x,0,-.05,cream,plug);
 const loose=new T.Vector3(-1.08,.07,-2.0),inserted=new T.Vector3(-1.12,.4,-2.31);plug.position.copy(loose);
+// Close-up hardware: recessed plate screws and a ribbed rubber strain relief.
+const metal=new T.MeshStandardMaterial({color:'#8b9398',metalness:.65,roughness:.38});
+for(const y of [.32,.44]){const screw=ball(.006,-1.12,y,-2.373,metal);screw.scale.z=.3;box(.007,.0015,.002,-1.12,y,-2.37,black);}
+for(let i=0;i<5;i++)box(.038-i*.003,.033-i*.002,.006,0,0,.047+i*.008,black,plug);
 const hand=new T.Group();scene.add(hand);box(.085,.045,.11,0,0,.07,skin,hand);box(.075,.065,.24,.015,-.015,.23,navy,hand);for(let i=0;i<4;i++)box(.017,.026,.06,-.03+i*.02,-.017,.005,skin,hand);box(.025,.04,.06,.05,-.01,.055,skin,hand);hand.visible=false;
 let cable;function updateCable(){if(cable){scene.remove(cable);cable.geometry.dispose();}const p=plug.position;const curve=new T.CatmullRomCurve3([new T.Vector3(-.34,.66,-2.12),new T.Vector3(-.87,.06,-1.96),new T.Vector3(p.x+.12,.035,p.z+.16),new T.Vector3(p.x,p.y,p.z+.05)]);cable=new T.Mesh(new T.TubeGeometry(curve,24,.009,5,false),black);scene.add(cable);}updateCable();
 // Pixel screen is drawn as an emissive texture on a genuine 3D TV surface.
@@ -75,7 +89,7 @@ $('start').onclick=()=>{
 };
 
 function setState(s){if(s==='walk')audio.sound('walk');if(s==='notice')audio.endWalk();if(s==='rise')audio.sound('click');if(s==='wake')audio.sound('static');if(s==='enter')audio.sound('chime');if(s==='doorway'||s==='done')audio.stop();state=s;elapsed=0;if(s==='done'){location.assign('/#top');return;}if(s==='title'){audio.stop();document.body.dataset.phase='title';document.getElementById("room-ui").hidden=true;homepage.style.cssText='position:fixed;left:0;top:0;width:1280px;height:720px;transform-origin:0 0;border:0;z-index:3;background:#060a15';sizeSurface();fitTitle();$('view').style.visibility='hidden';homepage.inert=false;homepage.removeAttribute('aria-hidden');homepage.tabIndex=0;homepage.contentWindow.postMessage({type:'tv-interactive'},location.origin);homepage.contentDocument?.querySelector('.start')?.focus();return;}document.body.dataset.phase=s;const texts={doorway:'01 / At the doorway',walk:'02 / Walking toward the TV',notice:'03 / The cord is unplugged',ready:'Your turn · plug in the TV',plug:'04 / Reach · lift · insert',rise:'The power light catches your eye',wake:'05 / The room wakes up',enter:'06 / Into your world',done:'Motion study complete'};$('phase').textContent=texts[s];$('action').hidden=!['doorway','ready'].includes(s);$('action').disabled=false;$('action').textContent=s==='ready'?'Plug in · Enter / Click':'Approach TV';$('end').style.display=s==='done'?'block':'none';if((s==='ready'||s==='doorway')&&$('start-screen').hidden)$('action').focus({preventScroll:true});}
-function reset(){tvBooted=false;$('view').style.opacity='1';$('view').style.visibility='visible';document.getElementById("room-ui").hidden=false;homepage.inert=true;homepage.tabIndex=-1;homepage.setAttribute('aria-hidden','true');homepage.style.cssText='position:fixed;left:0;top:0;width:1280px;height:720px;border:0;pointer-events:none;transform-origin:0 0;display:none;background:#060a15;z-index:1';sizeSurface();homepage.contentWindow.postMessage({type:'tv-reset'},location.origin); $('study').value='walk';previewLight=false;$('lighting').setAttribute('aria-pressed','false');total=0;plug.position.copy(loose);hand.visible=false;glow.intensity=0;led.material.color.set('#302414');updateCable();setState('doorway');}
+function reset(){tvBooted=false;$('view').style.opacity='1';$('view').style.visibility='visible';document.getElementById("room-ui").hidden=false;homepage.inert=true;homepage.tabIndex=-1;homepage.setAttribute('aria-hidden','true');homepage.style.cssText='position:fixed;left:0;top:0;width:1280px;height:720px;border:0;pointer-events:none;transform-origin:0 0;display:none;background:#060a15;z-index:1';sizeSurface();homepage.contentWindow.postMessage({type:'tv-reset'},location.origin); $('study').value='walk';previewLight=false;$('lighting').setAttribute('aria-pressed','false');total=0;plug.position.copy(loose);hand.visible=false;glow.intensity=0;warmBounce.intensity=0;led.material.color.set('#302414');updateCable();setState('doorway');}
 $('study').onchange=()=>{const choice=$('study').value;reset();$('study').value=choice;if(choice!=='walk'){$('action').hidden=true;$('phase').textContent=choice==='corner'?'TV + Chopper · asset study':'Articulated hand · grip study';}if(choice==='grip'){plug.position.copy(inserted);updateCable();}};
 $('action').onclick=()=>{if(state==='doorway')setState('walk');else if(state==='ready')setState('plug');};$('replay').onclick=reset;$('skip').onclick=()=>{total=14.0;plug.position.copy(inserted);hand.visible=false;updateCable();setState('done');};
 document.addEventListener('visibilitychange',()=>{paused=document.hidden;last=performance.now();if(paused)audio.stop();else if(state==='walk')audio.sound('walk');});
@@ -94,6 +108,7 @@ if(state==='doorway'&&$('study').value==='corner'){pos=v([.1,1.24,-.78]);target=
 if(state==='doorway'&&$('study').value==='grip'){pos=v(low);target=v(socket);hand.visible=true;hand.position.copy(inserted).add(new T.Vector3(.02,.015,.02));gripRig?.pose(1);}
 $('lighting').disabled=state!=='doorway';
 glow.intensity=mode==='off'?0:mode==='static'?.3:1.15;
+warmBounce.intensity+=( (mode==='world'?1.25:0)-warmBounce.intensity)*(1-Math.exp(-dt*3));
 if(state==='doorway')led.material.color.set(previewLight?'#ffc568':'#302414');
 drawScreen(mode,now/1000);camera.position.copy(pos);camera.lookAt(target);renderer.render(scene,camera);projectHomepage(mode==='world');
 $('time').textContent=`${Math.min(total,14.0).toFixed(1)} / 14.0 seconds`;$('progress').style.width=`${Math.min(total/14.0,1)*100}%`;

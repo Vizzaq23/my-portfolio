@@ -10,10 +10,10 @@ export async function loadHeroAssets(scene,room,hand){
   function pixelMap(texture,size,repeat){
     const c=document.createElement('canvas');c.width=c.height=size;
     c.getContext('2d').drawImage(texture.image,0,0,size,size);
-    const map=new T.CanvasTexture(c);map.colorSpace=T.SRGBColorSpace;map.magFilter=T.NearestFilter;map.minFilter=T.LinearMipmapLinearFilter;
+    const map=new T.CanvasTexture(c);map.colorSpace=T.SRGBColorSpace;map.magFilter=T.NearestFilter;map.minFilter=T.LinearMipmapLinearFilter;map.anisotropy=4;
     map.wrapS=map.wrapT=T.RepeatWrapping;map.repeat.set(...repeat);texture.dispose();return map;
   }
-  const timber=pixelMap(wood,256,[1,1]),plasterMap=pixelMap(plaster,256,[3,2]);
+  const timber=pixelMap(wood,512,[1,1]),plasterMap=pixelMap(plaster,512,[3,2]);
   for(const m of [room.wood,...room.boards]){m.map=timber;m.color.set('#aca394');m.needsUpdate=true;}
   room.wall.map=plasterMap;room.wall.color.set('#465f60');room.wall.needsUpdate=true;
   for(const model of [crt.scene,plush.scene,grip.scene])model.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=true;}});

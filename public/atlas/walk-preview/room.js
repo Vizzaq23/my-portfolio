@@ -55,8 +55,8 @@ export function buildRoom(scene){
   const window=panel(1.15,1.25,-2.325,1.72,-.48,night);window.rotation.y=Math.PI/2;
   for(const z of [-1.08,-.48,.12])box(.07,1.34,.04,-2.29,1.72,z,wood);for(const y of [1.05,1.72,2.39])box(.09,.05,1.26,-2.29,y,-.48,wood);box(.19,.055,1.35,-2.27,1.04,-.48,wood);
   const curtain=material('plaid','#4c586b');for(const start of [-1.31,.19])for(let i=0;i<5;i++){const z=start+i*.055;box(.05+(i%2)*.035,1.5,.055,-2.22,1.68,z,curtain);}rod([-2.18,2.46,-1.4],[-2.18,2.46,.5],.018,wood);
-  const moon=new T.SpotLight('#a6bcf5',22,10,.8,.65,1.8);moon.position.set(-2.1,2.1,-.5);moon.target.position.set(.3,.1,.4);moon.castShadow=true;moon.shadow.mapSize.set(1024,1024);moon.shadow.bias=-.0005;moon.shadow.normalBias=.015;scene.add(moon,moon.target);
-  scene.add(new T.HemisphereLight('#a4b3ca','#42332a',.7));const fill=new T.PointLight('#8896b3',1.3,7,2);fill.position.set(0,2.4,2);scene.add(fill);
+  const moon=new T.SpotLight('#a6bcf5',22,10,.8,.65,1.8);moon.position.set(-2.1,2.1,-.5);moon.target.position.set(.3,.1,.4);moon.castShadow=true;moon.shadow.mapSize.set(2048,2048);moon.shadow.bias=-.0005;moon.shadow.normalBias=.015;scene.add(moon,moon.target);
+  scene.add(new T.HemisphereLight('#a4b3ca','#42332a',2.0));const fill=new T.PointLight('#8896b3',1.9,7,2);fill.position.set(0,2.4,2);scene.add(fill);
   // Credible wood cabinet with inset doors, drawers and hardware.
   box(1.85,.07,.62,0,.59,-2.02,wood);box(1.85,.07,.6,0,.12,-2.02,wood);box(1.8,.45,.035,0,.35,-2.3,wood);
   for(const x of [-.87,-.3,.3,.87])box(.055,.46,.55,x,.35,-2.02,wood);
