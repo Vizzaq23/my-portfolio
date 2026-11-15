@@ -1,10 +1,11 @@
+import {buildHand} from './hand-model.js';
 import * as T from './vendor/three.module.js';
 import {GLTFLoader} from './vendor/GLTFLoader.js';
 
 export async function loadHeroAssets(scene,room,hand){
   const loader=new GLTFLoader();
   const [crt,plush,grip,wood,plaster]=await Promise.all([
-    loader.loadAsync('./assets/crt.glb'),loader.loadAsync('./assets/chopper.glb'),loader.loadAsync('./assets/hand.glb'),
+    loader.loadAsync('./assets/crt.glb'),loader.loadAsync('./assets/chopper.glb'),Promise.resolve({scene:buildHand()}),
     new T.TextureLoader().loadAsync('./assets/wood_planks.jpg'),new T.TextureLoader().loadAsync('./assets/plastered_wall.jpg'),
   ]);
   function pixelMap(texture,size,repeat){
@@ -23,7 +24,7 @@ export async function loadHeroAssets(scene,room,hand){
   for(const o of [...hand.children]){hand.remove(o);o.geometry?.dispose();}hand.add(grip.scene);
   // Continue the sleeve beyond the close-up camera instead of exposing a floating stump.
   const sleeveMaterial=grip.scene.getObjectByName('forearm')?.material||room.navy;
-  const sleeve=new T.Mesh(new T.CylinderGeometry(.042,.055,.85,8),sleeveMaterial);
+  const sleeve=new T.Mesh(new T.CylinderGeometry(.043,.055,.85,24),sleeveMaterial);
   sleeve.rotation.x=Math.PI/2;sleeve.position.set(0,-.014,.77);sleeve.castShadow=true;sleeve.receiveShadow=true;hand.add(sleeve);
   const fingers=[];grip.scene.traverse(o=>{if(/^Finger_/.test(o.name)||/^FingerTip_/.test(o.name))fingers.push({o,q:o.quaternion.clone(),tip:o.name.startsWith('FingerTip'),index:Number(o.name.match(/\d+/)?.[0]||0)});});
   const thumb=grip.scene.getObjectByName('Thumb'),thumbQ=thumb?.quaternion.clone();
