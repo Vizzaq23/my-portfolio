@@ -12,7 +12,29 @@ export class RoomAudio {
    document.body.dataset.audio='decoded';
   }catch{document.body.dataset.audio='synth-fallback';}}
  }
- stop(){for(const node of this.nodes){try{node.stop();}catch{}}this.nodes.clear();this.stepIndex=-1;}
+ stop(){for(const node of this.nodes){try{node.stop();}catch{}}this.nodes.clear();this.stepIndex=-1;this.ambient=false;document.body.dataset.ambience='off';}
+ startAmbience(){
+  if(!this.enabled||this.ambient)return;
+  this.ambient=true;
+  const c=this.context,t=c.currentTime;
+  // Different loop lengths keep surf and gusts from repeating together.
+  for(const [duration,cutoff,level,panValue] of [[24,1100,.16,-.18],[31,650,.065,.22]]){
+   const buffer=c.createBuffer(1,Math.ceil(c.sampleRate*duration),c.sampleRate),data=buffer.getChannelData(0);
+   let low=0;
+   for(let i=0;i<data.length;i++){
+    const phase=i/data.length,edge=Math.min(1,phase*duration,(1-phase)*duration);
+    const swell=.22+.78*Math.pow(.5-.5*Math.cos(phase*Math.PI*2*(duration===24?3:2)),2);
+    low=.96*low+.04*(Math.random()*2-1);
+    data[i]=low*4*swell*edge;
+   }
+   const source=c.createBufferSource(),filter=c.createBiquadFilter(),gain=c.createGain(),pan=c.createStereoPanner();
+   source.buffer=buffer;source.loop=true;filter.type=duration===24?'lowpass':'bandpass';filter.frequency.value=cutoff;filter.Q.value=.45;pan.pan.value=panValue;
+   gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(level,t+3);
+   source.connect(filter);filter.connect(gain);gain.connect(pan);pan.connect(this.master);
+   source.start(t);this.track(source,[filter,gain,pan]);
+  }
+  document.body.dataset.ambience='ocean-wind';
+ }
  disable(){this.enabled=false;this.stop();}
  track(source,chain){this.nodes.add(source);source.onended=()=>{this.nodes.delete(source);for(const node of [source,...chain])node.disconnect();};}
  tone(frequency,end,duration,gain,delay=0,type='sine'){
