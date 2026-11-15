@@ -86,3 +86,7 @@ Opt-in audio now uses eight individually triggered wood footsteps with alternati
 ## Coastal ambience — 2026-11-15
 
 Two synthesized filtered-noise layers add soft surf swells and slower wind gusts. Independent24/31-second loops have quiet boundaries and fade in over3 seconds at the camera-enter phase, continuing through Cartridge. Existing opt-in sound state is shared with an accessible title-screen Sound toggle. Replay/mute/tab hide stop sources; returning to a visible title fades them back in. Existing animations untouched. Build/typecheck and full browser intro passed, title mute/unmute verified. Offline8s render: two sources even after duplicate start, peak0.0644, RMS0.0106, zero sources after disable. These are synthesized ambience, not field recordings; subjective balance awaits review.
+
+## Recorded coastal ambience — 2026-11-15
+
+Replaced generated noise with four CC0 jasinski beach-wave excerpts crossfaded together and a32s Thimras wind recording excerpt. Sources and conversion documented in assets/SOURCES.md. Runtime loop seam blends, stereo retained, wind lowpassed900Hz and surf2400Hz, rumble removed, reduced gains and3.5s fade. Decodes are cached; cancellation prevents loading audio from restarting after mute/replay. Existing Cartridge and animation code unchanged. Build/typecheck passed before final audio asset substitution; final full browser journey and title mute/unmute passed. Naturalness remains subject to listening review.

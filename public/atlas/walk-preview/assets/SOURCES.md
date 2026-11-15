@@ -35,3 +35,7 @@ Blockbench and Aseprite were not installed or used; Blender handles this pass's 
 ## Start-screen typography
 
 PressStart2P-Regular.ttf and IBMPlexSans-Variable.woff2 are copies of the existing repository fonts under src/fonts, reused for visual continuity. Their SIL OFL license files are included alongside them. Press Start license source: https://raw.githubusercontent.com/google/fonts/main/ofl/pressstart2p/OFL.txt . These added fonts are outside the earlier 3D-asset manifest.
+
+## Coastal ambience recordings — 2026-11-15
+- ocean-waves.mp3: jasinski, excerpt prepared by qubodup, Beach Ocean Waves. CC0. https://opengameart.org/content/beach-ocean-waves . Four wave_01 through wave_04 excerpts joined with0.5s crossfades, converted to32kHz128kbps MP3.
+- coastal-wind.mp3: Thimras, Park ambiences, CC0. https://opengameart.org/content/park-ambiences . First32s of park_ambience_wind.wav converted to32kHz stereo96kbps MP3 using FFmpeg. Source WAV omitted to avoid adding74MB. Runtime blends loop edges and filters both recordings. These audio additions are outside the earlier3D manifest.

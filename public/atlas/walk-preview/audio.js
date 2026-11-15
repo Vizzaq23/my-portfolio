@@ -13,27 +13,42 @@ export class RoomAudio {
   }catch{document.body.dataset.audio='synth-fallback';}}
  }
  stop(){for(const node of this.nodes){try{node.stop();}catch{}}this.nodes.clear();this.stepIndex=-1;this.ambient=false;document.body.dataset.ambience='off';}
- startAmbience(){
+ async startAmbience(){
   if(!this.enabled||this.ambient)return;
-  this.ambient=true;
-  const c=this.context,t=c.currentTime;
-  // Different loop lengths keep surf and gusts from repeating together.
-  for(const [duration,cutoff,level,panValue] of [[24,1100,.16,-.18],[31,650,.065,.22]]){
-   const buffer=c.createBuffer(1,Math.ceil(c.sampleRate*duration),c.sampleRate),data=buffer.getChannelData(0);
-   let low=0;
-   for(let i=0;i<data.length;i++){
-    const phase=i/data.length,edge=Math.min(1,phase*duration,(1-phase)*duration);
-    const swell=.22+.78*Math.pow(.5-.5*Math.cos(phase*Math.PI*2*(duration===24?3:2)),2);
-    low=.96*low+.04*(Math.random()*2-1);
-    data[i]=low*4*swell*edge;
+  const ticket={};this.ambient=ticket;
+  const c=this.context;
+  // Cache decoded field recordings; cancellation prevents late loads restarting muted audio.
+  this.coastBuffers??=Promise.all(['ocean-waves.mp3','coastal-wind.mp3'].map(async name=>{
+   const response=await fetch('./assets/'+name);
+   if(!response.ok)throw Error('Coastal recording unavailable');
+   const input=await c.decodeAudioData(await response.arrayBuffer());
+   const overlap=Math.min(Math.floor(input.sampleRate*1.5),Math.floor(input.length/4));
+   const length=input.length-overlap,out=c.createBuffer(input.numberOfChannels,length,input.sampleRate);
+   for(let channel=0;channel<input.numberOfChannels;channel++){
+    const src=input.getChannelData(channel),dst=out.getChannelData(channel);
+    dst.set(src.subarray(overlap));
+    // End blends into the first section, meeting the beginning at input[overlap].
+    for(let i=0;i<overlap;i++){
+     const mix=.5-.5*Math.cos(Math.PI*i/(overlap-1));
+     dst[length-overlap+i]=src[length+i]*(1-mix)+src[i]*mix;
+    }
    }
-   const source=c.createBufferSource(),filter=c.createBiquadFilter(),gain=c.createGain(),pan=c.createStereoPanner();
-   source.buffer=buffer;source.loop=true;filter.type=duration===24?'lowpass':'bandpass';filter.frequency.value=cutoff;filter.Q.value=.45;pan.pan.value=panValue;
-   gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(level,t+3);
-   source.connect(filter);filter.connect(gain);gain.connect(pan);pan.connect(this.master);
-   source.start(t);this.track(source,[filter,gain,pan]);
-  }
-  document.body.dataset.ambience='ocean-wind';
+   return out;
+  })).catch(error=>{this.coastBuffers=null;throw error;});
+  let buffers;
+  try{buffers=await this.coastBuffers;}catch{if(this.ambient===ticket){this.ambient=false;document.body.dataset.ambience='unavailable';}return;}
+  if(!this.enabled||this.ambient!==ticket)return;
+  const t=c.currentTime;
+  buffers.forEach((buffer,index)=>{
+   const source=c.createBufferSource(),low=c.createBiquadFilter(),high=c.createBiquadFilter(),gain=c.createGain();
+   source.buffer=buffer;source.loop=true;
+   low.type='lowpass';low.frequency.value=index?900:2400;low.Q.value=.5;
+   high.type='highpass';high.frequency.value=index?110:65;high.Q.value=.5;
+   gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(index?.045:.13,t+3.5);
+   source.connect(high);high.connect(low);low.connect(gain);gain.connect(this.master);
+   source.start(t);this.track(source,[high,low,gain]);
+  });
+  document.body.dataset.ambience='recorded-ocean-wind';
  }
  disable(){this.enabled=false;this.stop();}
  track(source,chain){this.nodes.add(source);source.onended=()=>{this.nodes.delete(source);for(const node of [source,...chain])node.disconnect();};}
