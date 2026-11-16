@@ -93,12 +93,15 @@ export function buildRoom(scene){
   const crtFallback=scene.children.slice(crtStart).filter(o=>o!==led);
   const consolePlastic=new T.MeshStandardMaterial({color:'#263c62',roughness:.6});
   const ivoryPlastic=new T.MeshStandardMaterial({color:'#b9b7a5',roughness:.5});
-  bevel(.37,.09,.26,-.57,.68,-1.98,consolePlastic,.025);box(.22,.008,.09,-.57,.733,-2.02,black);bevel(.15,.13,.025,-.57,.78,-2.02,ivoryPlastic,.01);
+  bevel(.37,.09,.26,-.57,.68,-1.98,consolePlastic,.025);box(.22,.008,.09,-.57,.733,-2.02,black);const cartridge=bevel(.15,.13,.025,-.57,.78,-2.02,ivoryPlastic,.01);
   bevel(.23,.04,.11,-.59,.67,-1.73,ivoryPlastic,.025);box(.055,.007,.018,-.65,.695,-1.73,black);box(.018,.007,.055,-.65,.695,-1.73,black);for(const x of [-.55,-.51])ball(.01,x,.695,-1.73,pink);
   const controllerCord=new T.CatmullRomCurve3([new T.Vector3(-.6,.67,-1.8),new T.Vector3(-.7,.47,-1.64),new T.Vector3(-.8,.34,-1.75),new T.Vector3(-.72,.66,-1.95)]);scene.add(new T.Mesh(new T.TubeGeometry(controllerCord,18,.005,5,false),black));
   // A work desk and small engineering objects balance the room's right side.
   box(.62,.055,1.4,1.99,.78,.5,wood);for(const z of [-.12,1.12])for(const x of [1.75,2.22])box(.055,.76,.055,x,.38,z,wood);
-  box(.34,.018,.27,1.99,.82,.28,cream);box(.29,.025,.22,2,.83,.62,navy);box(.21,.012,.15,1.91,.82,.91,material('fabric','#3e6254'));
+  const notebook=box(.34,.018,.27,1.99,.82,.28,new T.MeshStandardMaterial({color:'#a59d83',roughness:.94}));
+  const cover=art(g=>{g.fillStyle='#263e49';g.fillRect(0,0,128,128);g.strokeStyle='#b7a273';g.lineWidth=2;g.strokeRect(10,10,108,108);g.fillStyle='#e1d1a7';g.font='bold 15px monospace';g.textAlign='center';g.fillText('FIELD',64,49);g.fillText('NOTES',64,69);g.font='10px monospace';g.fillText('QUINTIN VIZZA',64,97);});
+  const coverMesh=new T.Mesh(new T.PlaneGeometry(.33,.26),cover);coverMesh.rotation.x=-Math.PI/2;coverMesh.position.y=.0095;notebook.add(coverMesh);
+  box(.025,.022,.27,1.84,.823,.28,navy);box(.29,.025,.22,2,.83,.62,navy);box(.21,.012,.15,1.91,.82,.91,material('fabric','#3e6254'));
   for(let i=0;i<4;i++)box(.025,.015,.035,1.86+i*.035,.84,.91,black);
   const mug=new T.Mesh(new T.CylinderGeometry(.045,.04,.09,10),cream);mug.position.set(2.08,.85,-.01);mug.castShadow=true;scene.add(mug);
   const handle=new T.Mesh(new T.TorusGeometry(.03,.008,4,10),cream);handle.position.set(2.13,.85,-.01);handle.castShadow=true;scene.add(handle);
@@ -129,5 +132,5 @@ export function buildRoom(scene){
   contactShadows(scene);
   gold.roughness=.48;gold.metalness=.35;
   navy.roughness=.78;black.roughness=.86;
-  return {box,ball,rod,wood,cream,black,skin,navy,led,wall,boards,crtFallback,plushFallback};
+  return {interactables:{cartridge,notebook},box,ball,rod,wood,cream,black,skin,navy,led,wall,boards,crtFallback,plushFallback};
 }

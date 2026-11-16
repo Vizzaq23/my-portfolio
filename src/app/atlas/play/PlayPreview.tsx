@@ -6,6 +6,7 @@ import { motion, useReducedMotion } from 'motion/react';
 import { Settings2, X, RotateCcw, Sun, Moon, Sunrise, Sunset, Clock3 } from 'lucide-react';
 import styles from './play.module.css';
 import CartridgeStart from './CartridgeStart';
+import RoomExplorer from './RoomExplorer';
 
 const moods = [
   { id: 'live', label: 'New York', icon: Clock3 },
@@ -45,6 +46,7 @@ export default function PlayPreview() {
   return <div className={styles.shell}>
     <iframe ref={frame} className={styles.world} src="/atlas/walk-preview/index.html" title="Interactive TV intro and coastal title screen" />
     <CartridgeStart frame={frame} />
+    <RoomExplorer frame={frame} />
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
         <button ref={trigger} className={styles.trigger}><Settings2 size={16} aria-hidden /> Scene settings</button>
