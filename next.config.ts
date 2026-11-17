@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Keep local visual previews and production validation from sharing build files.
+  distDir: process.env.PORTFOLIO_BUILD_DIR || ".next",
   reactStrictMode: true,
   images: {
     dangerouslyAllowSVG: true,

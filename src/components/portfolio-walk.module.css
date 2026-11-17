@@ -1,0 +1,25 @@
+.world { position: fixed; inset: 0; z-index: 80; pointer-events: none; outline: none; }
+:global(body):has(.world) { padding-bottom: max(300px, 45vh); background-color: #10182e; }
+.lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.actor:global(.level-runner) { position: absolute; top: 0; left: 0; bottom: auto; width: 48px; height: 64px; z-index: 2; }
+.actor svg { width: 48px; height: 64px; transform: scaleX(var(--facing,1)); }
+.actor[data-facing="-1"] { --facing: -1; }
+.dock { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 24px); pointer-events: auto; padding: 10px 14px; color: #fff5d4; background: #102b3bf5; border: 2px solid #f5ce65; border-radius: 8px; box-shadow: 0 5px 0 #071b28; font: 13px/1.5 var(--font-body),sans-serif; }
+.toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.toolbar label { display: flex; gap: 6px; align-items: center; }
+.dock button,.dock select { min-height: 36px; border: 1px solid #839eac; border-radius: 3px; background: #1e4053; color: #fff5d4; padding: 4px 9px; }
+.dock button:focus-visible,.dock select:focus-visible { outline: 3px solid #f5ce65; outline-offset: 3px; }
+.dock p { margin: 7px 0 0; font-size: 12px; }
+.status:empty { display: none; }
+.status { display: block; color: #f5ce65; margin-top: 5px; }
+.touch { display: none; gap: 10px; margin-top: 8px; }
+.touch button { touch-action: none; min-width: 48px; min-height: 44px; }
+:global(body):has(.world) :global([data-walk-broken]),
+:global(body):has(.world) :global([data-walk-broken] *) { visibility: hidden !important; pointer-events: none !important; }
+:global(body):has(.world) :global(main [aria-hidden="true"]),
+:global(body):has(.world) :global(main [aria-hidden="true"] *),
+:global(body):has(.world) :global(main .question-idle) { animation-play-state: paused !important; }
+:global(body):has(.world) :global(.world-reveal) { opacity: 1; translate: none; transition: none; }
+:global(body):has(.world) :global([data-arcade-hover]) { transform: none !important; }
+@media (pointer:coarse) { .touch { display: flex; } }
+@media (max-width:600px) { .dock { bottom: 8px; padding: 8px; width: calc(100% - 16px); max-width: none; } .toolbar { gap: 6px; } .toolbar strong { width: 100%; } .dock p { font-size: 11px; } .touch { display: flex; } }

@@ -119,6 +119,13 @@ export default function HeroIdleSprite() {
 
   return (
     <div ref={runner} className="level-runner" data-pose="1" aria-hidden="true">
+      <PlayerSprite />
+    </div>
+  );
+}
+
+export function PlayerSprite() {
+  return (
       <svg viewBox="0 0 24 32" width="72" height="96" shapeRendering="crispEdges" className="pixel-runner">
         {strides.map((rows, pose) => <g key={pose} className="runner-pose" data-pose={pose}>{pixels(rows, 22)}</g>)}
         {pixels(upperBody)}
@@ -128,6 +135,5 @@ export default function HeroIdleSprite() {
           <path d={arm.hand} fill={palette.S} />
         </g>)}
       </svg>
-    </div>
   );
 }

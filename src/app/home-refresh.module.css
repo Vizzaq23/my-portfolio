@@ -1,0 +1,200 @@
+/* Homepage-only art direction. Existing game assets and interactions remain intact. */
+.hero:global(#top) {
+  min-height: 940px;
+  padding: 192px 32px 290px;
+  justify-content: flex-start;
+  background: radial-gradient(ellipse at 57% 8%, #fff1bc80, transparent 30%), linear-gradient(180deg, #6dc9e9 0%, #a1deed 64%, #cae8df 100%);
+}
+.hero:global(#top) .heroCopy {
+  width: min(100%, 1160px);
+  max-width: 1160px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  grid-template-columns: minmax(0, 1.7fr) minmax(260px, .8fr);
+  gap: 72px;
+  align-items: center;
+  color: #123447;
+}
+.hero:global(#top) .heroCopy h1 {
+  margin: 0 0 22px;
+  color: #123447;
+  font-size: clamp(42px, 5.2vw, 72px);
+  line-height: 1.26;
+  letter-spacing: -.065em;
+  text-shadow: 4px 4px 0 #eef5df;
+}
+.hero:global(#top) :global(.hero-title-dot) { color: #123447; }
+.hero:global(#top) :global(.hero-role) { color: #123447; font-size: 26px; }
+.hero:global(#top) :global(.hero-description) { color: #23485a; font-size: 18px; line-height: 1.7; max-width: 48ch; margin-top: 14px; }
+.hero:global(#top) :global(.hero-actions) { gap: 16px; margin: 28px 0 24px; }
+.hero:global(#top) :global(.hero-actions .dev-button) { min-height: 48px; padding: 12px 18px; font: 600 16px/1.4 var(--font-body), sans-serif; transition: transform 160ms ease, box-shadow 160ms ease; }
+.hero:global(#top) :global(.hero-actions .dev-button-primary) { background: #f8d05e; }
+.hero:global(#top) :global(.hero-actions .dev-button-outline) { background: #f5f7e9; }
+.hero:global(#top) :global(.hero-actions .dev-button:hover) { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 #071f2e; }
+.hero:global(#top) :global(.hero-actions .dev-button:active) { transform: translate(2px, 2px); box-shadow: 1px 1px 0 #071f2e; }
+.hero:global(#top) :global(.hero-contact-link) { color: #123447; font-size: 15px; }
+.hero:global(#top) :global(.availability) { color: #173e40; font-size: 14px; margin: 0; }
+.hero:global(#top) :global(.availability span) { background: #23744b; box-shadow: none; }
+.location { margin: 6px 0 0 17px; color: #34586a; font-size: 13px; }
+.hero:global(#top) :global(.hero-proof) { padding: 24px; border: 3px solid #123447; border-radius: 8px; background: linear-gradient(135deg, #194b5c, #103143 85%); box-shadow: inset 0 0 0 2px #6fa6b680, inset 0 4px 0 #a4d2d330, 8px 9px 0 #17668130, 0 18px 32px #14516c18; }
+.hero:global(#top) .proofTitle { margin: 0 0 24px; color: #f6d36c; font: 400 11px/1.9 var(--font-pixel), monospace; }
+.hero:global(#top) :global(.hero-proof dl) { display: grid; grid-template-columns: 1fr; gap: 16px; }
+.hero:global(#top) :global(.hero-proof dl > div) { border-top: 1px solid #94c5cd45; padding-top: 12px; }
+.hero:global(#top) :global(.scenery-toggle) { border: 1px solid #b1d4d9; border-radius: 3px; background: #0c293b; box-shadow: inset 0 2px 0 #ffffff18, 3px 3px 0 #071f2e; transition: background 180ms ease, box-shadow 180ms ease; }
+.hero:global(#top) :global(.scenery-toggle:hover:not(:disabled)) { background: #235567; box-shadow: inset 0 2px 0 #ffffff25, 3px 3px 0 #071f2e; }
+.hero:global(#top) :global(.hero-proof dt) { color: #b5d4df; font-size: 13px; margin-bottom: 3px; }
+.hero:global(#top) :global(.hero-proof strong) { color: #fff7df; font-size: 20px; }
+.hero:global(#top) :global(.hero-proof dd span) { color: #d0e1e5; font-size: 13px; }
+.hero:global(#top) :global(.hero-proof .hero-stack) { font-size: 16px; }
+.hero:global(#top) :global(.scenery-controls) { margin-top: 22px; }
+.hero:global(#top) :global(.retro-overworld) { height: 240px; }
+.hero:global(#top) :global(.level-skill-blocks) { bottom: 190px; }
+.hero:global(#top) :global(.level-hint) { bottom: 277px; font-size: 13px; color: #123447; }
+.hero:global(#top) :global(.world-clouds) { top: 115px; }
+.hero:global(#top) :global(.hero-sun) { top: 125px; }
+.hero:global(#top) :global(.lakitu-flight) { top: 100px; width: 72px; height: 72px; }
+.hero:global(#top) :global(.spiny-drop) { display: none; }
+.hero:global(#top) :global(.retro-cloud-far) { top: auto; bottom: 280px; }
+.hero:global(#top) :global(.one-piece-secret-nami) { top: 98px; width: 80px; height: 80px; }
+/* The same compact material palette across UI and original collision objects. */
+.hero:global(#top) :global(.hero-actions .dev-button) { border-radius: 4px; box-shadow: inset 0 2px 0 #fff8d7, 3px 4px 0 #123447, 5px 7px 0 #1b65822b; }
+.hero:global(#top) :global(.hero-actions .dev-button-primary) { background: linear-gradient(135deg, #ffe08a, #f3c34f); }
+.hero:global(#top) :global(.hero-actions .dev-button-outline) { background: linear-gradient(135deg, #fffdf0, #e6eadc); }
+.hero:global(#top) :global(.world-cloud) { width: 190px; animation-timing-function: ease-in-out; filter: drop-shadow(0 4px 0 #418ca51a); }
+.hero:global(#top) :global(.world-clouds) { height: 82px; }
+.hero:global(#top) :global(.block-gold) { background: linear-gradient(135deg, #ffdc74, #e9ad35 72%); box-shadow: inset 4px 4px 0 #fff0b4, inset -4px -4px 0 #bb7b27, 3px 4px 0 #5b3a25, 5px 8px 0 #1c586a25; }
+.hero:global(#top) :global(.block-brick-row > span) { background: linear-gradient(135deg, #d59454, #b3693a); box-shadow: inset 2px 2px 0 #f3c185, inset -2px -2px 0 #88492f; }
+.hero:global(#top) :global(.level-platform) { animation-timing-function: ease-in-out; filter: drop-shadow(0 6px 2px #20564130); }
+.hero:global(#top) :global(.pipe-shaft) { background: linear-gradient(90deg, #326e35 0 10%, #7bb343 10% 18%, #b9dc77 18% 26%, #6eaa3c 26% 70%, #4b8837 70% 84%, #2b6533 84%); box-shadow: inset 0 6px 0 #234b3555; }
+.hero:global(#top) :global(.pipe-rim) { background: linear-gradient(90deg, #518a38 0 10%, #c3e78a 10% 24%, #89ba4d 24% 72%, #3e7833 72%); box-shadow: inset 0 3px 0 #e2efac, inset 0 -3px 0 #2c5932, 0 3px 0 #204c3626; }
+.hero:global(#top) :global(.level-castle) { filter: drop-shadow(4px 3px 0 #174a5033); }
+.hero:global(#top) :global(.level-staircase span) { background: linear-gradient(135deg, #e7b764, #bc8138); box-shadow: inset 2px 2px 0 #ffe3a1, inset -2px -2px 0 #96602e; }
+.hero:global(#top) :global(.level-turf) { background: repeating-linear-gradient(90deg, #6ea94b 0 12px, #85b958 12px 20px, #6ea94b 20px 32px); border-top-color: #c9e48b; box-shadow: inset 0 -4px 0 #35633e; }
+.hero:global(#top) :global(.level-soil) { box-shadow: inset 0 4px 0 #71442e55, inset 0 -3px 0 #75482e; }
+.hero:global(#top) :global(.level-pipe) { background: url('/worlds/hero-polish/pipe.webp') center / 100% 100% no-repeat; filter: drop-shadow(3px 2px 0 #164d4130); }
+.hero:global(#top) :global(.level-pipe .pipe-rim), .hero:global(#top) :global(.level-pipe .pipe-shaft) { visibility: hidden; }
+.hero:global(#top) :global(.retro-cloud-far), .hero:global(#top) :global(.retro-cloud-near) { opacity: 0; }
+.hero:global(#top)::before { content: ""; position: absolute; top: 85px; left: 32%; width: 39%; height: 430px; pointer-events: none; background: linear-gradient(116deg, transparent 35%, #fff7cf28 36%, #fff7cf05 45%, transparent 46%, transparent 52%, #fff7cf20 53%, transparent 62%); mask-image: linear-gradient(#000, transparent); }
+.selectedWork { position: relative; z-index: 10; background: #112d3b; color: #f6f2df; padding: 78px 32px 42px; }
+.workInner { width: min(100%, 1160px); margin: auto; }
+.workHeading { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 38px; }
+.workHeading h2 { font: 400 clamp(22px, 2.7vw, 34px)/1.55 var(--font-pixel), monospace; letter-spacing: -.05em; color: #fff2cb; }
+.workHeading p { color: #bed1d8; font-size: 17px; margin-top: 16px; }
+.allProjects { display: inline-flex; min-height: 48px; gap: 22px; align-items: center; flex-shrink: 0; font-weight: 600; color: #f8d05e; text-decoration: none; }
+.allProjects:hover { text-decoration: underline; text-underline-offset: 5px; }
+.featuredGrid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 24px; align-items: start; }
+.projectCard { position: relative; min-width: 0; overflow: hidden; color: #163749; background: #f4f2e6; border-radius: 12px; transition: box-shadow 180ms ease; }
+.projectCard:focus-within { box-shadow: 0 0 0 3px #f8d05e, 6px 6px 0 #071f2e; }
+.projectCard::after { content: ""; position: absolute; inset: 9px; pointer-events: none; opacity: 0; border: 3px solid #f8d05e; clip-path: polygon(0 0, 20px 0, 20px 3px, 3px 3px, 3px 20px, 0 20px, 0 0, 100% 0, 100% 20px, calc(100% - 3px) 20px, calc(100% - 3px) 3px, calc(100% - 20px) 3px, calc(100% - 20px) 0, 100% 0, 100% 100%, calc(100% - 20px) 100%, calc(100% - 20px) calc(100% - 3px), calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) calc(100% - 20px), 100% calc(100% - 20px), 100% 100%, 0 100%, 0 calc(100% - 20px), 3px calc(100% - 20px), 3px calc(100% - 3px), 20px calc(100% - 3px), 20px 100%, 0 100%); }
+.projectCard:focus-within::after { opacity: 0; }
+.hero:global(#top) :global(.dev-button-primary) { position: relative; isolation: isolate; }
+.hero:global(#top) :global(.dev-button-primary)::after { content: ""; position: absolute; left: calc(50% - 7px); top: -10px; width: 14px; height: 18px; background: #ffdf64; border: 3px solid #97601b; box-shadow: inset 3px 0 #fff3b0, 2px 2px 0 #123447; opacity: 0; pointer-events: none; }
+.hero:global(#top) :global(.hero-actions a > span), .allProjects span, .mapInvitation a span { display: inline-block; transition: transform 180ms cubic-bezier(.23, 1, .32, 1); }
+@media (hover: hover) and (pointer: fine) {
+  .projectCard:hover { box-shadow: 0 0 0 1px #c58b2040, 8px 10px 0 #071f2e; }
+  .projectCard:hover::after { opacity: 0; }
+  .projectCard :global(.hero-video-trigger) { overflow: hidden; }
+  .projectCard :global(.hero-video-trigger > img) { transition: transform 240ms cubic-bezier(.23, 1, .32, 1); }
+  .projectCard:hover :global(.hero-video-trigger > img) { transform: scale(1.035); }
+  .hero:global(#top) :global(.dev-button-primary:hover)::after { animation: coinPop 520ms cubic-bezier(.23, 1, .32, 1) both; }
+  .hero:global(#top) :global(.hero-actions a:hover > span), .allProjects:hover span, .mapInvitation a:hover span { transform: translate(3px, 2px); }
+  .projectLinks a:hover { color: #124e39; text-decoration-thickness: 3px; }
+}
+@keyframes coinPop {
+  0% { opacity: 0; transform: translateY(0) scaleX(.6); }
+  25% { opacity: 1; transform: translateY(-24px) scaleX(1); }
+  65% { opacity: 1; transform: translateY(-32px) scaleX(.6); }
+  100% { opacity: 0; transform: translateY(-42px) scaleX(1); }
+}
+.leadProject { grid-row: span 2; }
+.projectCard > figure { margin: 0; }
+.projectCard :global(.hero-video-trigger) { display: block; }
+.projectCard :global(.hero-video-trigger > img) { border: 0; border-radius: 0; box-shadow: none; background: #10202b; }
+.projectCard > figure > figcaption { padding: 10px 22px; font-size: 13px; color: #355363; background: #e4e9df; }
+.projectCard > figure > figcaption :global(.project-disclosure) { font-size: 13px; }
+.projectBody { padding: 25px 28px 30px; }
+.category { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; color: #476370; margin-bottom: 10px; }
+.category span { font-variant-numeric: tabular-nums; }
+.projectBody h3 { color: #123447; font: 700 27px/1.2 var(--font-heading), sans-serif; letter-spacing: -.025em; }
+.leadProject .projectBody h3 { font-size: 38px; max-width: 14ch; }
+.summary { margin-top: 15px; font-size: 16px; line-height: 1.65; }
+.tags { margin-top: 18px; font-size: 13px; line-height: 1.8; font-weight: 600; color: #45616b; }
+.projectLinks { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 20px; font-size: 14px; font-weight: 600; color: #17556a; }
+.projectLinks a { text-underline-offset: 5px; }
+.sideProject { display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 1fr); }
+.sideProject > figure { align-self: stretch; background: #e4e9df; }
+.sideProject :global(.hero-video-trigger > img) { aspect-ratio: 4 / 5; object-fit: cover; }
+.sideProject > figure > figcaption { padding: 12px; line-height: 1.6; }
+.sideProject .projectBody { padding: 22px 20px; }
+.sideProject .summary { font-size: 14px; line-height: 1.6; }
+.sideProject .category { font-size: 13px; }
+.sideProject .category span { display: none; }
+.sideProject .tags { font-size: 13px; margin-top: 12px; }
+.sideProject .projectLinks { margin-top: 12px; }
+.mapInvitation { display: flex; justify-content: space-between; gap: 24px; align-items: center; margin-top: 40px; padding: 24px 0 0; font-size: 15px; color: #bfd2d9; }
+.mapInvitation a { display: inline-flex; align-items: center; gap: 18px; min-height: 48px; color: #f8d05e; font-weight: 600; text-decoration: none; }
+.selectedWork a:focus-visible, .hero a:focus-visible { outline: 3px solid #e88a3f; outline-offset: 5px; }
+@media (max-width: 1100px) {
+  .hero:global(#top) { padding-top: 192px; padding-bottom: 330px; }
+  .hero:global(#top) .heroCopy { gap: 36px; grid-template-columns: minmax(0, 1.35fr) minmax(240px, .8fr); }
+  .hero:global(#top) .heroCopy h1 { font-size: 52px; }
+  .hero:global(#top) :global(.hero-actions) { gap: 12px; }
+  .hero:global(#top) :global(.hero-contact-link) { flex-basis: 100%; }
+  .featuredGrid { grid-template-columns: 1fr 1fr; }
+  .leadProject { grid-column: span 2; grid-row: auto; display: grid; grid-template-columns: 1.1fr 1fr; }
+  .leadProject > figure { align-self: center; }
+  .sideProject { display: block; }
+  .sideProject :global(.hero-video-trigger > img) { aspect-ratio: 16/9; object-fit: contain; }
+}
+@media (max-width: 767px) {
+  .hero:global(#top) { min-height: 0; padding: 225px 24px 310px; }
+  .hero:global(#top) .heroCopy { display: block; padding: 0; }
+  .hero:global(#top) .heroCopy h1 { font-size: clamp(38px, 8.8vw, 62px); margin-bottom: 18px; }
+  .hero:global(#top) :global(.hero-role) { font-size: 23px; }
+  .hero:global(#top) :global(.hero-description) { font-size: 16px; max-width: 40ch; }
+  .hero:global(#top) :global(.hero-actions) { margin: 24px 0; gap: 14px; }
+  .hero:global(#top) :global(.hero-actions .dev-button) { padding: 11px 14px; }
+  .hero:global(#top) :global(.hero-contact-link) { flex-basis: auto; }
+  .hero:global(#top) :global(.hero-proof) { margin-top: 32px; padding: 22px; }
+  .hero:global(#top) .proofTitle { font-size: 10px; margin-bottom: 16px; }
+  .hero:global(#top) :global(.hero-proof dl) { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .hero:global(#top) :global(.hero-proof dl > div:last-child) { display: none; }
+  .hero:global(#top) :global(.hero-proof strong) { font-size: 17px; }
+  .hero:global(#top) :global(.hero-proof .hero-stack) { font-size: 14px; }
+  .hero:global(#top) :global(.hero-proof dd span) { font-size: 13px; }
+  .hero:global(#top) :global(.hero-proof dd span:last-child:not(:first-child)) { display: none; }
+  .hero:global(#top) :global(.retro-overworld) { height: 250px; }
+  .hero:global(#top) :global(.level-hint) { bottom: 278px; font-size: 13px; }
+  .hero:global(#top) :global(.level-skill-blocks) { bottom: 195px; }
+  .hero:global(#top) :global(.world-clouds) { top: 136px; bottom: auto; }
+  .hero:global(#top) :global(.lakitu-flight) { top: 142px; width: 64px; height: 64px; }
+  .hero:global(#top) :global(.one-piece-secret-nami) { top: 136px; width: 76px; height: 76px; }
+  .desktopBreak { display: none; }
+  .selectedWork { padding: 48px 24px 28px; }
+  .workHeading { display: block; margin-bottom: 24px; }
+  .workHeading h2 { font-size: clamp(18px, 4.5vw, 28px); line-height: 1.65; }
+  .workHeading p { font-size: 16px; }
+  .allProjects { margin-top: 16px; }
+  .featuredGrid { grid-template-columns: 1fr; }
+  .leadProject { display: block; grid-column: auto; }
+  .projectBody, .sideProject .projectBody { padding: 24px; }
+  .leadProject .projectBody h3 { font-size: 32px; max-width: none; }
+  .sideProject .projectBody h3 { font-size: 28px; }
+  .sideProject .summary { font-size: 16px; }
+  .sideProject > figure > figcaption { padding: 10px 22px; }
+  .mapInvitation { display: block; margin-top: 22px; }
+  .mapInvitation a { margin-top: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero :global([data-arcade-hover]), .projectCard { transform: none !important; }
+  .projectCard *, .hero:global(#top) :global(.hero-actions a > span), .allProjects span, .mapInvitation a span { transition: none !important; }
+  .projectCard :global(.hero-video-trigger) * { transform: none !important; }
+  .hero:global(#top) :global(.dev-button-primary)::after { animation: none !important; }
+  .hero:global(#top) :global(.hero-actions a:hover > span), .allProjects:hover span, .mapInvitation a:hover span { transform: none; }
+  .projectCard, .hero:global(#top) :global(.hero-actions .dev-button) { transition: none; }
+  .projectCard:hover, .hero:global(#top) :global(.hero-actions .dev-button:hover) { transform: none; }
+}

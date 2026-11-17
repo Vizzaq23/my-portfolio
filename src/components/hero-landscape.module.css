@@ -1,0 +1,6 @@
+/* Only the distant illustration moves; collision surfaces never move with it. */
+.far { animation: distantDrift 20s ease-in-out infinite alternate; }
+@keyframes distantDrift { from { transform: translateX(-3px); } to { transform: translateX(3px); } }
+:global(html[data-scenery-paused="true"]) .far,
+:global([data-world-active="false"]) .far { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .far { animation: none; } }

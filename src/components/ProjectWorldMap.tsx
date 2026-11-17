@@ -4,6 +4,8 @@ import { useRef, type CSSProperties, type KeyboardEvent } from "react";
 import Image from "next/image";
 import { projects } from "@/data/projects";
 import ProjectMapRunner from "@/components/ProjectMapRunner";
+import MapWaveSurface from "@/components/MapWaveSurface";
+import waveStyles from "./map-wave.module.css";
 import { projectLevels } from "@/lib/project-map-route";
 
 type Props = { currentIndex: number; onSelect: (index: number) => void };
@@ -26,13 +28,13 @@ export default function ProjectWorldMap({ currentIndex, onSelect }: Props) {
 
   return (
     <div className="project-map-canvas">
-      <div className="project-map-intro">
+      <div className={`project-map-intro ${waveStyles.intro}`}>
         <p className="map-world-label">World 02 / Project map</p>
         <h2 id="projects-heading">Choose your next level.</h2>
         <p>{projects.length} projects. Explore my latest builds and earlier work.</p>
       </div>
 
-      <div className="project-map-artboard">
+      <MapWaveSurface>
         <Image src="/worlds/project-level-map.webp" alt="" fill sizes="100vw" className="project-level-art" />
         <nav className="project-levels" aria-label="Project levels">
           {projects.map((project, index) => {
@@ -70,7 +72,7 @@ export default function ProjectWorldMap({ currentIndex, onSelect }: Props) {
           </div>
         </div>
         <p className="project-map-hint">Select a numbered level to explore a project.</p>
-      </div>
+      </MapWaveSurface>
     </div>
   );
 }
