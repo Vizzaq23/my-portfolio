@@ -3,12 +3,20 @@
 // Registry source retained in vendor/ui/timeline.json. Local theme, responsive
 // measurement, optional heading and reduced-motion changes documented there.
 import {
-  useReducedMotion,
   useScroll,
   useTransform,
   motion,
 } from "motion/react";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useSyncExternalStore } from "react";
+
+const motionQuery = "(prefers-reduced-motion: reduce)";
+const subscribeMotionPreference = (notify: () => void) => {
+  const query = window.matchMedia(motionQuery);
+  query.addEventListener("change", notify);
+  return () => query.removeEventListener("change", notify);
+};
+const getMotionPreference = () => window.matchMedia(motionQuery).matches;
+const getServerMotionPreference = () => false;
 
 interface TimelineEntry {
   title: string;
@@ -16,7 +24,12 @@ interface TimelineEntry {
 }
 
 export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
-  const reducedMotion = useReducedMotion();
+  // The server and first hydration render agree; then use the live preference.
+  const reducedMotion = useSyncExternalStore(
+    subscribeMotionPreference,
+    getMotionPreference,
+    getServerMotionPreference,
+  );
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
@@ -76,6 +89,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
           className="timeline-track absolute left-[15px] top-0 overflow-hidden w-[2px] bg-slate-700/30 [mask-image:linear-gradient(to_bottom,transparent_0%,black_10%,black_90%,transparent_100%)]"
         >
           <motion.div
+            key={reducedMotion ? "static-beam" : "scroll-beam"}
             style={{
               height: reducedMotion ? height : heightTransform,
               opacity: reducedMotion ? 1 : opacityTransform,

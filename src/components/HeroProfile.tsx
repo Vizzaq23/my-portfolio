@@ -1,3 +1,4 @@
+import { Highlight } from "@/components/ui/hero-highlight";
 import SceneryToggle from "@/components/SceneryToggle";
 
 export default function HeroProfile() {
@@ -7,7 +8,7 @@ export default function HeroProfile() {
         <p className="hero-world-label">World 01 <span aria-hidden="true">/</span> Overworld</p>
         <p className="availability"><span aria-hidden="true" /> Open to full-time software engineering · NYC, Long Island & remote</p>
         <h1>Quintin Vizza<span className="hero-title-dot">.</span></h1>
-        <p className="hero-role">Full-stack software engineer.</p>
+        <p className="hero-role"><Highlight>Full-stack software engineer.</Highlight></p>
         <p className="hero-description">I build full-stack products, data tools, and interactive systems—from production dashboards to software that powers physical hardware.</p>
         <div className="hero-actions">
           <a href="#projects" className="dev-button dev-button-primary no-underline">View projects <span aria-hidden="true">↓</span></a>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { GlowingEffect } from "@/components/ui/glowing-effect";
 import ProjectDemo from "@/components/ProjectDemo";
 import ProjectCard from "@/components/ProjectCard";
 import ProjectDisclosure from "@/components/ProjectDisclosure";
@@ -23,7 +24,8 @@ export default function Projects() {
         <a href="#all-projects" className="mt-3 inline-flex min-h-11 items-center font-semibold text-slate-950 underline underline-offset-4">Explore all {projects.length} projects →</a>
         <div className="mt-6 grid gap-6 xl:grid-cols-3">
           {featuredProjects.map((project) => (
-            <article key={project.id} className="featured-glass-card text-slate-950">
+            <article key={project.id} className="featured-glass-card relative text-slate-950">
+              <GlowingEffect disabled={false} variant="gold" spread={45} proximity={40} inactiveZone={0.15} borderWidth={3} movementDuration={0.3} className="z-30" />
               <ProjectDemo id={project.id} title={project.title} image={project.image} imageAlt={project.imageAlt} />
               <div className="featured-glass-body">
               <p className="mb-2 text-xs font-bold uppercase tracking-wide text-slate-600">{project.category}{project.badge === "NEW" ? " · NEW" : ""}</p>

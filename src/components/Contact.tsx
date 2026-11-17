@@ -5,6 +5,7 @@ import WarpPipeLink from "@/components/WarpPipeLink";
 import WorldLabel from "@/components/WorldLabel";
 import WorldAmbience from "@/components/WorldAmbience";
 import CaveFish from "@/components/CaveFish";
+import { Button as StatefulButton } from "@/components/ui/stateful-button";
 import { trackPortfolioEvent } from "@/lib/analytics";
 
 export default function Contact() {
@@ -24,6 +25,15 @@ export default function Contact() {
         <p className="contact-description">Looking for an engineer who enjoys product work, data, and interactive systems? I&apos;d be glad to learn about your team.</p>
         <a href="mailto:qmviz23@gmail.com" className="contact-email no-underline" aria-label="Email Quintin at qmviz23@gmail.com">qmviz23@gmail.com <span aria-hidden="true">↗</span></a>
         <div className="contact-actions">
+          <StatefulButton
+            className="dev-button dev-button-primary"
+            successLabel="Email copied"
+            errorLabel="Could not copy. Select the email address above or use the email link."
+            onClick={async () => {
+              if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
+              await navigator.clipboard.writeText("qmviz23@gmail.com");
+            }}
+          >Copy email</StatefulButton>
           <a href="/resume" className="dev-button dev-button-primary no-underline" onClick={() => trackPortfolioEvent("resume_click", { source: "contact" })}>View résumé <span aria-hidden="true">↗</span></a>
           <a href="https://www.linkedin.com/in/quintin-vizza/" target="_blank" rel="noopener noreferrer" className="dev-button dev-button-outline no-underline" aria-label="LinkedIn profile (opens in a new tab)" onClick={() => trackPortfolioEvent("nav_click", { target: "linkedin" })}>LinkedIn <span aria-hidden="true">↗</span></a>
           <a href="https://github.com/Vizzaq23" target="_blank" rel="noopener noreferrer" className="dev-button dev-button-outline no-underline" aria-label="GitHub profile (opens in a new tab)" onClick={() => trackPortfolioEvent("nav_click", { target: "github" })}>GitHub <span aria-hidden="true">↗</span></a>

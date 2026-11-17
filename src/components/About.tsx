@@ -3,6 +3,7 @@ import RetroAbout from "@/components/RetroAbout";
 import GitHubHeatmap from "@/components/GitHubHeatmap";
 import AboutFloor from "@/components/AboutFloor";
 import OnePieceEasterEgg from "@/components/OnePieceEasterEgg";
+import { HoverEffect } from "@/components/ui/card-hover-effect";
 
 export default function About() {
   return (
@@ -18,11 +19,11 @@ export default function About() {
           <p>I&apos;m a Computer Engineering graduate from Sacred Heart University with a Mathematics minor and production software experience at Sentari AI. I enjoy connecting the pieces of a system—from a clear interface to the data and hardware behind it.</p>
           <p>Video games are part of how I build. My projects explore responsive controls, adaptive difficulty, and the connection between physical inputs and on-screen feedback. That interest also shows up in my full-scale pinball machine and custom arcade cabinet.</p>
         </div>
-        <dl className="profile-proof-grid">
-          <div><dt>Production experience</dt><dd><strong>Sentari AI</strong><span>Software Engineering Intern<br />Platform serving 500+ active users</span></dd></div>
-          <div><dt>Engineering foundation</dt><dd><strong>B.S. Computer Engineering</strong><span>Mathematics minor · May 2026<br />GPA: 3.76</span></dd></div>
-          <div><dt>Engineering milestone</dt><dd><strong>FE exam passed</strong><span>NCEES · April 2026</span></dd></div>
-        </dl>
+        <HoverEffect items={[
+          { label: "Production experience", title: "Sentari AI", description: <>Software Engineering Intern<br />Platform serving 500+ active users</> },
+          { label: "Engineering foundation", title: "B.S. Computer Engineering", description: <>Mathematics minor · May 2026<br />GPA: 3.76</> },
+          { label: "Engineering milestone", title: "FE exam passed", description: <>NCEES · April 2026</> },
+        ]} />
         <div className="profile-columns">
           <div>
             <h3 className="content-heading">What I bring to a team</h3>
