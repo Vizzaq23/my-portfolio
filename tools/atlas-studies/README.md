@@ -30,3 +30,18 @@ uv run --with imageio-ffmpeg --no-project python tools/atlas-studies/encode_walk
 ```
 
 Use `-- --stills` after the Blender script argument to render four check frames instead. Temporary frames and render log are ignored. The MP4 and editable Blender scene are the review artifacts; the existing web intro and Cartridge are preserved.
+
+## Refined hand and higher-quality motion render
+
+`refine_hand.py` builds a separate `refined-walk-study.blend` from the earlier animation. The hand is a voxel-unioned continuous mesh with an armature, three joints per finger, an opposing thumb, separately weighted nails, and a tapered sleeve that tracks the wrist and camera-side arm endpoint. Finger closure is staggered; pickup adds a wrist arc, alignment pause, short straight insertion, and finger release before withdrawal. Cable endpoints follow the rotating plug. This remains procedural character animation, not a scanned human hand or a physical grasp simulation.
+
+The 12-second silent render is 1440 x 1080, 24 fps, 64 Cycles samples with adaptive sampling and denoising. Fine plush pile is restored. The script selects the detected AMD HIP GPU for this machine, without changing saved global Blender preferences. For another machine, select a supported Cycles device before rendering. Persistent render data reduces repeated static-scene setup.
+
+```powershell
+blender --background --factory-startup --python tools/atlas-studies/refine_hand.py
+uv run --with imageio-ffmpeg --no-project python tools/atlas-studies/encode_walk.py --refined
+```
+
+`-- --stills` renders four review frames; `-- --save-only` saves the scene without rendering. Original studies, website intro, Cartridge and audio remain unchanged. Review artifacts: `refined-walk-study.blend` and `refined-walk-preview.mp4`.
+
+For a targeted correction, `render_refined.py -- 90 120` (arguments after Blender's `--`) rerenders that inclusive frame range from the saved scene with HIP enabled. The final reach was adjusted upward after rendered inspection to avoid fingertips entering the plug during approach. Saved-scene checks verified the 15-bone rig, 1440 x 1080 / 64-sample settings, restored pile, and delayed TV illumination.

@@ -3,3 +3,9 @@ walk-check-*.png
 walk-render.log
 *.blend1
 walk-pickup-render.log
+refined-frames/
+refined-check-*.png
+refined-render.log
+refined-save.log
+refined-contact.log
+refined-encode.log
